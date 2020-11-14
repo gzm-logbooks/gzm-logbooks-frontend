@@ -1,0 +1,7 @@
+{
+  "name": "ionic-offline-pwa",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
