@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "ionic-offline-pwa",
+  "appName": "growthzone-pwa",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
