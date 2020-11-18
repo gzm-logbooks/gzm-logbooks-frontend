@@ -3,6 +3,7 @@ module.exports = {
     workboxOptions: {
       skipWaiting: true,
       navigateFallback: '/index.html',
+      exclude: [/_redirects/],
     },
   },
 };
