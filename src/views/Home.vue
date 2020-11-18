@@ -14,16 +14,34 @@
       </ion-header>
 
       <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+        <CircleInput
+          @changed="updateRagInput"
+          :red-size="red"
+          :orange-size="orange"
+          :green-size="green"
+        />
+        <ion-grid>
+          <ion-row>
+            <ion-col size="8">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script>
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/vue';
 import { defineComponent } from 'vue';
+
+import CircleInput from '@/components/CircleInput';
 
 export default defineComponent({
   name: 'Home',
@@ -32,8 +50,34 @@ export default defineComponent({
     IonHeader,
     IonPage,
     IonTitle,
-    IonToolbar
-  }
+    IonToolbar,
+    CircleInput,
+  },
+  data() {
+    return {
+      red: 0.5,
+      orange: 0.33,
+      green: 0.17,
+      comment: '',
+    };
+  },
+  methods: {
+    // Handles circles component @changed event.
+    updateRagInput(event) {
+      // Event contents set in $emit() above.
+      switch (event.circle) {
+        case 'red':
+          this.red = event.radius;
+          break;
+        case 'orange':
+          this.orange = event.radius;
+          break;
+        case 'green':
+          this.green = event.radius;
+          break;
+      }
+    },
+  },
 });
 </script>
 
@@ -46,6 +90,8 @@ export default defineComponent({
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+
+  max-width: 960px
 }
 
 #container strong {
