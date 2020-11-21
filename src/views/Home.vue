@@ -2,22 +2,18 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Blank</ion-title>
-
-        <ion-buttons slot="primary">
-          <ion-button color="primary">Add</ion-button>
-        </ion-buttons>
+        <ion-title>Add a new record</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
+          <ion-title size="large">Add a new record</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <div id="container">
+      <div>
         <ion-grid fixed>
           <ion-row>
             <ion-col size-lg="8" size-xl="6" offset-lg="2" offset-xl="3">
@@ -25,6 +21,11 @@
                 <ion-list-header>
                   <h1>How did things go today?</h1>
                 </ion-list-header>
+
+                <ion-item>
+                  <ion-label>Date</ion-label>
+                  <ion-datetime :value="date" placeholder="Select Date"></ion-datetime>
+                </ion-item>
 
                 <ion-item>
                   <CircleInput
@@ -36,20 +37,27 @@
                   />
                 </ion-item>
 
+
                 <ion-item>
                   <ion-label position="stacked">Comment</ion-label>
                   <ion-textarea></ion-textarea>
                 </ion-item>
 
-                <ion-item button color="primary">
-                    <ion-label class="ion-text-center">Add</ion-label>
-                </ion-item>
               </ion-list>
             </ion-col>
           </ion-row>
         </ion-grid>
+
       </div>
     </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="primary">
+          <ion-button color="primary">Add record</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
   </ion-page>
 </template>
 
@@ -81,6 +89,7 @@ export default defineComponent({
       orange: 0.33,
       green: 0.17,
       comment: '',
+      date: new Date().toISOString(),
     };
   },
   methods: {
@@ -102,33 +111,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-/* #container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-} */
-</style>
