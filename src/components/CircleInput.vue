@@ -1,5 +1,5 @@
 <template>
-  <div class="raginput ion-padding">
+  <div class="raginput">
     <div class="raginput__inner">
       <svg viewBox="0 0 1 1" @click="handleClick">
         <circle
@@ -163,6 +163,7 @@ export default {
 }
 
 .raginput__circle {
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
 }
 
 .raginput__circle--outer {

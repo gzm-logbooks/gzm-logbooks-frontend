@@ -3,6 +3,10 @@
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-title>Blank</ion-title>
+
+        <ion-buttons slot="primary">
+          <ion-button color="primary">Add</ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
@@ -14,15 +18,33 @@
       </ion-header>
 
       <div id="container">
-        <CircleInput
-          @changed="updateRagInput"
-          :red-size="red"
-          :orange-size="orange"
-          :green-size="green"
-        />
-        <ion-grid>
+        <ion-grid fixed>
           <ion-row>
-            <ion-col size="8">
+            <ion-col size-lg="8" size-xl="6" offset-lg="2" offset-xl="3">
+              <ion-list>
+                <ion-list-header>
+                  <h1>How did things go today?</h1>
+                </ion-list-header>
+
+                <ion-item>
+                  <CircleInput
+                    @changed="updateRagInput"
+                    :red-size="red"
+                    :orange-size="orange"
+                    :green-size="green"
+                    class="ion-padding"
+                  />
+                </ion-item>
+
+                <ion-item>
+                  <ion-label position="stacked">Comment</ion-label>
+                  <ion-textarea></ion-textarea>
+                </ion-item>
+
+                <ion-item button color="primary">
+                    <ion-label class="ion-text-center">Add</ion-label>
+                </ion-item>
+              </ion-list>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -82,7 +104,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-#container {
+/* #container {
   text-align: center;
 
   position: absolute;
@@ -90,8 +112,6 @@ export default defineComponent({
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-
-  max-width: 960px
 }
 
 #container strong {
@@ -110,5 +130,5 @@ export default defineComponent({
 
 #container a {
   text-decoration: none;
-}
+} */
 </style>
