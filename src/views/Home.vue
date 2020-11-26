@@ -6,14 +6,14 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
+    <ion-content fullscreen>
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Add a new record</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ion-grid fixed class="ion-no-padding">
+      <ion-grid fixed class="ion-no-margin ion-no-padding">
         <ion-list>
           <ion-list-header>
             <h1>How did things go today?</h1>
