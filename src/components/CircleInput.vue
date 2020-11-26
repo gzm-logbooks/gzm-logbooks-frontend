@@ -1,7 +1,7 @@
 <template>
   <div class="raginput">
     <div class="raginput__inner">
-      <svg viewBox="0 0 1 1" @click="handleClick">
+      <svg viewBox="0 0 1 1" @click="handleClick" class="raginput__inner__svg">
         <circle
           cx="0.5"
           cy="0.5"
@@ -151,11 +151,12 @@ export default {
 }
 
 .raginput__inner {
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; */
+  display: flex;
+}
+
+.raginput__inner__svg {
+  max-height: 50vh;
+  margin: auto;
 }
 
 .raginput__background {

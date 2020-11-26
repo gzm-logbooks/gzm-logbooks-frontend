@@ -13,42 +13,34 @@
         </ion-toolbar>
       </ion-header>
 
-      <div>
-        <ion-grid fixed>
-          <ion-row>
-            <ion-col size-lg="8" size-xl="6" offset-lg="2" offset-xl="3">
-              <ion-list>
-                <ion-list-header>
-                  <h1>How did things go today?</h1>
-                </ion-list-header>
+      <ion-grid fixed class="ion-no-padding">
+        <ion-list>
+          <ion-list-header>
+            <h1>How did things go today?</h1>
+          </ion-list-header>
 
-                <ion-item>
-                  <ion-label>Date</ion-label>
-                  <ion-datetime :value="date" placeholder="Select Date"></ion-datetime>
-                </ion-item>
+          <ion-item>
+            <ion-label>Date</ion-label>
+            <ion-datetime :value="date" placeholder="Select Date">
+            </ion-datetime>
+          </ion-item>
 
-                <ion-item>
-                  <CircleInput
-                    @changed="updateRagInput"
-                    :red-size="red"
-                    :orange-size="orange"
-                    :green-size="green"
-                    class="ion-padding"
-                  />
-                </ion-item>
+          <ion-item>
+            <CircleInput
+              @changed="updateRagInput"
+              :red-size="red"
+              :orange-size="orange"
+              :green-size="green"
+              class="ion-padding"
+            />
+          </ion-item>
 
-
-                <ion-item>
-                  <ion-label position="stacked">Comment</ion-label>
-                  <ion-textarea></ion-textarea>
-                </ion-item>
-
-              </ion-list>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-      </div>
+          <ion-item>
+            <ion-label position="stacked">Comment</ion-label>
+            <ion-textarea></ion-textarea>
+          </ion-item>
+        </ion-list>
+      </ion-grid>
     </ion-content>
 
     <ion-footer>
