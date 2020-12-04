@@ -45,8 +45,10 @@
 
     <ion-footer>
       <ion-toolbar>
-        <ion-buttons slot="primary">
-          <ion-button color="primary">Add record</ion-button>
+        <ion-buttons>
+          <template #primary>
+            <ion-button color="primary">Add record</ion-button>
+          </template>
         </ion-buttons>
       </ion-toolbar>
     </ion-footer>
