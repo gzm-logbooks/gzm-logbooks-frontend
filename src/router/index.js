@@ -1,15 +1,21 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import Home from '../views/Home.vue';
+import SubjectList from '../views/subjects/List.vue';
+import SubjectAddEntry from '../views/subjects/AddEntry.vue';
 
 const routes = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/subjects',
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
+    path: '/subjects',
+    name: 'subject-index',
+    component: SubjectList,
+  },
+  {
+    path: '/subjects/:subject/add',
+    name: 'subject-add-record',
+    component: SubjectAddEntry,
   },
 ];
 

@@ -37,6 +37,8 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
+import { getDatabase } from '@/services/DatabaseService'
+
 export default defineComponent({
   name: 'Home',
   components: {
@@ -51,6 +53,9 @@ export default defineComponent({
     };
   },
   methods: {
+  },
+  mounted() {
+    console.log(getDatabase)
   },
 });
 </script>
