@@ -62,10 +62,10 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-} from '@ionic/vue';
-import { defineComponent } from 'vue';
+} from '@ionic/vue'
+import { defineComponent } from 'vue'
 
-import CircleInput from '@/components/CircleInput';
+import CircleInput from '@/components/CircleInput'
 
 export default defineComponent({
   name: 'Home',
@@ -84,7 +84,7 @@ export default defineComponent({
       green: 0.17,
       comment: '',
       date: new Date().toISOString(),
-    };
+    }
   },
   methods: {
     // Handles circles component @changed event.
@@ -92,16 +92,16 @@ export default defineComponent({
       // Event contents set in $emit() above.
       switch (event.circle) {
         case 'red':
-          this.red = event.radius;
-          break;
+          this.red = event.radius
+          break
         case 'orange':
-          this.orange = event.radius;
-          break;
+          this.orange = event.radius
+          break
         case 'green':
-          this.green = event.radius;
-          break;
+          this.green = event.radius
+          break
       }
     },
   },
-});
+})
 </script>

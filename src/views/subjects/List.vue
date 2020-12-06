@@ -20,8 +20,7 @@
       </ion-header>
 
       <ion-grid fixed class="ion-no-margin ion-no-padding">
-        <ion-list>
-        </ion-list>
+        <ion-list> </ion-list>
       </ion-grid>
     </ion-content>
   </ion-page>
@@ -34,8 +33,10 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-} from '@ionic/vue';
-import { defineComponent } from 'vue';
+} from '@ionic/vue'
+import { defineComponent } from 'vue'
+import { Subject } from 'rxjs'
+import { map, startWith, scan } from 'rxjs/operators'
 
 import { getDatabase } from '@/services/DatabaseService'
 
@@ -49,13 +50,11 @@ export default defineComponent({
     IonToolbar,
   },
   data() {
-    return {
-    };
+    return {}
   },
-  methods: {
+  methods: {},
+  async mounted() {
+    const db = await getDatabase()
   },
-  mounted() {
-    console.log(getDatabase)
-  },
-});
+})
 </script>

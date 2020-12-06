@@ -6,4 +6,4 @@ module.exports = {
       exclude: [/_redirects/],
     },
   },
-};
+}
