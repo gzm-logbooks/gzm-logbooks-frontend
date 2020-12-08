@@ -18,7 +18,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'vue/no-deprecated-slot-attribute': 'warn',
+    'vue/no-deprecated-slot-attribute': 'off',
     'vue/no-unused-components': 'warn',
     'no-unused-vars': ['warn', { vars: 'all', args: 'none' }],
     'prettier/prettier': 'warn',

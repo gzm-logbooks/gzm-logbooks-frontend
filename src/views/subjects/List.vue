@@ -4,10 +4,8 @@
       <ion-toolbar>
         <ion-title>Subjects</ion-title>
 
-        <ion-buttons>
-          <template #primary>
-            <ion-button color="primary">Add subject</ion-button>
-          </template>
+        <ion-buttons slot="primary">
+          <ion-button color="primary">Add subject</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
