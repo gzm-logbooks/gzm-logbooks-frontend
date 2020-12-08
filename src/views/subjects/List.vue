@@ -20,7 +20,11 @@
       </ion-header>
 
       <ion-grid fixed class="ion-no-margin ion-no-padding">
-        <ion-list> </ion-list>
+        <Suspense>
+          <template #default>
+            <SubjectsList />
+          </template>
+        </Suspense>
       </ion-grid>
     </ion-content>
   </ion-page>
@@ -35,26 +39,19 @@ import {
   IonToolbar,
 } from '@ionic/vue'
 import { defineComponent } from 'vue'
-import { Subject } from 'rxjs'
-import { map, startWith, scan } from 'rxjs/operators'
+import { useObservable } from '@vueuse/rxjs'
 
 import { getDatabase } from '@/services/DatabaseService'
+import SubjectsList from '@/components/SubjectsList'
 
 export default defineComponent({
-  name: 'Home',
   components: {
     IonContent,
     IonHeader,
     IonPage,
     IonTitle,
     IonToolbar,
-  },
-  data() {
-    return {}
-  },
-  methods: {},
-  async mounted() {
-    const db = await getDatabase()
+    SubjectsList,
   },
 })
 </script>

@@ -1875,6 +1875,21 @@
   resolved "https://registry.yarnpkg.com/@vue/web-component-wrapper/-/web-component-wrapper-1.2.0.tgz#bb0e46f1585a7e289b4ee6067dcc5a6ae62f1dd1"
   integrity sha512-Xn/+vdm9CjuC9p3Ae+lTClNutrVhsXpzxvoTXXtoys6kVRX9FkueSUAqSWAyZntmVLlR4DosBV4pH8y5Z/HbUw==
 
+"@vueuse/rxjs@^4.0.0-rc.7":
+  version "4.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@vueuse/rxjs/-/rxjs-4.0.0-rc.7.tgz#a5851380d656f48ce25b7d9f515cbe94aa997bfd"
+  integrity sha512-9AIE/jK9RwiZXISKNFFod15vKKdZv95DipsggfZtPgK+1x94/KmCf6osYpTA+e3Z+5VsW85lheh/d3eXI1stHA==
+  dependencies:
+    "@vueuse/shared" "4.0.0-rc.7"
+    vue-demi latest
+
+"@vueuse/shared@4.0.0-rc.7":
+  version "4.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-4.0.0-rc.7.tgz#3f7095caef42c3d2d7b0ea48bd7652257c95d5c2"
+  integrity sha512-KX/JS48jejv6Ezx4TLymjltKlfRFcdw9n9qT89D4J6ygU6cechJEtpD6ACCKGehy8VkW2xKHduvioZtSLr3cNQ==
+  dependencies:
+    vue-demi latest
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -11696,6 +11711,11 @@ vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vue-demi@latest:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.4.5.tgz#ea422a4468cb6321a746826a368a770607f87791"
+  integrity sha512-51xf1B6hV2PfjnzYHO/yUForFCRQ49KS8ngQb5T6l1HDEmfghTFtsxtRa5tbx4eqQsH76ll/0gIxuf1gei0ubw==
 
 vue-eslint-parser@^7.1.1:
   version "7.1.1"

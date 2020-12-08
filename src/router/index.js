@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
 import SubjectList from '../views/subjects/List.vue'
+import SubjectSingle from '../views/subjects/Single.vue'
 import SubjectAddEntry from '../views/subjects/AddEntry.vue'
 
 const routes = [
@@ -11,6 +12,11 @@ const routes = [
     path: '/subjects',
     name: 'subject-index',
     component: SubjectList,
+  },
+  {
+    path: '/subjects/:subject',
+    name: 'subject',
+    component: SubjectSingle,
   },
   {
     path: '/subjects/:subject/add',
