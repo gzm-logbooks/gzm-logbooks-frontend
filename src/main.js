@@ -25,7 +25,35 @@ import './theme/variables.css'
 
 import './registerServiceWorker'
 
+// Create app.
 const app = createApp(App).use(IonicVue).use(router)
+
+// Register global components.
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonItem,
+  IonList,
+  IonLabel,
+  IonButton,
+  IonButtons,
+} from '@ionic/vue'
+
+Object.entries({
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonItem,
+  IonList,
+  IonLabel,
+  IonButton,
+  IonButtons,
+}).forEach(([name, component]) => app.component(name, component))
 
 router.isReady().then(() => {
   app.mount('#app')

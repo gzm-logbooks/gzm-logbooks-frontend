@@ -1,17 +1,5 @@
 <template>
-  <ion-list>
-    <ion-item
-      v-for="subject in subjects"
-      :key="subject.primary"
-      button
-      :router-link="{
-        name: 'subject-show',
-        params: { subject: subject.primary },
-      }"
-    >
-      <ion-label>{{ subject.name }}</ion-label>
-    </ion-item>
-  </ion-list>
+  {{ subject?.name }}
 </template>
 
 <script>
@@ -23,18 +11,20 @@ import {
   IonToolbar,
 } from '@ionic/vue'
 import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
 import { useObservable } from '@vueuse/rxjs'
+import { useRouter } from 'vue-router'
 
 import { getDatabase } from '@/services/DatabaseService'
 
 export default defineComponent({
-  components: {},
-  data() {
-    return {
-      //subjects: [],
-    }
+  components: {
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
   },
+  mounted() {},
   async setup() {
     //
     const router = useRouter()
@@ -43,13 +33,12 @@ export default defineComponent({
     const db = await getDatabase()
 
     // Get subjects query as observable.
-    const subjects = useObservable(db.subjects.find().$)
+    //const subject = useObservable(db.subjects.get$.$)
 
     return {
       router,
-      subjects,
+      subject: {},
     }
   },
-  methods: {},
 })
 </script>
