@@ -1,6 +1,14 @@
 <template>
   <ion-app>
-    <ion-router-outlet />
+    <Suspense>
+      <template #default>
+        <ion-router-outlet />
+      </template>
+
+      <template #fallback>
+        <span>Loading&hellip;</span>
+      </template>
+    </Suspense>
   </ion-app>
 </template>
 

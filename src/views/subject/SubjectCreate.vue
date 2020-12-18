@@ -51,7 +51,7 @@ export default defineComponent({
   },
   methods: {
     async save() {
-      console.log("Saving...")
+      console.log('Saving...')
 
       const db = await getDatabase()
 

@@ -1,6 +1,6 @@
 import { createRxDatabase, addRxPlugin } from 'rxdb/plugins/core'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
-import { RxDBValidatePlugin } from 'rxdb/plugins/validate';
+import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
 import subjectSchema from '@/schemas/subject.json'
