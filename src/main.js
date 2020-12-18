@@ -29,6 +29,8 @@ import './registerServiceWorker'
 const app = createApp(App).use(IonicVue).use(router)
 
 // Register global components.
+import BaseView from '@/views/Base'
+
 import {
   IonContent,
   IonHeader,
@@ -43,6 +45,7 @@ import {
 } from '@ionic/vue'
 
 Object.entries({
+  BaseView,
   IonContent,
   IonHeader,
   IonPage,
