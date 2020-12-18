@@ -1,4 +1,4 @@
-import { createRxDatabase, addRxPlugin } from 'rxdb'
+import { createRxDatabase, addRxPlugin } from 'rxdb/plugins/core'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
