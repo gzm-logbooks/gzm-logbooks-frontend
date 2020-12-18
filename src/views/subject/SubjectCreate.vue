@@ -1,18 +1,20 @@
 <template>
-  <ion-page>
-    <ion-content fullscreen>
-      <ion-item>
-        <ion-label position="stacked">Name</ion-label>
-        <ion-input type="text" v-model="name"></ion-input>
-      </ion-item>
+  <base-view>
+    <ion-page>
+      <ion-content fullscreen>
+        <ion-item>
+          <ion-label position="stacked">Name</ion-label>
+          <ion-input type="text" v-model="name"></ion-input>
+        </ion-item>
 
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button>
-          <ion-icon name="checkmark" @click="save"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-    </ion-content>
-  </ion-page>
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button>
+            <ion-icon name="checkmark" @click="save"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </ion-content>
+    </ion-page>
+  </base-view>
 </template>
 
 <script>

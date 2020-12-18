@@ -1,34 +1,36 @@
 <template>
-  <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>{{ subject?.name }}</ion-title>
-
-        <ion-buttons slot="primary">
-          <ion-button color="primary">Add Entry</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content fullscreen>
-      <ion-header collapse="condense">
+  <base-view>
+    <ion-page>
+      <ion-header :translucent="true">
         <ion-toolbar>
-          <ion-title size="large">Subjects</ion-title>
+          <ion-title>{{ subject?.name }}</ion-title>
+
+          <ion-buttons slot="primary">
+            <ion-button color="primary">Add Entry</ion-button>
+          </ion-buttons>
         </ion-toolbar>
       </ion-header>
 
-      <ion-grid fixed class="ion-no-margin ion-no-padding">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            <ion-card-title>{{ subject?.name }}</ion-card-title>
-          </ion-card-header>
+      <ion-content fullscreen>
+        <ion-header collapse="condense">
+          <ion-toolbar>
+            <ion-title size="large">Subjects</ion-title>
+          </ion-toolbar>
+        </ion-header>
 
-          <ion-card-content> </ion-card-content>
-        </ion-card>
-      </ion-grid>
-    </ion-content>
-  </ion-page>
+        <ion-grid fixed class="ion-no-margin ion-no-padding">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+              <ion-card-title>{{ subject?.name }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content> </ion-card-content>
+          </ion-card>
+        </ion-grid>
+      </ion-content>
+    </ion-page>
+  </base-view>
 </template>
 
 <script>

@@ -1,34 +1,40 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
-import SubjectRouterOutlet from '../views/subjects/RouterOutlet.vue'
-import SubjectIndex from '../views/subjects/Index.vue'
-import SubjectCreate from '../views/subjects/Create.vue'
-import SubjectShow from '../views/subjects/Show.vue'
+
+import RouterOutlet from '../views/main/RouterOutlet.vue'
+
+import SubjectIndex from '../views/subject/SubjectIndex.vue'
+import SubjectCreate from '../views/subject/SubjectCreate.vue'
+import SubjectShow from '../views/subject/SubjectShow.vue'
+
+// import EntryIndex from '../views/entry/EntryIndex.vue'
+import EntryCreate from '../views/entry/EntryCreate.vue'
+import EntryShow from '../views/entry/EntryShow.vue'
 
 const routes = [
   {
     path: '/',
-    redirect: '/subjects',
+    name: 'subject-index',
+    component: SubjectIndex,
   },
   {
-    path: '/subjects',
-    component: SubjectRouterOutlet,
-    children: [
-      {
-        path: '',
-        name: 'subject-index',
-        component: SubjectIndex,
-      },
-      {
-        path: 'create',
-        name: 'subject-create',
-        component: SubjectCreate,
-      },
-      {
-        path: ':subject',
-        name: 'subject-show',
-        component: SubjectShow,
-      },
-    ],
+    path: '/new-subject',
+    name: 'subject-create',
+    component: SubjectCreate,
+  },
+  {
+    path: '/:subject',
+    name: 'subject-show',
+    component: SubjectShow,
+  },
+  {
+    path: '/:subject/new-entry',
+    name: 'entry-create',
+    component: EntryCreate,
+  },
+  {
+    path: '/:subject/:entry',
+    name: 'entry-show',
+    component: EntryShow,
   },
   // {
   //   path: '/subjects/:subject/add',
