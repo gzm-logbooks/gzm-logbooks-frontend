@@ -9,7 +9,7 @@
 
         <ion-fab vertical="bottom" horizontal="end" slot="fixed">
           <ion-fab-button>
-            <ion-icon name="checkmark" @click="save"></ion-icon>
+            <ion-icon :icons="heart" @click="save"></ion-icon>
           </ion-fab-button>
         </ion-fab>
       </ion-content>
@@ -25,11 +25,11 @@ import {
   IonInput,
   toastController,
 } from '@ionic/vue'
-import { checkmark } from 'ionicons/icons'
+import { heart } from 'ionicons/icons'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { getDatabase } from '@/services/DatabaseService'
+import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
   components: {
@@ -45,12 +45,14 @@ export default defineComponent({
     const router = useRouter()
 
     return {
-      checkmark,
+      heart,
       router,
     }
   },
   methods: {
-    async save(sss) {
+    async save() {
+      console.log("Saving...")
+
       const db = await getDatabase()
 
       const doc = await db.subjects

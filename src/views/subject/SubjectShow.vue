@@ -49,7 +49,7 @@ import { useRoute } from 'vue-router'
 import { useObservable } from '@vueuse/rxjs'
 
 import Subject from '@/components/Subject'
-import { getDatabase } from '@/services/DatabaseService'
+import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
   components: {

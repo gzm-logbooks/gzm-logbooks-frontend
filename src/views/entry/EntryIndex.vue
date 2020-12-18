@@ -34,7 +34,7 @@
 import { IonGrid, IonButton } from '@ionic/vue'
 import { defineComponent } from 'vue'
 
-import { getDatabase } from '@/services/DatabaseService'
+import { getDatabase } from '@/services/DataService'
 import SubjectsList from '@/components/SubjectsList'
 
 export default defineComponent({

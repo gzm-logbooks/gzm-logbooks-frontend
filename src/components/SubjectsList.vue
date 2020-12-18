@@ -26,7 +26,7 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useObservable } from '@vueuse/rxjs'
 
-import { getDatabase } from '@/services/DatabaseService'
+import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
   components: {},
