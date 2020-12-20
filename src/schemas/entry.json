@@ -1,0 +1,22 @@
+{
+    "title": "Entry",
+    "version": 0,
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "primary": true
+        },
+        "amountRed": {
+            "type": "number"
+        },
+        "amountAmber": {
+            "type": "number"
+        },
+        "amountGreen": {
+            "type": "number"
+        },
+        "comment": {
+            "type": "string"
+        }
+    }
+}

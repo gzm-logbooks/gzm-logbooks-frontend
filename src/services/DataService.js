@@ -4,6 +4,7 @@ import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
 import subjectSchema from '@/schemas/subject.json'
+import entrySchema from '@/schemas/entry.json'
 
 // Add required plugins.
 addRxPlugin(RxDBValidatePlugin)
@@ -25,6 +26,9 @@ export const createDatabase = async function () {
   await db.addCollections({
     subjects: {
       schema: subjectSchema,
+    },
+    entries: {
+      schema: entrySchema,
     },
   })
 

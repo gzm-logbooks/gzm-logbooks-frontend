@@ -5,6 +5,13 @@
         "name": {
             "type": "string",
             "primary": true
+        },
+        "entries": {
+            "type": "array",
+            "ref": "entry",
+            "items": {
+                "type": "string"
+            }
         }
     }
 }
