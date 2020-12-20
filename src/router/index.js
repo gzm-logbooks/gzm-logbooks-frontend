@@ -13,34 +13,33 @@ import EntryShow from '../views/entry/EntryShow.vue'
 const routes = [
   {
     path: '/',
+    redirect: '/subjects',
+  },
+  {
+    path: '/subjects',
     name: 'subject-index',
     component: SubjectIndex,
   },
   {
-    path: '/new-subject',
+    path: '/subjects/new',
     name: 'subject-create',
     component: SubjectCreate,
   },
   {
-    path: '/:subject',
+    path: '/subjects/:subject',
     name: 'subject-show',
     component: SubjectShow,
   },
   {
-    path: '/:subject/new-entry',
+    path: '/subjects/:subject/entry/new',
     name: 'entry-create',
     component: EntryCreate,
   },
   {
-    path: '/:subject/:entry',
+    path: '/subjects/:subject/entry/:entry',
     name: 'entry-show',
     component: EntryShow,
   },
-  // {
-  //   path: '/subjects/:subject/add',
-  //   name: 'subject-add-record',
-  //   component: SubjectAddEntry,
-  // },
 ]
 
 const router = createRouter({
