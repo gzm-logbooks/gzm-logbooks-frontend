@@ -2,7 +2,7 @@
   <div class="raginput">
     <div class="raginput__inner">
       <svg viewBox="0 0 1 1" @click="handleClick" class="raginput__inner__svg">
-        <circle cx="0.5" cy="0.5" r="0.5" class="raginput__background" />
+        <circle cx="0.5" cy="0.5" r="0.5" class="raginput__background" ref='background'/>
         <circle
           cx="0.5"
           cy="0.5"
@@ -45,12 +45,13 @@ export default {
   },
   methods: {
     handleClick(event) {
+
       // https://vuejs.org/v2/api/#el
-      const container = this.$el
+      const container = this.$refs.background
 
       // https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
       const rect = container.getBoundingClientRect()
-
+ 
       // Get relative X,Y postion from center.
       var x = (event.clientX - rect.left - rect.width / 2) / rect.width
       var y = (event.clientY - rect.top - rect.height / 2) / rect.height
