@@ -69,6 +69,7 @@ export default defineComponent({
 
     // Get subject query as observable.
     const subject = useObservable(db.subjects.findOne(route.params.subject).$)
+    console.log(subject)
 
     return {
       subject,

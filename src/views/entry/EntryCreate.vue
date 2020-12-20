@@ -15,39 +15,14 @@
         </ion-header>
 
         <ion-grid fixed class="ion-no-margin ion-no-padding">
-          <ion-list>
-            <ion-list-header>
-              <h1>How did things go today?</h1>
-            </ion-list-header>
-
-            <ion-item>
-              <ion-label>Date</ion-label>
-              <ion-datetime :value="date" placeholder="Select Date">
-              </ion-datetime>
-            </ion-item>
-
-            <ion-item>
-              <CircleInput
-                @changed="updateRagInput"
-                :red-size="red"
-                :orange-size="orange"
-                :green-size="green"
-                class="ion-padding"
-              />
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="stacked">Comment</ion-label>
-              <ion-textarea></ion-textarea>
-            </ion-item>
-          </ion-list>
+          <entry-form v-bind:entry="entry" />
         </ion-grid>
       </ion-content>
 
       <ion-footer>
         <ion-toolbar>
           <ion-buttons slot="primary">
-            <ion-button color="primary">Add record</ion-button>
+            <ion-button color="primary" @click="save()">Add record</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-footer>
@@ -62,44 +37,77 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  toastController,
 } from '@ionic/vue'
 import { defineComponent } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-import CircleInput from '@/components/CircleInput'
+import EntryForm from '@/components/EntryForm'
+import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
-  name: 'Home',
   components: {
     IonContent,
     IonHeader,
     IonPage,
     IonTitle,
     IonToolbar,
-    CircleInput,
+    EntryForm,
   },
   data() {
     return {
-      red: 0.5,
-      orange: 0.33,
-      green: 0.17,
-      comment: '',
-      date: new Date().toISOString(),
+      entry: {
+        timestamp: new Date().toISOString(),
+      },
+    }
+  },
+  async setup() {
+    //
+    const route = useRoute()
+    const router = useRouter()
+
+    //
+    const db = await getDatabase()
+
+    // Check subject exists.
+    const subject = await db.subjects.findOne(route.params.subject).exec()
+    if (!subject) {
+      // TODO: Handle error.
+      throw new Error('Subject does not exist')
+    }
+
+    return {
+      route,
+      router,
+      db,
+      subject,
     }
   },
   methods: {
-    // Handles circles component @changed event.
-    updateRagInput(event) {
-      // Event contents set in $emit() above.
-      switch (event.circle) {
-        case 'red':
-          this.red = event.radius
-          break
-        case 'orange':
-          this.orange = event.radius
-          break
-        case 'green':
-          this.green = event.radius
-          break
+    async save() {
+      console.log('Saving...')
+
+      const doc = await this.db.entries
+        .insert(this.entry)
+        .catch(async (err) => {
+          console.log(err)
+
+          const toast = await toastController.create({
+            message: err,
+            color: 'danger',
+            duration: 2000,
+          })
+
+          toast.present()
+        })
+
+      console.log(doc.toJSON())
+
+      if (doc) {
+        this.router.push({
+          name: 'subject-show',
+          params: { subject: this.subject.primary },
+        })
       }
     },
   },
