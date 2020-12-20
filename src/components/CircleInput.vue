@@ -1,7 +1,7 @@
 <template>
   <div class="raginput">
     <div class="raginput__inner">
-      <svg viewBox="0 0 1 1" @click="handleClick" class="raginput__inner__svg">
+      <svg viewBox="0 0 1 1" @mousemove='update' @mousedown='mousedown' @mouseup='mouseup' @mouseleave='mouseup' class="raginput__inner__svg">
         <circle cx="0.5" cy="0.5" r="0.5" class="raginput__background" ref='background'/>
         <circle
           cx="0.5"
@@ -29,6 +29,11 @@
 <script>
 export default {
   components: {},
+  data (){
+    return {
+      held: false
+    }
+  },
   props: {
     redSize: {
       type: Number,
@@ -44,7 +49,20 @@ export default {
     },
   },
   methods: {
-    handleClick(event) {
+
+    mousedown(event){
+      this.held = true
+    },
+    mouseup(event){
+      this.held = false
+    },
+    update(event){
+      if(this.held){
+        this.animate(event)
+      }
+    },
+    
+    animate(event) {
 
       // https://vuejs.org/v2/api/#el
       const container = this.$refs.background
