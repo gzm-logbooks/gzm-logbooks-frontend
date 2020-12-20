@@ -12,7 +12,7 @@
         <circle
           cx="0.5"
           cy="0.5"
-          :r="orangeSize"
+          :r="amberSize"
           class="raginput__circle raginput__circle--middle"
         />
         <circle
@@ -34,7 +34,7 @@ export default {
       type: Number,
       default: 0.5,
     },
-    orangeSize: {
+    amberSize: {
       type: Number,
       default: 0.33,
     },
@@ -62,8 +62,8 @@ export default {
       console.log(`X: ${x}, Y: ${y}, R: ${radius}`)
 
       // Pick which circle is effected.
-      var thresh1 = (this.redSize + this.orangeSize) / 2
-      var thresh2 = (this.orangeSize + this.greenSize) / 2
+      var thresh1 = (this.redSize + this.amberSize) / 2
+      var thresh2 = (this.amberSize + this.greenSize) / 2
 
       var pad = 0.05
       var minr = 0.1
@@ -79,37 +79,37 @@ export default {
           this.$emit('changed', { circle: 'red', radius: radius })
         }
 
-        if (this.redSize - this.orangeSize < pad) {
+        if (this.redSize - this.amberSize < pad) {
           this.$emit('changed', {
-            circle: 'orange',
+            circle: 'amber',
             radius: this.redSize - pad,
           })
         }
-        if (this.orangeSize - this.greenSize < pad) {
+        if (this.amberSize - this.greenSize < pad) {
           this.$emit('changed', {
             circle: 'green',
-            radius: this.orangeSize - pad,
+            radius: this.amberSize - pad,
           })
         }
       } else if (radius > thresh2) {
         if (radius > 0.5 - pad) {
-          this.$emit('changed', { circle: 'orange', radius: 0.5 - pad })
+          this.$emit('changed', { circle: 'amber', radius: 0.5 - pad })
         } else if (radius < minr + pad) {
-          this.$emit('changed', { circle: 'orange', radius: minr + pad })
+          this.$emit('changed', { circle: 'amber', radius: minr + pad })
         } else {
-          this.$emit('changed', { circle: 'orange', radius: radius })
+          this.$emit('changed', { circle: 'amber', radius: radius })
         }
 
-        if (this.redSize - this.orangeSize < pad) {
+        if (this.redSize - this.amberSize < pad) {
           this.$emit('changed', {
             circle: 'red',
-            radius: this.orangeSize + pad,
+            radius: this.amberSize + pad,
           })
         }
-        if (this.orangeSize - this.greenSize < pad) {
+        if (this.amberSize - this.greenSize < pad) {
           this.$emit('changed', {
             circle: 'green',
-            radius: this.orangeSize - pad,
+            radius: this.amberSize - pad,
           })
         }
       } else {
@@ -121,16 +121,16 @@ export default {
           this.$emit('changed', { circle: 'green', radius: radius })
         }
 
-        if (this.orangeSize - this.greenSize < pad) {
+        if (this.amberSize - this.greenSize < pad) {
           this.$emit('changed', {
-            circle: 'orange',
+            circle: 'amber',
             radius: this.greenSize + pad,
           })
         }
-        if (this.redSize - this.orangeSize < pad) {
+        if (this.redSize - this.amberSize < pad) {
           this.$emit('changed', {
             circle: 'red',
-            radius: this.orangeSize + pad,
+            radius: this.amberSize + pad,
           })
         }
       }
@@ -152,6 +152,7 @@ export default {
 .raginput__inner__svg {
   max-height: 50vh;
   margin: auto;
+  flex: 1;
 }
 
 .raginput__background {
