@@ -18,15 +18,13 @@
           <ion-grid fixed class="ion-no-margin ion-no-padding">
             <entry-form v-bind:entry="entry" />
           </ion-grid>
-        </ion-content>
 
-        <ion-footer>
-          <ion-toolbar>
-            <ion-buttons slot="primary">
-              <ion-button color="primary" @click="save">Add record</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-footer>
+          <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button @click="save">
+              <ion-icon :icon="saveIcon"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-content>
       </ion-page>
     </form>
   </base-view>
@@ -43,6 +41,7 @@ import {
   IonToolbar,
   toastController,
 } from '@ionic/vue'
+import { save as saveIcon } from 'ionicons/icons'
 import { defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -87,6 +86,7 @@ export default defineComponent({
       router,
       db,
       subject,
+      saveIcon,
     }
   },
   methods: {

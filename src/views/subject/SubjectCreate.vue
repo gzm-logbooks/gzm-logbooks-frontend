@@ -15,16 +15,11 @@
             </ion-toolbar>
           </ion-header>
 
-          <ion-items>
-            <ion-item>
-              <ion-label position="stacked">Name</ion-label>
-              <ion-input type="text" v-model="name"></ion-input>
-            </ion-item>
-          </ion-items>
+          <subject-form v-bind:subject="subject" />
 
           <ion-fab vertical="bottom" horizontal="end" slot="fixed">
             <ion-fab-button @click="save">
-              <ion-icon :icons="heart"></ion-icon>
+              <ion-icon :icon="saveIcon"></ion-icon>
             </ion-fab-button>
           </ion-fab>
         </ion-content>
@@ -41,10 +36,11 @@ import {
   IonInput,
   toastController,
 } from '@ionic/vue'
-import { heart } from 'ionicons/icons'
+import { save as saveIcon } from 'ionicons/icons'
 import { defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import SubjectForm from '@/components/SubjectForm'
 import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
@@ -53,9 +49,12 @@ export default defineComponent({
     IonFabButton,
     IonIcon,
     IonInput,
+    SubjectForm,
   },
   data() {
-    return { name: '' }
+    return {
+      subject: {},
+    }
   },
   async setup() {
     //
@@ -69,7 +68,7 @@ export default defineComponent({
       route,
       router,
       db,
-      heart,
+      saveIcon,
     }
   },
   methods: {
@@ -77,7 +76,7 @@ export default defineComponent({
       console.log('Saving...')
 
       //
-      const data = { name: this.name }
+      const data = { ...this.subject }
       console.log(data)
 
       //
