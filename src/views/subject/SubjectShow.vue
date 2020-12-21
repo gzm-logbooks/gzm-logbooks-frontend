@@ -48,7 +48,7 @@ import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { useObservable } from '@vueuse/rxjs'
 
-import Subject from '@/components/Subject'
+//import Subject from '@/components/Subject'
 import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
@@ -59,7 +59,6 @@ export default defineComponent({
     IonCardTitle,
     IonCardContent,
     IonGrid,
-    Subject,
   },
   mounted() {},
   async setup() {
@@ -69,11 +68,26 @@ export default defineComponent({
     //
     const db = await getDatabase()
 
-    // Get subject query as observable.
-    const subject = useObservable(db.subjects.findOne(route.params.subject).$)
+    // Check subject exists.
+    const subject = await db.subjects.findOne(route.params.subject).exec()
+    if (!subject) {
+      // TODO: Handle error.
+      throw new Error('Subject does not exist')
+    }
+
+    const entries = await db.entries
+      .find()
+      .where({ subject: subject.primary })
+      .exec()
+
+    console.log({
+      subject: subject.toJSON(),
+      entries: entries.map((doc) => doc.toJSON()),
+    })
 
     return {
       subject,
+      entries,
     }
   },
 })

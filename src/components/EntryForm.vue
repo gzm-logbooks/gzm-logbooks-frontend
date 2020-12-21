@@ -6,7 +6,7 @@
 
     <ion-item>
       <ion-label>Date</ion-label>
-      <ion-datetime :value="fields.timestamp" placeholder="Select Date">
+      <ion-datetime v-model="timestamp" placeholder="Select Date">
       </ion-datetime>
     </ion-item>
 
@@ -71,7 +71,7 @@ export default defineComponent({
   setup(props, { emit }) {
     //
     const defaultFields = readonly({
-      timestamp: new Date().toISOString(),
+      timestamp: '',
       amountRed: 0.5,
       amountAmber: 0.33,
       amountGreen: 0.17,
@@ -96,7 +96,7 @@ export default defineComponent({
       },
     }
 
-    // Fields with default values
+    // Reactive fields with default values.
     const fields = computed({
       get() {
         const fields = defaultsDeep({}, localFields, defaultFields)
@@ -104,15 +104,45 @@ export default defineComponent({
       },
     })
 
+    // ISO 8601 timestamp for date picker.
+    const timestamp = computed({
+      get() {
+        try {
+          // Attempt to format and return time.
+          const date = new Date(fields.value.timestamp)
+          const formatted = date.toISOString()
+          return formatted
+        } catch (e) {
+          // Invalid time.
+        }
+
+        return null
+      },
+      set(value) {
+        fields.value.timestamp = new Date(value).toISOString()
+      },
+    })
+
+    //
+    console.log(fields.value)
+
     return {
+      // Reactive fields
       defaultFields,
       localFields,
       fields,
       updateField,
       fieldsHandler,
+
+      //
+      timestamp,
     }
   },
   methods: {
+    changed(event) {
+      console.log(event)
+    },
+
     // Handles circles component @changed event.
     updateRagInput(event) {
       // Event contents set in $emit() above.

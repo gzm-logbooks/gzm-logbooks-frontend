@@ -3,7 +3,7 @@
     <ion-page>
       <ion-header :translucent="true">
         <ion-toolbar>
-          <ion-title>Add a new record EC</ion-title>
+          <ion-title>Add a new record</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -57,7 +57,7 @@ export default defineComponent({
   data() {
     return {
       entry: {
-        timestamp: new Date().toISOString(),
+        timestamp: NaN,
       },
     }
   },
@@ -87,23 +87,29 @@ export default defineComponent({
     async save() {
       console.log('Saving...')
 
-      const doc = await this.db.entries
-        .insert(this.entry)
-        .catch(async (err) => {
-          console.log(err)
+      //
+      const data = {
+        ...this.entry,
+        subject: this.subject.primary,
+      }
+      console.log(data)
 
-          const toast = await toastController.create({
-            message: err,
-            color: 'danger',
-            duration: 2000,
-          })
+      //
+      const doc = await this.db.entries.insert(data).catch(async (err) => {
+        console.log(err)
 
-          toast.present()
+        const toast = await toastController.create({
+          message: err,
+          color: 'danger',
+          duration: 2000,
         })
 
-      console.log(doc.toJSON())
+        toast.present()
+      })
 
       if (doc) {
+        console.log(doc.toJSON())
+
         this.router.push({
           name: 'subject-show',
           params: { subject: this.subject.primary },
