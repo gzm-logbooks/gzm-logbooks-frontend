@@ -6,6 +6,10 @@
             "type": "string",
             "primary": true
         },
+        "subject": {
+            "type": "string",
+            "ref": "subject"
+        },
         "amountRed": {
             "type": "number"
         },
@@ -18,5 +22,13 @@
         "comment": {
             "type": "string"
         }
-    }
+    },
+    "indexes": [
+        "timestamp",
+        "subject"
+    ],
+    "required": [
+        "timestamp",
+        "subject"
+    ]
 }

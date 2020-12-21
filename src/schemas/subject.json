@@ -1,17 +1,12 @@
 {
-    "title": "Subject",
-    "version": 0,
-    "properties": {
-        "name": {
-            "type": "string",
-            "primary": true
-        },
-        "entries": {
-            "type": "array",
-            "ref": "entry",
-            "items": {
-                "type": "string"
-            }
-        }
-    }
+	"title": "Subject",
+	"version": 0,
+	"properties": {
+		"name": {
+			"type": "string",
+			"minLength": 1
+		}
+	},
+	"required": ["name"],
+	"indexes": ["name"]
 }
