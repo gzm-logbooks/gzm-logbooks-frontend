@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@capacitor/core": "2.4.3",
-    "@ionic/vue": "^5.4.0",
-    "@ionic/vue-router": "^5.4.0",
-    "@vueuse/rxjs": "^4.0.0-rc.7",
+    "@ionic/vue": "latest",
+    "@ionic/vue-router": "latest",
+    "@vueuse/rxjs": "^4.0.0",
     "core-js": "^3.6.5",
     "ionicons": "^5.2.3",
     "lodash-es": "^4.17.15",
@@ -23,7 +23,7 @@
     "rxdb": "^9.10.1",
     "rxjs": "^6.6.3",
     "vue": "^3.0.0-0",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.3",
