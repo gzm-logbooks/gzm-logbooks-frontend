@@ -1,38 +1,42 @@
 <template>
   <base-view>
-    <ion-page>
-      <ion-header :translucent="true">
-        <ion-toolbar>
-          <ion-title>Add a new record</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content fullscreen>
-        <ion-header collapse="condense">
+    <form @submit.prevent="save">
+      <ion-page>
+        <ion-header :translucent="true">
           <ion-toolbar>
-            <ion-title size="large">Add a new record</ion-title>
+            <ion-title>Add a new record</ion-title>
           </ion-toolbar>
         </ion-header>
 
-        <ion-grid fixed class="ion-no-margin ion-no-padding">
-          <entry-form v-bind:entry="entry" />
-        </ion-grid>
-      </ion-content>
+        <ion-content fullscreen>
+          <ion-header collapse="condense">
+            <ion-toolbar>
+              <ion-title size="large">Add a new record</ion-title>
+            </ion-toolbar>
+          </ion-header>
 
-      <ion-footer>
-        <ion-toolbar>
-          <ion-buttons slot="primary">
-            <ion-button color="primary" @click="save()">Add record</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-footer>
-    </ion-page>
+          <ion-grid fixed class="ion-no-margin ion-no-padding">
+            <entry-form v-bind:entry="entry" />
+          </ion-grid>
+        </ion-content>
+
+        <ion-footer>
+          <ion-toolbar>
+            <ion-buttons slot="primary">
+              <ion-button color="primary" @click="save">Add record</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-footer>
+      </ion-page>
+    </form>
   </base-view>
 </template>
 
 <script>
 import {
   IonContent,
+  IonFooter,
+  IonGrid,
   IonHeader,
   IonPage,
   IonTitle,
@@ -48,6 +52,8 @@ import { getDatabase } from '@/services/DataService'
 export default defineComponent({
   components: {
     IonContent,
+    IonFooter,
+    IonGrid,
     IonHeader,
     IonPage,
     IonTitle,

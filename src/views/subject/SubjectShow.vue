@@ -6,9 +6,15 @@
           <ion-title>{{ subject?.name }}</ion-title>
 
           <ion-buttons slot="primary">
-            <ion-button color="primary" :router-link="{ name: 'entry-create' }"
-              >Add Entry</ion-button
+            <ion-button
+              color="primary"
+              :router-link="{
+                name: 'entry-create',
+                params: { subject: subject.primary },
+              }"
             >
+              Add Entry
+            </ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -64,10 +70,8 @@ export default defineComponent({
   async setup() {
     //
     const route = useRoute()
-
     //
     const db = await getDatabase()
-
     // Check subject exists.
     const subject = await db.subjects.findOne(route.params.subject).exec()
     if (!subject) {

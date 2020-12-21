@@ -1,33 +1,35 @@
 <template>
   <base-view>
-    <ion-page>
-      <ion-header :translucent="true">
-        <ion-toolbar>
-          <ion-title>Add a new subject</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content fullscreen>
-        <ion-header collapse="condense">
+    <form @submit.prevent="save">
+      <ion-page>
+        <ion-header :translucent="true">
           <ion-toolbar>
-            <ion-title size="large">Add a new subject</ion-title>
+            <ion-title>Add a new subject</ion-title>
           </ion-toolbar>
         </ion-header>
 
-        <ion-items>
-          <ion-item>
-            <ion-label position="stacked">Name</ion-label>
-            <ion-input type="text" v-model="name"></ion-input>
-          </ion-item>
-        </ion-items>
+        <ion-content fullscreen>
+          <ion-header collapse="condense">
+            <ion-toolbar>
+              <ion-title size="large">Add a new subject</ion-title>
+            </ion-toolbar>
+          </ion-header>
 
-        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button>
-            <ion-icon :icons="heart" @click="save"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-      </ion-content>
-    </ion-page>
+          <ion-items>
+            <ion-item>
+              <ion-label position="stacked">Name</ion-label>
+              <ion-input type="text" v-model="name"></ion-input>
+            </ion-item>
+          </ion-items>
+
+          <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button @click="save">
+              <ion-icon :icons="heart"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-content>
+      </ion-page>
+    </form>
   </base-view>
 </template>
 
