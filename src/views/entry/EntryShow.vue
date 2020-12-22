@@ -1,35 +1,32 @@
 <template>
   <base-view>
-    <ion-page>
-      <ion-header :translucent="true">
-        <ion-toolbar>
-          <ion-title>{{ subject?.name }}</ion-title>
-
-          <ion-buttons slot="primary">
-            <ion-button color="primary">Add Entry</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content fullscreen>
-        <ion-header collapse="condense">
+    <form @submit.prevent="save">
+      <ion-page>
+        <ion-header :translucent="true">
           <ion-toolbar>
-            <ion-title size="large">Subjects</ion-title>
+            <ion-title>Entry</ion-title>
           </ion-toolbar>
         </ion-header>
 
-        <ion-grid fixed class="ion-no-margin ion-no-padding">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-              <ion-card-title>{{ subject?.name }}</ion-card-title>
-            </ion-card-header>
+        <ion-content fullscreen>
+          <ion-header collapse="condense">
+            <ion-toolbar>
+              <ion-title size="large">Entry</ion-title>
+            </ion-toolbar>
+          </ion-header>
 
-            <ion-card-content> </ion-card-content>
-          </ion-card>
-        </ion-grid>
-      </ion-content>
-    </ion-page>
+          <ion-grid fixed class="ion-no-margin ion-no-padding">
+            <entry-form v-bind:entry="fields" />
+          </ion-grid>
+
+          <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button @click="save">
+              <ion-icon :icon="saveIcon"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-content>
+      </ion-page>
+    </form>
   </base-view>
 </template>
 
@@ -42,24 +39,19 @@ import {
   IonCardContent,
   IonGrid,
 } from '@ionic/vue'
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useObservable } from '@vueuse/rxjs'
 
-import Subject from '@/components/Subject'
+import EntryForm from '@/components/EntryForm'
 import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
   components: {
-    IonCard,
-    IonCardHeader,
-    IonCardSubtitle,
-    IonCardTitle,
-    IonCardContent,
     IonGrid,
-    Subject,
+    EntryForm,
   },
-  mounted() {},
+
   async setup() {
     //
     const route = useRoute()
@@ -67,13 +59,43 @@ export default defineComponent({
     //
     const db = await getDatabase()
 
-    // Get subject query as observable.
-    const subject = useObservable(db.subjects.findOne(route.params.subject).$)
-    console.log(subject)
+    // Check subject exists.
+    const subject = await db.subjects.findOne(route.params.subject).exec()
+    if (!subject) {
+      // TODO: Handle error.
+      throw new Error('Subject does not exist')
+    }
+
+    // Get entry
+    const entry = await db.entries
+      .findOne({
+        selector: { subject: subject.primary, timestamp: route.params.entry },
+      })
+      .exec()
+    if (!entry) {
+      throw new Error('Entry does not exist')
+    }
+
+    const fields = reactive(entry.toJSON())
+    console.log(fields)
 
     return {
       subject,
+      entry,
+      fields,
     }
   },
+  methods: {
+    async save() {
+      console.log('Saving...')
+
+      //
+      const data = {
+        ...this.fields,
+      }
+
+      await this.entry.atomicPatch(data)
+    }
+  }
 })
 </script>

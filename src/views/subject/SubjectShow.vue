@@ -69,7 +69,7 @@ export default defineComponent({
     IonGrid,
     ProgressChart,
   },
-  mounted() {},
+
   async setup() {
     //
     const route = useRoute()

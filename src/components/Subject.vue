@@ -24,7 +24,7 @@ export default defineComponent({
     IonTitle,
     IonToolbar,
   },
-  mounted() {},
+
   async setup() {
     //
     const router = useRouter()
