@@ -59,14 +59,12 @@ export default defineComponent({
   async setup() {
     //
     const route = useRoute()
-    const router = useRouter()
 
     //
     const db = await getDatabase()
 
     return {
       route,
-      router,
       db,
       saveIcon,
     }
@@ -93,7 +91,7 @@ export default defineComponent({
       })
 
       if (doc) {
-        this.router.push({
+        this.$router.push({
           name: 'subject-show',
           params: { subject: doc.primary },
         })

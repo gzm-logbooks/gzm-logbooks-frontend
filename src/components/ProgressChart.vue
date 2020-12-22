@@ -10,62 +10,81 @@ import {
   computed,
   watchEffect,
   onMounted,
+  readonly,
 } from 'vue'
-import { Chart } from 'chart.js'
+import { Chart, Element } from 'chart.js'
+import { defaultsDeep } from 'lodash-es'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   props: {
     options: {
       type: Object,
-      default() {
-        return {
-          legend: {
-            display: false, // Hide the legend
-          },
-          elements: {
-            point: {
-              radius: 0,
-            },
-          },
-          scales: {
-            xAxes: [
-              {
-                type: 'time',
-                time: {
-                  unit: 'day',
-                },
-              },
-            ],
-            yAxes: [
-              {
-                display: false,
-                ticks: {
-                  min: 0, // Might want to change this? See how it feels when working
-                  max: 0.5,
-                },
-              },
-            ],
-          },
-        }
-      },
     },
     entries: {
       type: Object,
     },
   },
-  setup(props) {
+  emits: ['selected'],
+  setup(props, { emit }) {
     const chart = new ref()
 
     //
     const canvas = new ref(null)
+
+    const defaultOptions = readonly({
+      legend: {
+        display: false, // Hide the legend
+      },
+      elements: {
+        point: {
+          radius: 4,
+        },
+      },
+      scales: {
+        xAxes: [
+          {
+            type: 'time',
+            time: {
+              unit: 'day',
+            },
+          },
+        ],
+        yAxes: [
+          {
+            display: false,
+            ticks: {
+              min: 0, // Might want to change this? See how it feels when working
+              max: 0.5,
+            },
+          },
+        ],
+      },
+      onClick(event, elements = []) {
+        const first = elements[0]
+
+        if (first && first instanceof Element) {
+          const chart = first._chart
+          const pointData =
+            chart.data?.datasets[first._datasetIndex]?.data[first._index]
+          const timestamp = pointData?.x
+
+          emit('selected', timestamp)
+        }
+      },
+    })
+
     const chartOptions = reactive(props.options)
+    defaultsDeep(chartOptions, defaultOptions)
+
     const chartData = computed({
       get() {
         //return demoData()
 
         //
         const datasets = props.entries.reduce(
-          (accumulator = [], entry) => {
+          (accumulator, entry) => {
+            console.log(entry.timestamp)
             accumulator.red.push({
               x: entry.timestamp,
               y: entry.amountRed ?? 0,
@@ -83,6 +102,7 @@ export default defineComponent({
 
             return accumulator
           },
+          // Initial value.
           {
             red: [],
             amber: [],

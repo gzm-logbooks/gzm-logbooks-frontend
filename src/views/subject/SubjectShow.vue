@@ -29,7 +29,11 @@
         <ion-grid fixed class="ion-no-margin ion-no-padding">
           <ion-card>
             <ion-card-content>
-              <progress-chart :entries="entries" />
+              <progress-chart
+                :options="{ legend: { display: true } }"
+                :entries="entries"
+                @selected="chartClicked"
+              />
             </ion-card-content>
           </ion-card>
         </ion-grid>
@@ -69,6 +73,7 @@ export default defineComponent({
   async setup() {
     //
     const route = useRoute()
+
     //
     const db = await getDatabase()
     // Check subject exists.
@@ -92,6 +97,19 @@ export default defineComponent({
       subject,
       entries,
     }
+  },
+  methods: {
+    chartClicked(timestamp) {
+      console.log(event)
+
+      this.$router.push({
+        name: 'entry-show',
+        params: {
+          subject: this.subject.primary,
+          entry: timestamp,
+        },
+      })
+    },
   },
 })
 </script>
