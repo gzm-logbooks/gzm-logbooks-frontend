@@ -1,14 +1,13 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
 
-import RouterOutlet from '../views/main/RouterOutlet.vue'
-
+// Subject...
 import SubjectIndex from '../views/subject/SubjectIndex.vue'
 import SubjectCreate from '../views/subject/SubjectCreate.vue'
 import SubjectShow from '../views/subject/SubjectShow.vue'
 
-// import EntryIndex from '../views/entry/EntryIndex.vue'
+// Subject entry...
 import EntryCreate from '../views/entry/EntryCreate.vue'
-import EntryShow from '../views/entry/EntryShow.vue'
+import EntryEdit from '../views/entry/EntryEdit.vue'
 
 const routes = [
   {
@@ -36,9 +35,9 @@ const routes = [
     component: EntryCreate,
   },
   {
-    path: '/subjects/:subject/entry/:entry',
+    path: '/subjects/:subject/entry/:entry/edit',
     name: 'entry-show',
-    component: EntryShow,
+    component: EntryEdit,
   },
 ]
 

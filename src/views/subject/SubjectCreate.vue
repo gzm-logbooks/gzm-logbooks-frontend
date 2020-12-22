@@ -2,19 +2,17 @@
   <base-view>
     <form @submit.prevent="save">
       <ion-page>
-        <ion-header :translucent="true">
+        <ion-header>
           <ion-toolbar>
             <ion-title>Add a new subject</ion-title>
+
+            <ion-buttons slot="start">
+              <ion-back-button default-href="/"></ion-back-button>
+            </ion-buttons>
           </ion-toolbar>
         </ion-header>
 
-        <ion-content fullscreen>
-          <ion-header collapse="condense">
-            <ion-toolbar>
-              <ion-title size="large">Add a new subject</ion-title>
-            </ion-toolbar>
-          </ion-header>
-
+        <ion-content>
           <subject-form v-bind:subject="subject" />
 
           <ion-fab vertical="bottom" horizontal="end" slot="fixed">

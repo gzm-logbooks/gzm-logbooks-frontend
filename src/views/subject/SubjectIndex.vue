@@ -1,11 +1,11 @@
 <template>
   <base-view>
     <ion-page>
-      <ion-header :translucent="true">
+      <ion-header>
         <ion-toolbar>
           <ion-title>Subjects</ion-title>
 
-          <ion-buttons slot="primary">
+          <ion-buttons slot="end">
             <ion-button
               color="primary"
               :router-link="{ name: 'subject-create' }"
@@ -15,13 +15,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-content fullscreen>
-        <ion-header collapse="condense">
-          <ion-toolbar>
-            <ion-title size="large">Subjects</ion-title>
-          </ion-toolbar>
-        </ion-header>
-
+      <ion-content>
         <ion-grid fixed class="ion-no-margin ion-no-padding">
           <SubjectsList />
         </ion-grid>
@@ -31,16 +25,11 @@
 </template>
 
 <script>
+import SubjectsList from '@/components/SubjectsList'
+import { getDatabase } from '@/services/DataService'
 import { IonGrid, IonButton } from '@ionic/vue'
 import { defineComponent } from 'vue'
-
-import { getDatabase } from '@/services/DataService'
-import SubjectsList from '@/components/SubjectsList'
-
 export default defineComponent({
-  components: {
-    IonGrid,
-    SubjectsList,
-  },
+  components: { IonGrid, SubjectsList },
 })
 </script>

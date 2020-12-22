@@ -2,21 +2,19 @@
   <base-view>
     <form @submit.prevent="save">
       <ion-page>
-        <ion-header :translucent="true">
+        <ion-header>
           <ion-toolbar>
-            <ion-title>Entry</ion-title>
+            <ion-title>Edit entry</ion-title>
+
+            <ion-buttons slot="start">
+              <ion-back-button default-href="/"></ion-back-button>
+            </ion-buttons>
           </ion-toolbar>
         </ion-header>
 
-        <ion-content fullscreen>
-          <ion-header collapse="condense">
-            <ion-toolbar>
-              <ion-title size="large">Entry</ion-title>
-            </ion-toolbar>
-          </ion-header>
-
+        <ion-content>
           <ion-grid fixed class="ion-no-margin ion-no-padding">
-            <entry-form v-bind:entry="fields" />
+            <entry-form v-bind:entry="entryData" />
           </ion-grid>
 
           <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -32,6 +30,7 @@
 
 <script>
 import {
+  IonBackButton,
   IonCard,
   IonCardHeader,
   IonCardSubtitle,
@@ -39,15 +38,16 @@ import {
   IonCardContent,
   IonGrid,
 } from '@ionic/vue'
+import { save as saveIcon } from 'ionicons/icons'
 import { defineComponent, reactive } from 'vue'
 import { useRoute } from 'vue-router'
-import { useObservable } from '@vueuse/rxjs'
 
 import EntryForm from '@/components/EntryForm'
 import { getDatabase } from '@/services/DataService'
 
 export default defineComponent({
   components: {
+    IonBackButton,
     IonGrid,
     EntryForm,
   },
@@ -76,26 +76,29 @@ export default defineComponent({
       throw new Error('Entry does not exist')
     }
 
-    const fields = reactive(entry.toJSON())
-    console.log(fields)
+    const entryData = reactive(entry.toJSON())
+    console.log(entryData)
 
     return {
       subject,
       entry,
-      fields,
+      entryData,
+      saveIcon,
     }
   },
   methods: {
     async save() {
-      console.log('Saving...')
-
       //
       const data = {
-        ...this.fields,
+        ...this.entryData,
       }
 
-      await this.entry.atomicPatch(data)
-    }
-  }
+      const doc = await this.entry.atomicPatch(data)
+
+      if (doc) {
+        this.$router.back()
+      }
+    },
+  },
 })
 </script>

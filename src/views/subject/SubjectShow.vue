@@ -1,11 +1,15 @@
 <template>
   <base-view>
     <ion-page>
-      <ion-header :translucent="true">
+      <ion-header>
         <ion-toolbar>
           <ion-title>{{ subject?.name }}</ion-title>
 
-          <ion-buttons slot="primary">
+          <ion-buttons slot="start">
+            <ion-back-button default-href="/"></ion-back-button>
+          </ion-buttons>
+
+          <ion-buttons slot="end">
             <ion-button
               color="primary"
               :router-link="{
@@ -19,18 +23,12 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-content fullscreen>
-        <ion-header collapse="condense">
-          <ion-toolbar>
-            <ion-title size="large">Subjects</ion-title>
-          </ion-toolbar>
-        </ion-header>
-
+      <ion-content>
         <ion-grid fixed class="ion-no-margin ion-no-padding">
           <ion-card>
             <ion-card-content>
               <progress-chart
-                :options="{ legend: { display: true } }"
+                :options="options"
                 :entries="entries"
                 @selected="chartClicked"
               />

@@ -4,8 +4,8 @@ import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
-import subjectSchema from '@/schemas/subject.json'
 import entrySchema from '@/schemas/entry.json'
+import subjectSchema from '@/schemas/subject.json'
 
 // Add plugins.
 addRxPlugin(RxDBValidatePlugin)

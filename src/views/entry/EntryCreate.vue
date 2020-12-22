@@ -2,19 +2,17 @@
   <base-view>
     <form @submit.prevent="save">
       <ion-page>
-        <ion-header :translucent="true">
+        <ion-header>
           <ion-toolbar>
-            <ion-title>Add a new record</ion-title>
+            <ion-title>Add a new entry</ion-title>
+
+            <ion-buttons slot="start">
+              <ion-back-button default-href="/"></ion-back-button>
+            </ion-buttons>
           </ion-toolbar>
         </ion-header>
 
-        <ion-content fullscreen>
-          <ion-header collapse="condense">
-            <ion-toolbar>
-              <ion-title size="large">Add a new record</ion-title>
-            </ion-toolbar>
-          </ion-header>
-
+        <ion-content>
           <ion-grid fixed class="ion-no-margin ion-no-padding">
             <entry-form v-bind:entry="entry" />
           </ion-grid>

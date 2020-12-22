@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import CircleInput from '@/components/CircleInput'
 import {
   IonDatetime,
   IonItem,
@@ -36,6 +37,7 @@ import {
   IonListHeader,
   IonTextarea,
 } from '@ionic/vue'
+import { defaultsDeep } from 'lodash-es'
 import {
   defineComponent,
   readonly,
@@ -44,9 +46,6 @@ import {
   watchEffect,
   watch,
 } from 'vue'
-import { defaultsDeep } from 'lodash-es'
-import CircleInput from '@/components/CircleInput'
-
 export default defineComponent({
   components: {
     CircleInput,

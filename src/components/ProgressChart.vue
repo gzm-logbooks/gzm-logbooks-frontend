@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { Chart, Element } from 'chart.js'
+import { defaultsDeep } from 'lodash-es'
 import {
   defineComponent,
   ref,
@@ -12,18 +14,13 @@ import {
   onMounted,
   readonly,
 } from 'vue'
-import { Chart, Element } from 'chart.js'
-import { defaultsDeep } from 'lodash-es'
 import { useRouter } from 'vue-router'
-
 export default defineComponent({
   props: {
     options: {
       type: Object,
     },
-    entries: {
-      type: Object,
-    },
+    entries: { type: Object },
   },
   emits: ['selected'],
   setup(props, { emit }) {
@@ -34,12 +31,10 @@ export default defineComponent({
 
     const defaultOptions = readonly({
       legend: {
-        display: false, // Hide the legend
+        display: false,
       },
       elements: {
-        point: {
-          radius: 4,
-        },
+        point: { radius: 4 },
       },
       scales: {
         xAxes: [
@@ -54,7 +49,7 @@ export default defineComponent({
           {
             display: false,
             ticks: {
-              min: 0, // Might want to change this? See how it feels when working
+              min: 0,
               max: 0.5,
             },
           },
@@ -73,9 +68,8 @@ export default defineComponent({
         }
       },
     })
-
-    const chartOptions = reactive(props.options)
-    defaultsDeep(chartOptions, defaultOptions)
+    const chartOptions = reactive(props.options || {})
+    Object.assign(chartOptions, defaultOptions)
 
     const chartData = computed({
       get() {
@@ -84,24 +78,21 @@ export default defineComponent({
         //
         const datasets = props.entries.reduce(
           (accumulator, entry) => {
-            console.log(entry.timestamp)
             accumulator.red.push({
               x: entry.timestamp,
               y: entry.amountRed ?? 0,
             })
-
             accumulator.amber.push({
               x: entry.timestamp,
               y: entry.amountAmber ?? 0,
             })
-
             accumulator.green.push({
               x: entry.timestamp,
               y: entry.amountGreen ?? 0,
             })
-
             return accumulator
           },
+
           // Initial value.
           {
             red: [],
@@ -113,7 +104,7 @@ export default defineComponent({
         return {
           datasets: [
             {
-              backgroundColor: 'rgb(0,255,0)', // First  dataset will be on top
+              backgroundColor: 'rgb(0,255,0)',
               data: datasets.green,
             },
             {
@@ -147,7 +138,7 @@ export default defineComponent({
       return {
         datasets: [
           {
-            backgroundColor: 'rgb(0,255,0)', // First  dataset will be on top
+            backgroundColor: 'rgb(0,255,0)',
             data: [
               {
                 x: new Date('August 19, 1975 23:15:30'),
@@ -181,7 +172,7 @@ export default defineComponent({
             ],
           },
           {
-            backgroundColor: 'rgb(255,0,0)', // Last dataset will be behind
+            backgroundColor: 'rgb(255,0,0)',
             data: [
               {
                 x: new Date('August 19, 1975 23:15:30'),
@@ -200,13 +191,7 @@ export default defineComponent({
         ],
       }
     }
-
-    return {
-      canvas,
-      chart,
-      chartOptions,
-      chartData,
-    }
+    return { canvas, chart, chartOptions, chartData }
   },
 })
 </script>
