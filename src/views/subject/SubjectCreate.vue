@@ -69,11 +69,8 @@ export default defineComponent({
   },
   methods: {
     async save() {
-      console.log('Saving...')
-
       //
       const data = { ...this.subject }
-      console.log(data)
 
       //
       const doc = await this.db.subjects.insert(data).catch(async (err) => {

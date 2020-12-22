@@ -24,7 +24,6 @@ export default defineComponent({
       type: Object,
       immediate: true,
       handler(val) {
-        console.log('Fields have changed')
         this.fields = val
       },
     },
@@ -61,9 +60,6 @@ export default defineComponent({
         return new Proxy(fields, fieldsHandler)
       },
     })
-
-    //
-    console.log(fields.value)
 
     return {
       // Reactive fields

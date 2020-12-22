@@ -86,11 +86,6 @@ export default defineComponent({
       .where({ subject: subject.primary })
       .exec()
 
-    console.log({
-      subject: subject.toJSON(),
-      entries: entries.map((doc) => doc.toJSON()),
-    })
-
     return {
       subject,
       entries,
@@ -98,8 +93,6 @@ export default defineComponent({
   },
   methods: {
     chartClicked(timestamp) {
-      console.log(event)
-
       this.$router.push({
         name: 'entry-show',
         params: {

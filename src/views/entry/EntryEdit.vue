@@ -76,8 +76,8 @@ export default defineComponent({
       throw new Error('Entry does not exist')
     }
 
+    //
     const entryData = reactive(entry.toJSON())
-    console.log(entryData)
 
     return {
       subject,

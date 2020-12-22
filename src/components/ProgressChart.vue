@@ -15,6 +15,7 @@ import {
   readonly,
 } from 'vue'
 import { useRouter } from 'vue-router'
+
 export default defineComponent({
   props: {
     options: {
@@ -127,8 +128,7 @@ export default defineComponent({
         data: chartData.value,
       })
 
-      console.log(chartData.value)
-
+      // Update chart on changes.
       watchEffect(() => {
         chart.value.update()
       })

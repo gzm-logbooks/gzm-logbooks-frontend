@@ -87,14 +87,11 @@ export default defineComponent({
   },
   methods: {
     async save() {
-      console.log('Saving...')
-
       //
       const data = {
         ...this.entry,
         subject: this.subject.primary,
       }
-      console.log(data)
 
       //
       const doc = await this.db.entries.insert(data).catch(async (err) => {
@@ -110,8 +107,6 @@ export default defineComponent({
       })
 
       if (doc) {
-        console.log(doc.toJSON())
-
         this.$router.push({
           name: 'subject-show',
           params: { subject: this.subject.primary },

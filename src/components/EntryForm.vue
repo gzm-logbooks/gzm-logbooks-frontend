@@ -61,7 +61,6 @@ export default defineComponent({
       type: Object,
       immediate: true,
       handler(val) {
-        console.log('Fields have changed')
         this.fields = val
       },
     },
@@ -122,9 +121,6 @@ export default defineComponent({
       },
     })
 
-    //
-    console.log(fields.value)
-
     return {
       // Reactive fields
       defaultFields,
@@ -138,10 +134,6 @@ export default defineComponent({
     }
   },
   methods: {
-    changed(event) {
-      console.log(event)
-    },
-
     // Handles circles component @changed event.
     updateRagInput(event) {
       // Event contents set in $emit() above.
