@@ -15,6 +15,7 @@
     "@ionic/vue": "latest",
     "@ionic/vue-router": "latest",
     "@vueuse/rxjs": "^4.0.0",
+    "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "ionicons": "^5.2.3",
     "lodash-es": "^4.17.15",
