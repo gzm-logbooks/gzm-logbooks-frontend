@@ -28,12 +28,9 @@
 
         <ion-grid fixed class="ion-no-margin ion-no-padding">
           <ion-card>
-            <ion-card-header>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-              <ion-card-title>{{ subject?.name }}</ion-card-title>
-            </ion-card-header>
-
-            <ion-card-content> </ion-card-content>
+            <ion-card-content>
+              <progress-chart :entries="entries" />
+            </ion-card-content>
           </ion-card>
         </ion-grid>
       </ion-content>
@@ -56,6 +53,7 @@ import { useObservable } from '@vueuse/rxjs'
 
 //import Subject from '@/components/Subject'
 import { getDatabase } from '@/services/DataService'
+import ProgressChart from '@/components/ProgressChart'
 
 export default defineComponent({
   components: {
@@ -65,6 +63,7 @@ export default defineComponent({
     IonCardTitle,
     IonCardContent,
     IonGrid,
+    ProgressChart,
   },
   mounted() {},
   async setup() {
