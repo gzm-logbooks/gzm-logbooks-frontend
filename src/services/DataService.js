@@ -4,12 +4,14 @@ import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
+// Load schemas.
 import entrySchema from '@/schemas/entry.json'
 import subjectSchema from '@/schemas/subject.json'
 
 // Add plugins.
 addRxPlugin(RxDBValidatePlugin)
 addRxPlugin(RxDBQueryBuilderPlugin)
+addRxPlugin(IndexeddbAdaptor)
 
 // Add the dev plugins.
 if (process.env.NODE_ENV === 'development') {
@@ -17,8 +19,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //
-addRxPlugin(IndexeddbAdaptor)
-
 export const createDatabase = async function () {
   const db = await createRxDatabase({
     name: 'subjects',
@@ -34,13 +34,19 @@ export const createDatabase = async function () {
     },
   })
 
-  window.db = db
-
   return db
 }
+
+// Create a global instance.
+const instance = createDatabase()
 
 export const getDatabase = async function () {
   return await instance
 }
 
-const instance = createDatabase()
+// Expose global instance in dev env.
+if (process.env.NODE_ENV === 'development') {
+  getDatabase().then((db) => {
+    window.db = db
+  })
+}

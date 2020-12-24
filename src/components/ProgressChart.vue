@@ -35,7 +35,15 @@ export default defineComponent({
         display: false,
       },
       elements: {
-        point: { radius: 4 },
+        point: {
+          pointStyle: 'circle',
+          radius: 4,
+        },
+        line: {
+          borderWidth: 1,
+          tension: 0.4,
+          cubicInterpolationMode: 'monotone',
+        },
       },
       scales: {
         xAxes: [
