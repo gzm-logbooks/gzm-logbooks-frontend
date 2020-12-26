@@ -14,6 +14,7 @@
     "@capacitor/core": "2.4.3",
     "@ionic/vue": "latest",
     "@ionic/vue-router": "latest",
+    "@vueuse/core": "^4.0.0",
     "@vueuse/rxjs": "^4.0.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
