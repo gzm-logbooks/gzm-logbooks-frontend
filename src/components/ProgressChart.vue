@@ -1,5 +1,6 @@
 <template>
-  <canvas ref="canvas" />
+  <canvas v-if="entries.length > 1" ref="canvas" /> <!-- Future - add a specific case for 1 entry -->
+  <div v-else ref="no-data">Nothing to display</div>
 </template>
 
 <script>
@@ -25,7 +26,9 @@ export default defineComponent({
   },
   emits: ['selected'],
   setup(props, { emit }) {
+
     const chart = new ref()
+
 
     //
     const canvas = new ref(null)
@@ -130,6 +133,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
+      
       chart.value = new Chart(canvas.value, {
         type: 'line',
         options: chartOptions,
@@ -141,6 +145,7 @@ export default defineComponent({
         chart.value.update()
       })
     })
+
 
     function demoData() {
       return {
