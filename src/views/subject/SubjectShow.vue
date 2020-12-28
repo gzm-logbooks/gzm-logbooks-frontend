@@ -33,8 +33,15 @@
                 @selected="chartClicked"
               />
               <div v-else ref="no-data">Nothing to display</div>
+            
             </ion-card-content>
           </ion-card>
+          <ion-card>
+            <ion-card-content>
+              <EntriesList />
+            </ion-card-content>
+          </ion-card>          
+
         </ion-grid>
       </ion-content>
     </ion-page>
@@ -57,6 +64,7 @@ import { useObservable } from '@vueuse/rxjs'
 //import Subject from '@/components/Subject'
 import { getDatabase } from '@/services/DataService'
 import ProgressChart from '@/components/ProgressChart'
+import EntriesList from '@/components/EntriesList'
 
 export default defineComponent({
   components: {
@@ -67,6 +75,7 @@ export default defineComponent({
     IonCardContent,
     IonGrid,
     ProgressChart,
+    EntriesList,
   },
 
   async setup() {
