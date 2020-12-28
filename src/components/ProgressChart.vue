@@ -1,6 +1,5 @@
 <template>
-  <canvas v-if="entries.length > 1" ref="canvas" /> <!-- Future - add a specific case for 1 entry -->
-  <div v-else ref="no-data">Nothing to display</div>
+  <canvas ref="canvas" /> 
 </template>
 
 <script>
