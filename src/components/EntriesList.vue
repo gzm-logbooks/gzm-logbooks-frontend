@@ -9,7 +9,7 @@
         params: { entry: entry.primary },
       }"
     >
-      <ion-label>{{ entry.timestamp }}</ion-label>
+      <ion-label>{{ new Date(entry.timestamp).toDateString() }}</ion-label>
     </ion-item>
   </ion-list>
 </template>
@@ -21,6 +21,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonDatetime,
 } from '@ionic/vue'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
