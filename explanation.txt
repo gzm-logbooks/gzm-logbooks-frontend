@@ -1,0 +1,9 @@
+FeelAware is an app that tracks your anxiety
+Throughout a learning progress
+paper models your anxiety into zones, learn best in your growth zone
+for school, mental health (sometimes you don’t want to write about it, can just show on graph/come 
+back to fill it in) etc.
+
+explain pwa? Data is local, be wary of clearing cookies
+data entry diagram
+graph
