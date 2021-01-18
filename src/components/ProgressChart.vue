@@ -23,7 +23,15 @@ const defaultOptions = readonly({
     display: false,
   },
   elements: {
-    point: { radius: 4 },
+    point: {
+      pointStyle: 'circle',
+      radius: 4,
+    },
+    line: {
+      borderWidth: 1,
+      tension: 0.4,
+      cubicInterpolationMode: 'default',
+    },
   },
   scales: {
     xAxes: [

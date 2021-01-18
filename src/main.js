@@ -16,7 +16,10 @@ import {
   IonButton,
   IonButtons,
   IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -52,11 +55,14 @@ Object.entries({
   IonButton,
   IonButtons,
   IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
   IonItem,
   IonLabel,
   IonList,
   IonPage,
+  IonIcon,
   IonTitle,
   IonToolbar,
 }).forEach(([name, component]) => app.component(name, component))
@@ -64,3 +70,6 @@ Object.entries({
 router.isReady().then(() => {
   app.mount('#app')
 })
+
+import { seedDatabase } from '@/services/SeederService'
+window.seed = seedDatabase
