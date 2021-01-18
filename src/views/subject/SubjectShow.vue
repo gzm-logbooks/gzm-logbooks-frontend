@@ -26,6 +26,16 @@
       <ion-content>
         <ion-grid fixed class="ion-no-margin ion-no-padding">
           <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle>Your progress</ion-card-subtitle>
+              <ion-card-title>{{ subject?.name }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card>
             <ion-card-content>
               <progress-chart v-if="entries.length > 1" 
                 :options="options"
