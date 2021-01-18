@@ -31,27 +31,25 @@
               <ion-card-title>{{ subject?.name }}</ion-card-title>
             </ion-card-header>
 
-            <ion-card-content>
-            </ion-card-content>
+            <ion-card-content> </ion-card-content>
           </ion-card>
 
           <ion-card>
             <ion-card-content>
-              <progress-chart v-if="entries.length > 1" 
+              <progress-chart
+                v-if="entries.length > 1"
                 :options="options"
                 :entries="entries"
                 @selected="chartClicked"
               />
               <div v-else ref="no-data">Nothing to display</div>
-            
             </ion-card-content>
           </ion-card>
           <ion-card>
             <ion-card-content>
               <EntriesList />
             </ion-card-content>
-          </ion-card>          
-
+          </ion-card>
         </ion-grid>
       </ion-content>
     </ion-page>
