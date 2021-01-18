@@ -44,7 +44,7 @@ export default defineComponent({
     const db = await getDatabase()
 
     // Get subjects query as observable.
-    const entries = useObservable(db.entries.find().$)
+    const entries = useObservable(db.entries.find().sort({ timestamp: -1 }).$)
 
     return {
       router,
