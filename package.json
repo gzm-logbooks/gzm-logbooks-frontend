@@ -11,9 +11,11 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@nuxtjs/color-mode": "^2.0.5",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.9.1",
-    "nuxt": "^2.15.3"
+    "nuxt": "^2.15.3",
+    "tailwindcss-dark-mode": "^1.1.7"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^6.0.0",
