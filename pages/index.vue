@@ -1,1 +1,7 @@
-<template><div>this is the subjects page ree</div></template>
+<script>
+export default {
+  middleware({ redirect, app }) {
+    redirect('logbooks')
+  },
+}
+</script>

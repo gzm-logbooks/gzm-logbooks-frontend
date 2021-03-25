@@ -1,0 +1,34 @@
+{
+    "title": "Entry",
+    "version": 0,
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "primary": true
+        },
+        "logbook": {
+            "type": "string",
+            "ref": "logbook"
+        },
+        "amountRed": {
+            "type": "number"
+        },
+        "amountAmber": {
+            "type": "number"
+        },
+        "amountGreen": {
+            "type": "number"
+        },
+        "comment": {
+            "type": "string"
+        }
+    },
+    "indexes": [
+        "timestamp",
+        "logbook"
+    ],
+    "required": [
+        "timestamp",
+        "logbook"
+    ]
+}

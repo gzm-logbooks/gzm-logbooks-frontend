@@ -1,0 +1,12 @@
+{
+	"title": "logbook",
+	"version": 0,
+	"properties": {
+		"name": {
+			"type": "string",
+			"minLength": 1
+		}
+	},
+	"required": ["name"],
+	"indexes": ["name"]
+}

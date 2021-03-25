@@ -11,10 +11,17 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@braid/vue-formulate": "^2.5.2",
     "@nuxtjs/color-mode": "^2.0.5",
     "@nuxtjs/pwa": "^3.3.5",
+    "chart.js": "^2.9.4",
     "core-js": "^3.9.1",
+    "lodash-es": "^4.17.21",
     "nuxt": "^2.15.3",
+    "pouchdb-adapter-indexeddb": "^7.2.2",
+    "proxymise": "^1.0.2",
+    "rxdb": "^9.15.0",
+    "rxjs": "^6.6.6",
     "tailwindcss-dark-mode": "^1.1.7"
   },
   "devDependencies": {
