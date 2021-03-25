@@ -2,8 +2,10 @@
   <div class="bg-gray-50 flex-grow">
     <Header />
 
-    <div class="sm:max-w-xl mx-auto sm:my-6">
-      <div class="p-6 bg-white sm:rounded border border-indigo-200 shadow-sm">
+    <div class="sm:px-6">
+      <div
+        class="bg-white mx-auto p-6 sm:max-w-xl sm:my-6 border border-indigo-200 shadow-sm sm:rounded"
+      >
         <Nuxt />
       </div>
     </div>
