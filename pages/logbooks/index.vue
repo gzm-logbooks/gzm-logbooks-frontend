@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1 class="text-bold text-lg">this is the logbooks page ree</h1>
+  <LayoutPage>
+    <template #title><h1>Logbooks</h1></template>
 
     <ul>
       <li v-for="logbook in logbooks" :key="logbook.primary">
@@ -15,7 +15,7 @@
     </ul>
 
     <nuxt-link to="/logbooks/new">Add Logbook</nuxt-link>
-  </div>
+  </LayoutPage>
 </template>
 
 <script lang="javascript">

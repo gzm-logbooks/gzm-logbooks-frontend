@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <LayoutPage>
+    <template #title>
+      <h1>View logbook: {{ $get(logbook, 'name') }}</h1>
+    </template>
+
     <div v-if="!$fetchState.pending">
       <div class="p-3">{{ JSON.stringify(logbook) }}</div>
 
@@ -10,7 +14,7 @@
     </div>
 
     <nuxt-link to="/logbooks">back</nuxt-link>this is a logbook
-  </div>
+  </LayoutPage>
 </template>
 
 <script>

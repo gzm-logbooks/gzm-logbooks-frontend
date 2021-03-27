@@ -1,12 +1,7 @@
 <template>
-  <div class="bg-gray-50 flex-grow">
-    <Header />
-
-    <div class="sm:px-6">
-      <Card class="p-6 sm:max-w-6xl sm:my-6">
-        <Nuxt />
-      </Card>
-    </div>
+  <div class="bg-gray-50 flex flex-col flex-grow">
+    <LayoutHeader />
+    <Nuxt />
   </div>
 </template>
 

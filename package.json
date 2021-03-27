@@ -14,6 +14,8 @@
     "@braid/vue-formulate": "^2.5.2",
     "@nuxtjs/color-mode": "^2.0.5",
     "@nuxtjs/pwa": "^3.3.5",
+    "@tailwindcss/forms": "^0.3.2",
+    "@tailwindcss/typography": "^0.4.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.9.1",
     "lodash-es": "^4.17.21",

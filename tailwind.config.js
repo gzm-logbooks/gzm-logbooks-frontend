@@ -1,3 +1,6 @@
+import pluginForms from '@tailwindcss/forms'
+import pluginTypography from '@tailwindcss/typography'
+
 /*
  ** TailwindCSS Configuration File
  **
@@ -17,4 +20,5 @@ module.exports = {
     // borderColor: ['dark', 'dark-focus', 'dark-focus-within'],
     // textColor: ['dark', 'dark-hover', 'dark-active'],
   },
+  plugins: [pluginForms, pluginTypography],
 }
