@@ -82,12 +82,11 @@ export default {
     return {
       state: {},
       defaultState: {
-        red: 3 / 3,
-        amber: 2 / 3,
-        green: 1 / 3,
+        red: 3 / 3 / 2,
+        amber: 2 / 3 / 2,
+        green: 1 / 3 / 2,
       },
 
-      held: false,
       currentCircle: null,
     }
   },
@@ -134,22 +133,25 @@ export default {
       this.currentCircle = this.getCirclePicked(radius)
     },
 
+    endDrag(event) {
+      this.held = false
+      this.currentCircle = null
+
+      // Emit @input event for v-model.
+      this.$emit('input', { ...this.state })
+    },
+
     update(viewportCoords) {
-      //
-      if (!this.held) {
+      const { currentCircle } = this
+      const { radius } = this.getRelativeCoords(viewportCoords)
+
+      // Exit if not grabbing.
+      if (!currentCircle) {
         return
       }
 
       //
-      const { radius } = this.getRelativeCoords(viewportCoords)
-
-      this.resize(radius)
-    },
-
-    endDrag(event) {
-      this.held = false
-
-      this.$emit('input', { ...this.state })
+      this.updateCircleRadius(currentCircle, radius)
     },
 
     //
@@ -242,14 +244,6 @@ export default {
 
           break
       }
-    },
-
-    // TODO: Refactor...
-    resize(radius) {
-      // const circle = this.getCirclePicked(radius)
-
-      //
-      this.updateCircleRadius(this.currentCircle, radius)
     },
   },
 }
