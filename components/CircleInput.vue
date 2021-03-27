@@ -4,10 +4,13 @@
       <svg
         viewBox="0 0 1 1"
         class="raginput__inner__svg"
-        @mousemove="update"
-        @mousedown="mousedown"
-        @mouseup="mouseup"
-        @mouseleave="mouseup"
+        @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove"
+        @touchend="endDrag"
+        @mousedown="handleMouseDown"
+        @mousemove="handleMouseMove"
+        @mouseup="endDrag"
+        @mouseleave="endDrag"
       >
         <circle
           ref="background"
@@ -40,6 +43,19 @@
 </template>
 
 <script>
+function getTouchEventCoords(params) {
+  // Get viewpoint coords.
+  const { clientX: x, clientY: y } = event.changedTouches[0]
+
+  return { x, y }
+}
+
+function getMouseEventCoords(event) {
+  const { clientX: x, clientY: y } = event
+
+  return { x, y }
+}
+
 export default {
   components: {},
   props: {
@@ -59,48 +75,95 @@ export default {
   data() {
     return {
       held: false,
+      currentCircle: null,
     }
   },
   methods: {
-    mousedown(event) {
-      this.held = true
-    },
-    mouseup(event) {
-      this.held = false
-    },
-    update(event) {
-      if (this.held) {
-        this.animate(event)
-      }
+    handleTouchStart(event) {
+      // Prevent firing of mouse events.
+      event.preventDefault()
+
+      //
+      this.startDrag(getTouchEventCoords(event))
     },
 
-    animate(event) {
+    handleTouchMove(event) {
+      this.update(getTouchEventCoords(event))
+    },
+
+    handleMouseDown(event) {
+      this.startDrag(getMouseEventCoords(event))
+    },
+
+    handleMouseMove(event) {
+      this.update(getMouseEventCoords(event))
+    },
+
+    //
+    startDrag(viewportCoords) {
+      const { radius } = this.getRelativeCoords(viewportCoords)
+
+      this.held = true
+      this.currentCircle = this.getCirclePicked(radius)
+    },
+
+    update(viewportCoords) {
+      //
+      if (!this.held) {
+        return
+      }
+
+      //
+      const { radius } = this.getRelativeCoords(viewportCoords)
+
+      this.resize(radius)
+    },
+
+    endDrag(event) {
+      this.held = false
+    },
+
+    //
+    getRelativeCoords(viewportCoords) {
       // https://vuejs.org/v2/api/#el
       const container = this.$refs.background
 
       // https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
       const rect = container.getBoundingClientRect()
 
-      // Get relative X,Y postion from center.
-      const x = (event.clientX - rect.left - rect.width / 2) / rect.width
-      const y = (event.clientY - rect.top - rect.height / 2) / rect.height
+      // Get relative X,Y position from center.
+      const x = (viewportCoords.x - rect.left - rect.width / 2) / rect.width
+      const y = (viewportCoords.y - rect.top - rect.height / 2) / rect.height
 
-      // Get magnitute of the X,Y vector found above
+      // Get magnitude of the X,Y vector found above
       const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
 
-      // Print to console with string formatting.
-      console.log(`X: ${x}, Y: ${y}, R: ${radius}`)
+      return { x, y, radius }
+    },
 
+    //
+    getCirclePicked(radius) {
       // Pick which circle is effected.
       const thresh1 = (this.redSize + this.amberSize) / 2
       const thresh2 = (this.amberSize + this.greenSize) / 2
 
+      if (radius > thresh1) {
+        return 'red'
+      } else if (radius > thresh2) {
+        return 'amber'
+      } else {
+        return 'green'
+      }
+    },
+
+    // TODO: Refactor...
+    resize(radius) {
+      const circle = this.getCirclePicked(radius)
+
       const pad = 0.05
       const minr = 0.1
 
-      if (radius > thresh1) {
-        // https://vuejs.org/v2/guide/components-custom-events.html
-
+      if (circle === 'red') {
         if (radius > 0.5) {
           this.$emit('changed', { circle: 'red', radius: 0.5 })
         } else if (radius < minr + 2 * pad) {
@@ -121,7 +184,7 @@ export default {
             radius: this.amberSize - pad,
           })
         }
-      } else if (radius > thresh2) {
+      } else if (circle === 'amber') {
         if (radius > 0.5 - pad) {
           this.$emit('changed', { circle: 'amber', radius: 0.5 - pad })
         } else if (radius < minr + pad) {
@@ -143,7 +206,7 @@ export default {
           })
         }
       } else {
-        if (radius > 0.5 - 2 * pad) {
+        if (circle === 'green') {
           this.$emit('changed', { circle: 'green', radius: 0.5 - 2 * pad })
         } else if (radius < minr) {
           this.$emit('changed', { circle: 'green', radius: minr })
