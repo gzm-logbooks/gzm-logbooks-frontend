@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { clamp } from 'lodash-es'
+
 function getTouchEventCoords(params) {
   // Get viewpoint coords.
   const { clientX: x, clientY: y } = event.changedTouches[0]
@@ -190,17 +192,26 @@ export default {
     updateCircleRadius(circle, radius) {
       const pad = 0.05
       const minr = 0.1
+      const maxDepth = 2
+
+      const getMinRadius = (depth) => {
+        return minr + (maxDepth - depth) * pad
+      }
+
+      const getMaxRadius = (depth) => {
+        return 0.5 - pad * depth
+      }
 
       switch (circle) {
         case 'red':
-          if (radius > 0.5) {
-            this.$set(this.state, 'red', 0.5)
-          } else if (radius < minr + 2 * pad) {
-            this.$set(this.state, 'red', minr + 2 * pad)
-          } else {
-            this.$set(this.state, 'red', radius)
-          }
+          //
+          this.$set(
+            this.state,
+            'red',
+            clamp(radius, getMinRadius(0), getMaxRadius(0))
+          )
 
+          //
           if (this.model.red - this.model.amber < pad) {
             this.$set(this.state, 'amber', this.model.red - pad)
           }
@@ -210,13 +221,12 @@ export default {
 
           break
         case 'amber':
-          if (radius > 0.5 - pad) {
-            this.$set(this.state, 'amber', 0.5 - pad)
-          } else if (radius < minr + pad) {
-            this.$set(this.state, 'amber', minr + pad)
-          } else {
-            this.$set(this.state, 'amber', radius)
-          }
+          //
+          this.$set(
+            this.state,
+            'amber',
+            clamp(radius, getMinRadius(1), getMaxRadius(1))
+          )
 
           if (this.model.red - this.model.amber < pad) {
             this.$set(this.state, 'red', this.model.amber + pad)
@@ -227,13 +237,12 @@ export default {
 
           break
         case 'green':
-          if (radius > 0.5 - pad) {
-            this.$set(this.state, 'green', 0.5 - 2 * pad)
-          } else if (radius < minr) {
-            this.$set(this.state, 'green', minr)
-          } else {
-            this.$set(this.state, 'green', radius)
-          }
+          //
+          this.$set(
+            this.state,
+            'green',
+            clamp(radius, getMinRadius(2), getMaxRadius(2))
+          )
 
           if (this.model.amber - this.model.green < pad) {
             this.$set(this.state, 'amber', this.model.green + pad)
@@ -282,8 +291,8 @@ export default {
 }
 
 .raginput__circle--outer {
-  @apply text-green-400;
-  /* @apply stroke-green-800; */
+  @apply text-red-400;
+  /* @apply stroke-red-800; */
 }
 
 .raginput__circle--middle {
@@ -292,7 +301,7 @@ export default {
 }
 
 .raginput__circle--inner {
-  @apply text-red-400;
-  /* @apply stroke-red-800; */
+  @apply text-green-400;
+  /* @apply stroke-green-800; */
 }
 </style>
