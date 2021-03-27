@@ -13,7 +13,7 @@
       >
     </div>
 
-    <nuxt-link to="/logbooks">back</nuxt-link>this is a logbook
+    <nuxt-link to="/logbooks">back</nuxt-link>
   </LayoutPage>
 </template>
 

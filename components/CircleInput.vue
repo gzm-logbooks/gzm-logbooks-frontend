@@ -67,18 +67,6 @@ export default {
         return {}
       },
     },
-    redSize: {
-      type: Number,
-      default: 0.5,
-    },
-    amberSize: {
-      type: Number,
-      default: 0.33,
-    },
-    greenSize: {
-      type: Number,
-      default: 0.17,
-    },
   },
   data() {
     return {
@@ -260,7 +248,6 @@ export default {
 
 <style scoped>
 .raginput {
-  margin: auto;
   width: 100%;
 }
 

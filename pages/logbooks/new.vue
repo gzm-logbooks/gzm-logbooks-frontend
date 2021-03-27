@@ -1,9 +1,9 @@
 <template>
   <LayoutPage>
-    <template #title>this is a new logbook form</template>
+    <template #title>Add a new logbook</template>
 
     <Card class="p-6 m-4">
-      <LogbookForm @submit="save" />
+      <FormLogbook @submit="save" />
     </Card>
 
     <button class="btn" @click="$formulate.submit('logbook')">
@@ -16,20 +16,20 @@
 export default {
   methods: {
     async save(fields) {
-      //
-      const doc = await this.$db.logbooks.insert(fields).catch((err) => {
-        console.log(err)
+      // Create document in db.
+      const doc = await this.$db.logbooks
+        .insert(fields)
+        .catch((error) => console.log(error))
 
-        // const toast = await toastController.create({
-        //   message: err,
-        //   color: 'danger',
-        //   duration: 2000,
-        // })
+      if (doc) {
+        // Redirect to logbook page.
+        const logbookId = doc.primary
 
-        // toast.present()
-      })
-
-      console.log(doc)
+        this.$router.push({
+          name: 'logbooks-logbookId',
+          params: { logbookId },
+        })
+      }
     },
   },
 }
