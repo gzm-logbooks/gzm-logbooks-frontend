@@ -22,19 +22,19 @@
         <circle
           cx="0.5"
           cy="0.5"
-          :r="redSize"
+          :r="model.red"
           class="raginput__circle raginput__circle--outer"
         />
         <circle
           cx="0.5"
           cy="0.5"
-          :r="amberSize"
+          :r="model.amber"
           class="raginput__circle raginput__circle--middle"
         />
         <circle
           cx="0.5"
           cy="0.5"
-          :r="greenSize"
+          :r="model.green"
           class="raginput__circle raginput__circle--inner"
         />
       </svg>
@@ -59,6 +59,12 @@ function getMouseEventCoords(event) {
 export default {
   components: {},
   props: {
+    value: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
     redSize: {
       type: Number,
       default: 0.5,
@@ -74,9 +80,30 @@ export default {
   },
   data() {
     return {
+      state: {},
+      defaultState: {
+        red: 3 / 3,
+        amber: 2 / 3,
+        green: 1 / 3,
+      },
+
       held: false,
       currentCircle: null,
     }
+  },
+  computed: {
+    model: {
+      get() {
+        return {
+          ...this.defaultState,
+          ...this.value,
+          ...this.state,
+        }
+      },
+      set(newValue) {
+        this.state = newValue
+      },
+    },
   },
   methods: {
     handleTouchStart(event) {
@@ -121,6 +148,8 @@ export default {
 
     endDrag(event) {
       this.held = false
+
+      this.$emit('input', { ...this.state })
     },
 
     //
@@ -144,8 +173,8 @@ export default {
     //
     getCirclePicked(radius) {
       // Pick which circle is effected.
-      const thresh1 = (this.redSize + this.amberSize) / 2
-      const thresh2 = (this.amberSize + this.greenSize) / 2
+      const thresh1 = (this.model.red + this.model.amber) / 2
+      const thresh2 = (this.model.amber + this.model.green) / 2
 
       if (radius > thresh1) {
         return 'red'
@@ -156,77 +185,71 @@ export default {
       }
     },
 
-    // TODO: Refactor...
-    resize(radius) {
-      const circle = this.getCirclePicked(radius)
-
+    updateCircleRadius(circle, radius) {
       const pad = 0.05
       const minr = 0.1
 
-      if (circle === 'red') {
-        if (radius > 0.5) {
-          this.$emit('changed', { circle: 'red', radius: 0.5 })
-        } else if (radius < minr + 2 * pad) {
-          this.$emit('changed', { circle: 'red', radius: minr + 2 * pad })
-        } else {
-          this.$emit('changed', { circle: 'red', radius })
-        }
+      switch (circle) {
+        case 'red':
+          if (radius > 0.5) {
+            this.$set(this.state, 'red', 0.5)
+          } else if (radius < minr + 2 * pad) {
+            this.$set(this.state, 'red', minr + 2 * pad)
+          } else {
+            this.$set(this.state, 'red', radius)
+          }
 
-        if (this.redSize - this.amberSize < pad) {
-          this.$emit('changed', {
-            circle: 'amber',
-            radius: this.redSize - pad,
-          })
-        }
-        if (this.amberSize - this.greenSize < pad) {
-          this.$emit('changed', {
-            circle: 'green',
-            radius: this.amberSize - pad,
-          })
-        }
-      } else if (circle === 'amber') {
-        if (radius > 0.5 - pad) {
-          this.$emit('changed', { circle: 'amber', radius: 0.5 - pad })
-        } else if (radius < minr + pad) {
-          this.$emit('changed', { circle: 'amber', radius: minr + pad })
-        } else {
-          this.$emit('changed', { circle: 'amber', radius })
-        }
+          if (this.model.red - this.model.amber < pad) {
+            this.$set(this.state, 'amber', this.model.red - pad)
+          }
+          if (this.model.amber - this.model.green < pad) {
+            this.$set(this.state, 'green', this.model.amber - pad)
+          }
 
-        if (this.redSize - this.amberSize < pad) {
-          this.$emit('changed', {
-            circle: 'red',
-            radius: this.amberSize + pad,
-          })
-        }
-        if (this.amberSize - this.greenSize < pad) {
-          this.$emit('changed', {
-            circle: 'green',
-            radius: this.amberSize - pad,
-          })
-        }
-      } else {
-        if (circle === 'green') {
-          this.$emit('changed', { circle: 'green', radius: 0.5 - 2 * pad })
-        } else if (radius < minr) {
-          this.$emit('changed', { circle: 'green', radius: minr })
-        } else {
-          this.$emit('changed', { circle: 'green', radius })
-        }
+          break
+        case 'amber':
+          if (radius > 0.5 - pad) {
+            this.$set(this.state, 'amber', 0.5 - pad)
+          } else if (radius < minr + pad) {
+            this.$set(this.state, 'amber', minr + pad)
+          } else {
+            this.$set(this.state, 'amber', radius)
+          }
 
-        if (this.amberSize - this.greenSize < pad) {
-          this.$emit('changed', {
-            circle: 'amber',
-            radius: this.greenSize + pad,
-          })
-        }
-        if (this.redSize - this.amberSize < pad) {
-          this.$emit('changed', {
-            circle: 'red',
-            radius: this.amberSize + pad,
-          })
-        }
+          if (this.model.red - this.model.amber < pad) {
+            this.$set(this.state, 'red', this.model.amber + pad)
+          }
+          if (this.model.amber - this.model.green < pad) {
+            this.$set(this.state, 'green', this.model.amber - pad)
+          }
+
+          break
+        case 'green':
+          if (radius > 0.5 - pad) {
+            this.$set(this.state, 'green', 0.5 - 2 * pad)
+          } else if (radius < minr) {
+            this.$set(this.state, 'green', minr)
+          } else {
+            this.$set(this.state, 'green', radius)
+          }
+
+          if (this.model.amber - this.model.green < pad) {
+            this.$set(this.state, 'amber', this.model.green + pad)
+          }
+          if (this.model.red - this.model.amber < pad) {
+            this.$set(this.state, 'red', this.model.amber + pad)
+          }
+
+          break
       }
+    },
+
+    // TODO: Refactor...
+    resize(radius) {
+      // const circle = this.getCirclePicked(radius)
+
+      //
+      this.updateCircleRadius(this.currentCircle, radius)
     },
   },
 }
