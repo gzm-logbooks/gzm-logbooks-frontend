@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>this is the logbooks page ree</h1>
+    <h1 class="text-bold text-lg">this is the logbooks page ree</h1>
 
     <ul>
       <li v-for="logbook in logbooks" :key="logbook.primary">

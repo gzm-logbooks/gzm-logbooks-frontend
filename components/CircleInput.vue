@@ -185,23 +185,34 @@ export default {
   flex: 1;
 }
 
+.raginput__background,
+.raginput__circle {
+  @apply fill-current;
+  @apply border;
+}
+
 .raginput__background {
-  fill: rgba(255, 255, 255, 0.2);
+  @apply text-gray-200;
+  /* @apply stroke-gray-400; */
 }
 
 .raginput__circle {
-  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
+  /* @apply shadow;
+  filter: drop-shadow(var(--tw-shadow)); */
 }
 
 .raginput__circle--outer {
-  fill: var(--ion-color-danger);
+  @apply text-green-400;
+  /* @apply stroke-green-800; */
 }
 
 .raginput__circle--middle {
-  fill: var(--ion-color-warning);
+  @apply text-yellow-400;
+  /* @apply stroke-yellow-800; */
 }
 
 .raginput__circle--inner {
-  fill: var(--ion-color-success);
+  @apply text-red-400;
+  /* @apply stroke-red-800; */
 }
 </style>

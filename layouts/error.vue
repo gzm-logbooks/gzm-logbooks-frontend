@@ -2,13 +2,13 @@
   <div>
     <h1 v-if="error.statusCode === 404">Page not found</h1>
     <h1 v-else>An error occurred</h1>
-    <NuxtLink to="/"> </NuxtLink>
+    <nuxt-link to="/"> </nuxt-link>
   </div>
 </template>
 
 <script>
-  export default {
-    props: ['error'],
-    layout: 'error'
-  }
+export default {
+  layout: 'error',
+  props: ['error'],
+}
 </script>

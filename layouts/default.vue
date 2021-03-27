@@ -3,11 +3,9 @@
     <Header />
 
     <div class="sm:px-6">
-      <div
-        class="bg-white mx-auto p-6 sm:max-w-xl sm:my-6 border border-indigo-200 shadow-sm sm:rounded"
-      >
+      <Card class="p-6 sm:max-w-6xl sm:my-6">
         <Nuxt />
-      </div>
+      </Card>
     </div>
   </div>
 </template>
