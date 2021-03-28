@@ -1,7 +1,7 @@
 <script>
 export default {
   middleware({ redirect, app }) {
-    redirect('logbooks')
+    redirect({ name: 'logbooks' })
   },
 }
 </script>
