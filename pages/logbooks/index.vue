@@ -14,7 +14,7 @@
       </li>
     </ul>
 
-    <nuxt-link to="/logbooks/new">Add Logbook</nuxt-link>
+    <nuxt-link class="btn" to="/logbooks/new">Add Logbook</nuxt-link>
   </LayoutPage>
 </template>
 
