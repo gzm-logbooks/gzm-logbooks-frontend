@@ -24,7 +24,7 @@ export default {
         // Redirect to logbook page.
         const logbookId = doc.primary
 
-        this.$router.push({
+        return this.$router.push({
           name: 'logbooks-logbookId',
           params: { logbookId },
         })

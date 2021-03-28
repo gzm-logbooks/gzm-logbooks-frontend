@@ -119,12 +119,17 @@ export default {
     startDrag(viewportCoords) {
       const { radius } = this.getRelativeCoords(viewportCoords)
 
-      this.held = true
       this.currentCircle = this.getCirclePicked(radius)
     },
 
     endDrag(event) {
-      this.held = false
+      const { currentCircle } = this
+
+      // Exit if not grabbing.
+      if (!currentCircle) {
+        return
+      }
+
       this.currentCircle = null
 
       // Emit @input event for v-model.

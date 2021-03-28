@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { circleInputModelToEntryAmounts } from '~/data/utils'
+
 export default {
   data() {
     return {
@@ -25,6 +27,7 @@ export default {
       rag: {},
     }
   },
+
   async fetch() {
     const { logbookId } = this.$route.params
 
@@ -33,26 +36,18 @@ export default {
 
     // Redirect if logbook is missing.
     if (!this.logbook) {
-      this.$router.push({ name: 'logbooks' })
+      return this.$router.push({ name: 'logbooks' })
     }
   },
+
   methods: {
     async save(fields) {
       const { rag, logbook } = this
 
-      //
-      const amounts = (rag) => {
-        return {
-          amountRed: rag.red,
-          amountAmber: rag.amber,
-          amountGreen: rag.green,
-        }
-      }
-
       // Build document data.
       const data = {
         ...fields,
-        ...amounts(rag),
+        ...circleInputModelToEntryAmounts(rag),
         timestamp: new Date(fields.timestamp).toISOString(),
         logbook: logbook.primary,
       }
@@ -65,7 +60,7 @@ export default {
         // Redirect to logbook page.
         const logbookId = this.logbook.primary
 
-        this.$router.push({
+        return this.$router.push({
           name: 'logbooks-logbookId',
           params: { logbookId },
         })

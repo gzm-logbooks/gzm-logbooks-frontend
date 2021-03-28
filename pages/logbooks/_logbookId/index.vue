@@ -10,8 +10,8 @@
       <div v-for="entry in entries" :key="entry.primary">
         <nuxt-link
           :to="{
-            name: 'entry-show',
-            params: { entry: entry.primary },
+            name: 'logbooks-logbookId-entries-entryId',
+            params: { logbookId: logbook.primary, entryId: entry.primary },
           }"
         >
           {{ new Date(entry.timestamp).toDateString() }}
@@ -19,7 +19,7 @@
       </div>
 
       <nuxt-link
-        :to="{ name: 'logbooks-logbookId-entry-new', params: { logbookId } }"
+        :to="{ name: 'logbooks-logbookId-entries-new', params: { logbookId } }"
         >Add entry</nuxt-link
       >
     </div>
@@ -45,14 +45,12 @@ export default {
     // Get logbook entry records.
     this.entries = await this.$db.entries
       .find()
-      .where({ subject: logbookId })
+      .where({ logbook: logbookId })
       .exec()
-
-    console.log(this.entries)
 
     // Redirect if logbook is missing.
     if (!this.logbook) {
-      this.$router.push({ name: 'logbooks' })
+      return this.$router.push({ name: 'logbooks' })
     }
   },
 

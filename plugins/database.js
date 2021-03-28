@@ -6,8 +6,8 @@ import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 import proxymise from 'proxymise'
 
 // Load schemas.
-import entrySchema from '@/schemas/entry.json'
-import logbookSchema from '@/schemas/logbook.json'
+import entrySchema from '~/data/schemas/entry.json'
+import logbookSchema from '~/data/schemas/logbook.json'
 
 // Add plugins.
 addRxPlugin(RxDBValidatePlugin)
