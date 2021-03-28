@@ -17,9 +17,8 @@ export default {
   methods: {
     async save(fields) {
       // Create document in db.
-      const doc = await this.$db.logbooks
-        .insert(fields)
-        .catch((error) => console.log(error))
+      const doc = await this.$db.logbooks.insert(fields)
+      // .catch(error) => console.log(error))
 
       if (doc) {
         // Redirect to logbook page.

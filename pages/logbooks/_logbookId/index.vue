@@ -7,6 +7,17 @@
     <div v-if="!$fetchState.pending">
       <div class="p-3">{{ JSON.stringify(logbook) }}</div>
 
+      <div v-for="entry in entries" :key="entry.primary">
+        <nuxt-link
+          :to="{
+            name: 'entry-show',
+            params: { entry: entry.primary },
+          }"
+        >
+          {{ new Date(entry.timestamp).toDateString() }}
+        </nuxt-link>
+      </div>
+
       <nuxt-link
         :to="{ name: 'logbooks-logbookId-entry-new', params: { logbookId } }"
         >Add entry</nuxt-link
@@ -26,19 +37,23 @@ export default {
   },
 
   async fetch() {
-    const { route, redirect, $db } = this.$nuxt.context
-    const { logbookId } = route.params
+    const { logbookId } = this.$route.params
 
     // Get logbook record from database.
-    const logbook = await $db.logbooks.findOne(logbookId).exec()
+    this.logbook = await this.$db.logbooks.findOne(logbookId).exec()
+
+    // Get logbook entry records.
+    this.entries = await this.$db.entries
+      .find()
+      .where({ subject: logbookId })
+      .exec()
+
+    console.log(this.entries)
 
     // Redirect if logbook is missing.
-    if (!logbook) {
-      return redirect('/logbooks')
+    if (!this.logbook) {
+      this.$router.push({ name: 'logbooks' })
     }
-
-    //
-    this.logbook = logbook
   },
 
   computed: {

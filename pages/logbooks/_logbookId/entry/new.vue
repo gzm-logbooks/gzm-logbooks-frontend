@@ -21,24 +21,24 @@ export default {
   data() {
     return {
       fields: {},
-      rag: {},
       logbook: {},
+      rag: {},
     }
   },
   async fetch() {
-    this.logbook = await this.$db.logbooks
-      .findOne(this.$nuxt.context.route.params.logbooks)
-      .exec()
+    const { logbookId } = this.$route.params
 
+    // Get logbook record from database.
+    this.logbook = await this.$db.logbooks.findOne(logbookId).exec()
+
+    // Redirect if logbook is missing.
     if (!this.logbook) {
-      // TODO: Handle error.
-      throw new Error('Logbook does not exist')
+      this.$router.push({ name: 'logbooks' })
     }
   },
   methods: {
     async save(fields) {
       const { rag, logbook } = this
-      console.log(fields)
 
       //
       const amounts = (rag) => {
@@ -58,9 +58,8 @@ export default {
       }
 
       // Create document in db.
-      const doc = await this.$db.entries
-        .insert(data)
-        .catch((error) => console.log(error))
+      const doc = await this.$db.entries.insert(data)
+      // .catch((error) => console.log(error))
 
       if (doc) {
         // Redirect to logbook page.
