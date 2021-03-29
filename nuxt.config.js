@@ -41,6 +41,9 @@ export default {
 
     // https://vueformulate.com/guide
     '@braid/vue-formulate/nuxt',
+
+    // https://github.com/nuxt/vite
+    'nuxt-vite',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
