@@ -8,7 +8,17 @@
 
     <FormEntry :values="fields" @submit="save" />
 
-    <button class="btn" @click="$formulate.submit('entry')">Save</button>
+    <div class="flex justify-between mt-6">
+      <button class="button" @click="$formulate.submit('entry')">Save</button>
+    </div>
+
+    <!-- -->
+    <template #debug>
+      <Card>
+        <template #title>Saved data</template>
+        <pre>{{ JSON.stringify(entry, null, 2) }}</pre>
+      </Card>
+    </template>
   </LayoutPage>
 </template>
 

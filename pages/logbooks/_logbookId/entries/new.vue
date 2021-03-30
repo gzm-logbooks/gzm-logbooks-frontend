@@ -12,7 +12,11 @@
 
     <FormEntry v-model="fields" @submit="save" />
 
-    <button class="btn" @click="$formulate.submit('entry')">Add entry</button>
+    <div class="flex justify-between mt-6">
+      <button class="button" @click="$formulate.submit('entry')">
+        Add entry
+      </button>
+    </div>
   </LayoutPage>
 </template>
 

@@ -1,12 +1,16 @@
 <template>
   <LayoutPage>
-    <template #title>Add a new logbook</template>
+    <template #title>
+      <h1>Add a new logbook</h1>
+    </template>
 
-    <Card class="p-6 m-4">
+    <Card class="m-4">
+      <template #title>Logbook details</template>
+
       <FormLogbook @submit="save" />
     </Card>
 
-    <button class="btn" @click="$formulate.submit('logbook')">
+    <button class="button" @click="$formulate.submit('logbook')">
       Create logbook
     </button>
   </LayoutPage>

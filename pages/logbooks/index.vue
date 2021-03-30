@@ -1,6 +1,8 @@
 <template>
   <LayoutPage>
-    <template #title><h1>Logbooks</h1></template>
+    <template #title>
+      <h1>My logbooks</h1>
+    </template>
 
     <ul>
       <li v-for="logbook in logbooks" :key="logbook.primary">
@@ -14,7 +16,9 @@
       </li>
     </ul>
 
-    <nuxt-link class="btn" to="/logbooks/new">Add Logbook</nuxt-link>
+    <div class="flex justify-between mt-6">
+      <nuxt-link class="button block" to="/logbooks/new">Add Logbook</nuxt-link>
+    </div>
   </LayoutPage>
 </template>
 
