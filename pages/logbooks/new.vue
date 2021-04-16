@@ -6,9 +6,11 @@
       <FormLogbook @submit="save" />
     </Card>
 
-    <button class="btn" @click="$formulate.submit('logbook')">
-      Create logbook
-    </button>
+    <div class="flex justify-end">
+      <button class="button" @click="$formulate.submit('logbook')">
+        Create
+      </button>
+    </div>
   </LayoutPage>
 </template>
 

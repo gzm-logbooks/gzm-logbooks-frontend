@@ -3,7 +3,7 @@
     <FormulateInput
       type="text"
       name="name"
-      label="Name your Logbook"
+      label="Logbook Name"
       validation="required"
     />
   </FormulateForm>

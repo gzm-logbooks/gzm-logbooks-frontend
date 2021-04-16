@@ -21,4 +21,7 @@ module.exports = {
     // textColor: ['dark', 'dark-hover', 'dark-active'],
   },
   plugins: [pluginForms, pluginTypography],
+  purge: {
+    content: ['formulate.config.js'],
+  },
 }

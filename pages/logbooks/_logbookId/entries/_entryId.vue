@@ -8,7 +8,7 @@
 
     <FormEntry :values="fields" @submit="save" />
 
-    <button class="btn" @click="$formulate.submit('entry')">Save</button>
+    <button class="button" @click="$formulate.submit('entry')">Save</button>
   </LayoutPage>
 </template>
 

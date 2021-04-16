@@ -1,5 +1,0 @@
-font-light
-font-normal
-font-bold
-
-text-red-700

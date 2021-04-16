@@ -24,7 +24,6 @@
       >
     </div>
 
-    <nuxt-link class="btn" to="/logbooks">back</nuxt-link>
   </LayoutPage>
 </template>
 

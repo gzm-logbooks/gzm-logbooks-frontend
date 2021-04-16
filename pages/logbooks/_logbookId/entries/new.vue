@@ -12,7 +12,8 @@
 
     <FormEntry v-model="fields" @submit="save" />
 
-    <button class="btn" @click="$formulate.submit('entry')">Add entry</button>
+    <button class="button" @click="$formulate.submit('entry')">Add entry</button>
+
   </LayoutPage>
 </template>
 
