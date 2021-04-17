@@ -6,7 +6,6 @@
       </div>
 
       <slot />
-
     </LayoutContainer>
 
     <slot name="fullwidth" />
