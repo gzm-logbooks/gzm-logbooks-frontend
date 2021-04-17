@@ -1,3 +1,9 @@
+// import globals from '@rollup/plugin-node-resolve'
+
+// //
+// const globalsPlugin = globals();
+// globalsPlugin.name = 'globals'; // required, see https://github.com/vitejs/vite/issues/728
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -41,6 +47,9 @@ export default {
 
     // https://vueformulate.com/guide
     '@braid/vue-formulate/nuxt',
+
+    // https://github.com/nuxt/vite
+    // 'nuxt-vite',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -56,7 +65,7 @@ export default {
   tailwindcss: {
     jit: true,
     // add '~tailwind.config` alias
-    exposeConfig: true,
+    // exposeConfig: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -68,4 +77,20 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  // vite: {
+  //   /* options for vite */
+  //   // optimizeDeps: {
+  //   //   include: ['rxdb/plugins/core'], // try to limit scope of optimized module
+  //   //   exclude: ['rxdb'],
+  //   // },
+
+  //   build: {
+  //     rollupOptions: {
+  //       plugins: {
+  //         globalsPlugin,
+  //       },
+  //     },
+  //   },
+  // },
 }

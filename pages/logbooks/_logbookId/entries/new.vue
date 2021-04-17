@@ -1,31 +1,39 @@
 <template>
-  <LayoutPage>
-    <template #title>
-      <h1>Add a new entry</h1>
-    </template>
+  <LayoutPage v-if="!$fetchState.pending">
+    <LayoutPageHeader>
+      <template #title>
+        <h1>Add a new entry</h1>
+      </template>
 
-    <div class="mb-4">
-      <span class="text-xl italic">How did things go today?</span>
+      <nuxt-link class="link" :to="logbook.getRoute()">
+        Back to logbook "{{ logbook.name }}"
+      </nuxt-link>
+    </LayoutPageHeader>
+
+    <Card class="mb-4">
+      <div class="mb-4 flex justify-center">
+        <span class="text-xl italic">How did things go today?</span>
+      </div>
+
+      <FormulateForm v-model="fields" name="entry" @submit="save">
+        <FormEntryFields />
+      </FormulateForm>
+    </Card>
+
+    <div class="flex justify-end">
+      <button class="button" @click="$formulate.submit('entry')">
+        Add entry
+      </button>
     </div>
-
-    <CircleInput v-model="rag" class="mb-4" />
-
-    <FormEntry v-model="fields" @submit="save" />
-
-    <button class="button" @click="$formulate.submit('entry')">Add entry</button>
-
   </LayoutPage>
 </template>
 
 <script>
-import { circleInputModelToEntryAmounts } from '~/data/utils'
-
 export default {
   data() {
     return {
       fields: {},
       logbook: {},
-      rag: {},
     }
   },
 
@@ -43,12 +51,14 @@ export default {
 
   methods: {
     async save(fields) {
-      const { rag, logbook } = this
+      const { logbook } = this
+
+      const { comment, mood } = fields
 
       // Build document data.
       const data = {
-        ...fields,
-        ...circleInputModelToEntryAmounts(rag),
+        ...mood,
+        comment,
         timestamp: new Date(fields.timestamp).toISOString(),
         logbook: logbook.primary,
       }
@@ -58,13 +68,8 @@ export default {
       // .catch((error) => console.log(error))
 
       if (doc) {
-        // Redirect to logbook page.
-        const logbookId = this.logbook.primary
-
-        return this.$router.push({
-          name: 'logbooks-logbookId',
-          params: { logbookId },
-        })
+        // Back to logbook.
+        return this.$router.push(this.logbook.getRoute())
       }
     },
   },

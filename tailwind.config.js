@@ -1,5 +1,5 @@
-import pluginForms from '@tailwindcss/forms'
-import pluginTypography from '@tailwindcss/typography'
+// import pluginForms from '@tailwindcss/forms'
+// import pluginTypography from '@tailwindcss/typography'
 
 /*
  ** TailwindCSS Configuration File
@@ -9,6 +9,14 @@ import pluginTypography from '@tailwindcss/typography'
  */
 module.exports = {
   darkMode: 'class',
+  // theme: {
+  //   stroke: (theme) => ({
+  //     current: 'currentColor',
+  //     red: theme('colors.red.500'),
+  //     green: theme('colors.green.800'),
+  //     blue: theme('colors.blue.500'),
+  //   }),
+  // },
   variants: {
     // backgroundColor: [
     //   'dark',
@@ -20,7 +28,10 @@ module.exports = {
     // borderColor: ['dark', 'dark-focus', 'dark-focus-within'],
     // textColor: ['dark', 'dark-hover', 'dark-active'],
   },
-  plugins: [pluginForms, pluginTypography],
+  plugins: [
+    // pluginForms,
+    // pluginTypography
+  ],
   purge: {
     content: ['formulate.config.js'],
   },

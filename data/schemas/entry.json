@@ -8,7 +8,7 @@
         },
         "logbook": {
             "type": "string",
-            "ref": "logbook"
+            "ref": "logbooks"
         },
         "amountRed": {
             "type": "number"

@@ -1,8 +1,12 @@
 <template>
-  <LayoutPage>
-    <template #title><h1>Logbooks</h1></template>
+  <LayoutPage v-if="!$fetchState.pending">
+    <LayoutPageHeader>
+      <template #title>
+        <h1>Logbooks</h1>
+      </template>
+    </LayoutPageHeader>
 
-    <Card class="p-6 m-4">
+    <Card class="mb-4">
       <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
         <LogbookItem
           v-for="logbook in logbooks"

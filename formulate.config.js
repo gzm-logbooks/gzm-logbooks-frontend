@@ -1,4 +1,9 @@
 export default {
+  library: {
+    'mood-circle': {
+      component: 'FormulateCircleInput',
+    },
+  },
   classes: {
     outer: 'mb-4',
     input(context) {

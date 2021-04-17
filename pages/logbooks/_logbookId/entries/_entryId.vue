@@ -1,23 +1,29 @@
 <template>
-  <LayoutPage>
-    <template #title>
-      <h1>Update existing entry</h1>
-    </template>
+  <LayoutPage v-if="!$fetchState.pending">
+    <LayoutPageHeader>
+      <template #title>
+        <h1>Update existing entry</h1>
+      </template>
 
-    <CircleInput v-model="rag" class="mb-4" />
+      <nuxt-link class="link" :to="logbook.getRoute()">
+        Back to logbook "{{ logbook.name }}"
+      </nuxt-link>
+    </LayoutPageHeader>
 
-    <FormEntry :values="fields" @submit="save" />
+    <Card class="mb-4">
+      <FormulateForm v-model="fields" name="entry" @submit="save">
+        <FormEntryFields />
+      </FormulateForm>
+    </Card>
 
-    <button class="button" @click="$formulate.submit('entry')">Save</button>
+    <div class="flex justify-end">
+      <button class="button" @click="$formulate.submit('entry')">Save</button>
+    </div>
   </LayoutPage>
 </template>
 
 <script>
 import { format } from 'date-fns'
-import {
-  circleInputModelToEntryAmounts,
-  entryAmountsToCircleInputModel,
-} from '~/data/utils'
 
 export default {
   data() {
@@ -25,22 +31,21 @@ export default {
       entry: {},
       fields: {},
       logbook: {},
-      rag: {},
     }
   },
 
   async fetch() {
     const { logbookId, entryId } = this.$route.params
 
-    // Get logbook record from database.
-    this.logbook = await this.$db.logbooks.findOne(logbookId).exec()
-
-    // Get logbook entry record from database.
+    // Get entry record from database.
     this.entry = await this.$db.entries
       .findOne({
         selector: { logbook: logbookId, timestamp: entryId },
       })
       .exec()
+
+    // Get logbook record from database.
+    this.logbook = await this.entry.populate('logbook')
 
     // Redirect if logbook is missing.
     if (!this.logbook || !this.entry) {
@@ -59,25 +64,36 @@ export default {
 
   methods: {
     reset() {
-      const { timestamp, comment } = this.entry
+      const {
+        timestamp,
+        comment,
 
-      //
-      this.rag = entryAmountsToCircleInputModel(this.entry)
+        amountRed,
+        amountAmber,
+        amountGreen,
+      } = this.entry
 
       //
       this.fields = {
         timestamp: format(new Date(timestamp), 'yyyy-MM-dd'),
         comment,
+        mood: {
+          amountRed,
+          amountAmber,
+          amountGreen,
+        },
       }
     },
 
     async save(fields) {
-      const { rag, logbook } = this
+      const { logbook } = this
+
+      const { comment, mood } = fields
 
       // Build document data.
       const data = {
-        ...fields,
-        ...circleInputModelToEntryAmounts(rag),
+        ...mood,
+        comment,
         timestamp: new Date(fields.timestamp).toISOString(),
         logbook: logbook.primary,
       }
@@ -87,13 +103,8 @@ export default {
       // .catch((error) => console.log(error))
 
       if (doc) {
-        // Redirect to logbook page.
-        const logbookId = this.logbook.primary
-
-        return this.$router.push({
-          name: 'logbooks-logbookId',
-          params: { logbookId },
-        })
+        // Back to logbook page.
+        return this.$router.push(this.logbook.getRoute())
       }
     },
   },

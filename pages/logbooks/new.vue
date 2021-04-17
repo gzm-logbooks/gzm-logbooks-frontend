@@ -1,8 +1,12 @@
 <template>
   <LayoutPage>
-    <template #title>Add a new logbook</template>
+    <LayoutPageHeader>
+      <template #title>
+        <h1>Add a new logbook</h1>
+      </template>
+    </LayoutPageHeader>
 
-    <Card class="p-6 m-4">
+    <Card class="mb-4">
       <FormLogbook @submit="save" />
     </Card>
 
@@ -24,12 +28,7 @@ export default {
 
       if (doc) {
         // Redirect to logbook page.
-        const logbookId = doc.primary
-
-        return this.$router.push({
-          name: 'logbooks-logbookId',
-          params: { logbookId },
-        })
+        return this.$router.push(doc.getRoute())
       }
     },
   },

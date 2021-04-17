@@ -1,5 +1,5 @@
 <template>
-  <div class="raginput">
+  <div class="raginput" :class="{ active }">
     <div class="raginput__inner">
       <svg
         viewBox="0 0 1 1"
@@ -22,19 +22,22 @@
         <circle
           cx="0.5"
           cy="0.5"
-          :r="model.red"
+          r="0.5"
+          :transform="`scale(${model.red})`"
           class="raginput__circle raginput__circle--outer"
         />
         <circle
           cx="0.5"
           cy="0.5"
-          :r="model.amber"
+          r="0.5"
+          :transform="`scale(${model.amber})`"
           class="raginput__circle raginput__circle--middle"
         />
         <circle
           cx="0.5"
           cy="0.5"
-          :r="model.green"
+          r="0.5"
+          :transform="`scale(${model.green})`"
           class="raginput__circle raginput__circle--inner"
         />
       </svg>
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-import { clamp } from 'lodash-es'
+import { clamp, defaults } from 'lodash-es'
 
 function getTouchEventCoords(params) {
   // Get viewpoint coords.
@@ -72,22 +75,21 @@ export default {
     return {
       state: {},
       defaultState: {
-        red: 3 / 3 / 2,
-        amber: 2 / 3 / 2,
-        green: 1 / 3 / 2,
+        red: 3 / 3,
+        amber: 2 / 3,
+        green: 1 / 3,
       },
 
       currentCircle: null,
     }
   },
   computed: {
+    active() {
+      return !!this.currentCircle
+    },
     model: {
       get() {
-        return {
-          ...this.defaultState,
-          ...this.value,
-          ...this.state,
-        }
+        return defaults({}, this.state, this.value, this.defaultState)
       },
       set(newValue) {
         this.state = newValue
@@ -117,9 +119,9 @@ export default {
 
     //
     startDrag(viewportCoords) {
-      const { radius } = this.getRelativeCoords(viewportCoords)
+      const { scale } = this.getRelativeCoords(viewportCoords)
 
-      this.currentCircle = this.getCirclePicked(radius)
+      this.currentCircle = this.getCirclePicked(scale)
     },
 
     endDrag(event) {
@@ -133,12 +135,11 @@ export default {
       this.currentCircle = null
 
       // Emit @input event for v-model.
-      this.$emit('input', { ...this.state })
+      this.$emit('input', { ...this.model })
     },
 
     update(viewportCoords) {
       const { currentCircle } = this
-      const { radius } = this.getRelativeCoords(viewportCoords)
 
       // Exit if not grabbing.
       if (!currentCircle) {
@@ -146,7 +147,8 @@ export default {
       }
 
       //
-      this.updateCircleRadius(currentCircle, radius)
+      const { scale } = this.getRelativeCoords(viewportCoords)
+      this.updateCircleScale(currentCircle, scale)
     },
 
     //
@@ -162,37 +164,37 @@ export default {
       const y = (viewportCoords.y - rect.top - rect.height / 2) / rect.height
 
       // Get magnitude of the X,Y vector found above
-      const radius = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+      const scale = 2 * Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
 
-      return { x, y, radius }
+      return { x, y, scale }
     },
 
     //
-    getCirclePicked(radius) {
+    getCirclePicked(scale) {
       // Pick which circle is effected.
       const thresh1 = (this.model.red + this.model.amber) / 2
       const thresh2 = (this.model.amber + this.model.green) / 2
 
-      if (radius > thresh1) {
+      if (scale > thresh1) {
         return 'red'
-      } else if (radius > thresh2) {
+      } else if (scale > thresh2) {
         return 'amber'
       } else {
         return 'green'
       }
     },
 
-    updateCircleRadius(circle, radius) {
+    updateCircleScale(circle, scale) {
       const pad = 0.05
       const minr = 0.1
       const maxDepth = 2
 
-      const getMinRadius = (depth) => {
+      const getMinScale = (depth) => {
         return minr + (maxDepth - depth) * pad
       }
 
-      const getMaxRadius = (depth) => {
-        return 0.5 - pad * depth
+      const getMaxScale = (depth) => {
+        return 1 - pad * depth
       }
 
       switch (circle) {
@@ -201,7 +203,7 @@ export default {
           this.$set(
             this.state,
             'red',
-            clamp(radius, getMinRadius(0), getMaxRadius(0))
+            clamp(scale, getMinScale(0), getMaxScale(0))
           )
 
           //
@@ -218,7 +220,7 @@ export default {
           this.$set(
             this.state,
             'amber',
-            clamp(radius, getMinRadius(1), getMaxRadius(1))
+            clamp(scale, getMinScale(1), getMaxScale(1))
           )
 
           if (this.model.red - this.model.amber < pad) {
@@ -234,7 +236,7 @@ export default {
           this.$set(
             this.state,
             'green',
-            clamp(radius, getMinRadius(2), getMaxRadius(2))
+            clamp(scale, getMinScale(2), getMaxScale(2))
           )
 
           if (this.model.amber - this.model.green < pad) {
@@ -278,22 +280,23 @@ export default {
 }
 
 .raginput__circle {
-  /* @apply shadow;
-  filter: drop-shadow(var(--tw-shadow)); */
+  @apply scale-100 origin-center;
+  @apply transition-transform duration-700;
+}
+
+.active .raginput__circle {
+  @apply transition-none;
 }
 
 .raginput__circle--outer {
   @apply text-red-400;
-  /* @apply stroke-red-800; */
 }
 
 .raginput__circle--middle {
   @apply text-yellow-400;
-  /* @apply stroke-yellow-800; */
 }
 
 .raginput__circle--inner {
   @apply text-green-400;
-  /* @apply stroke-green-800; */
 }
 </style>

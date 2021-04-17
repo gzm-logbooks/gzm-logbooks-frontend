@@ -1,29 +1,45 @@
 <template>
-  <LayoutPage>
-    <template #title>
-      <h1>View logbook: {{ $get(logbook, 'name') }}</h1>
-    </template>
+  <LayoutPage v-if="!$fetchState.pending">
+    <LayoutPageHeader>
+      <template #title>
+        <h1>View logbook: {{ $get(logbook, 'name') }}</h1>
+      </template>
 
-    <div v-if="!$fetchState.pending">
-      <div class="p-3">{{ JSON.stringify(logbook) }}</div>
+      <nuxt-link class="link" :to="{ name: 'logbooks' }">
+        Back to logbooks
+      </nuxt-link>
+    </LayoutPageHeader>
 
-      <div v-for="entry in entries" :key="entry.primary">
+    <Card class="mb-6 bg-yellow-50">
+      <h2 class="text-lg font-medium mb-2">My progress</h2>
+      <div class="border border-dashed border-indigo-200 h-48"></div>
+    </Card>
+
+    <Card class="mb-6">
+      <div class="flex space-x-4 mb-2">
+        <h2 class="text-lg font-medium self-end mr-auto">Recent entries</h2>
         <nuxt-link
-          :to="{
-            name: 'logbooks-logbookId-entries-entryId',
-            params: { logbookId: logbook.primary, entryId: entry.primary },
-          }"
+          class="button button-outline"
+          :to="logbook.getNewEntryRoute()"
         >
-          {{ new Date(entry.timestamp).toDateString() }}
+          Add entry
         </nuxt-link>
       </div>
 
-      <nuxt-link
-        :to="{ name: 'logbooks-logbookId-entries-new', params: { logbookId } }"
+      <div v-for="entry in entries" :key="entry.primary">
+        <nuxt-link :to="entry.getRoute()">
+          {{ new Date(entry.timestamp).toDateString() }}
+        </nuxt-link>
+      </div>
+    </Card>
+
+    <div class="flex justify-end">
+      <nuxt-link class="button" :to="logbook.getNewEntryRoute()"
         >Add entry</nuxt-link
       >
     </div>
 
+    <div class="p-3">{{ JSON.stringify(logbook) }}</div>
   </LayoutPage>
 </template>
 

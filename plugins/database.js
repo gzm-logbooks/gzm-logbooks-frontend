@@ -29,9 +29,56 @@ export const createDatabase = async function () {
   await db.addCollections({
     logbooks: {
       schema: logbookSchema,
+      methods: {
+        getRoute() {
+          const { primary } = this
+
+          if (!primary) {
+            return null
+          }
+
+          return {
+            name: 'logbooks-logbookId',
+            params: {
+              logbookId: primary,
+            },
+          }
+        },
+        getNewEntryRoute() {
+          const { primary } = this
+
+          if (!primary) {
+            return null
+          }
+
+          return {
+            name: 'logbooks-logbookId-entries-new',
+            params: {
+              logbookId: primary,
+            },
+          }
+        },
+      },
     },
     entries: {
       schema: entrySchema,
+      methods: {
+        getRoute() {
+          const { primary, logbook } = this
+
+          if (!primary || !logbook) {
+            return null
+          }
+
+          return {
+            name: 'logbooks-logbookId-entries-entryId',
+            params: {
+              logbookId: logbook,
+              entryId: primary,
+            },
+          }
+        },
+      },
     },
   })
 
