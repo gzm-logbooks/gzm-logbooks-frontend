@@ -9,5 +9,11 @@
     </LayoutContainer>
 
     <slot name="fullwidth" />
+
+    <div v-if="$slots.debug" class="w-full overflow-hidden mt-auto">
+      <LayoutContainer>
+        <slot name="debug" />
+      </LayoutContainer>
+    </div>
   </div>
 </template>

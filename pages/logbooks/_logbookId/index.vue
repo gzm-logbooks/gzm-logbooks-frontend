@@ -39,7 +39,13 @@
       >
     </div>
 
-    <div class="p-3">{{ JSON.stringify(logbook) }}</div>
+    <!-- -->
+    <template v-if="!$fetchState.pending" #debug>
+      <Card>
+        <template #title>Saved data</template>
+        <pre>{{ JSON.stringify(logbook, null, 2) }}</pre>
+      </Card>
+    </template>
   </LayoutPage>
 </template>
 
@@ -61,6 +67,7 @@ export default {
     this.entries = await this.$db.entries
       .find()
       .where({ logbook: logbookId })
+      .sort()
       .exec()
 
     // Redirect if logbook is missing.
@@ -71,7 +78,7 @@ export default {
 
   computed: {
     logbookId() {
-      return this.logbook.primary
+      return this.logbook?.primary
     },
   },
 }

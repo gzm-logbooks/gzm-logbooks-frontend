@@ -1,12 +1,12 @@
 <template>
   <div class="bg-white mx-auto border border-indigo-200 shadow-sm sm:rounded">
-    <slot name="header" />
+    <div v-if="$slots.title" class="bg-gray-50 px-4 py-2 border-b">
+      <slot name="title" />
+    </div>
 
     <div :class="contentClass">
       <slot />
     </div>
-
-    <slot name="footer" />
   </div>
 </template>
 
