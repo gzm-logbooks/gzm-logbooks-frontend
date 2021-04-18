@@ -2974,6 +2974,11 @@ chart.js@^3.1.0:
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.1.0.tgz#b99cfe712fa0059134a4ad3a3515135fbb20bcea"
   integrity sha512-bKJi2VbC4fqZXlLbK7LKVvmG9crjoG9anfp96utZLyIGPuCx+YN+5/HDXy98QGt3lf74T8gKUPISUZL222tDJQ==
 
+chartjs-adapter-date-fns@^1.1.0-beta.1:
+  version "1.1.0-beta.1"
+  resolved "https://registry.yarnpkg.com/chartjs-adapter-date-fns/-/chartjs-adapter-date-fns-1.1.0-beta.1.tgz#5502dbfe33ff62af44ce6a05df086d1be773469a"
+  integrity sha512-VNhuZ86kXKOwh61CyRLP7hoFqAR7+gjnrtf7KYLt/Wfh3jIQs14l1h+nagtQoFaabIYIo6UD5/jJb2/J6zOPcw==
+
 chokidar@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"

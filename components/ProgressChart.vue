@@ -41,13 +41,15 @@ export default defineComponent({
     const canvas = ref(null)
 
     const defaultOptions = readonly({
-      legend: {
-        display: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
       },
       elements: {
         point: {
           pointStyle: 'circle',
-          radius: 4,
+          radius: 8,
         },
         line: {
           borderWidth: 1,
@@ -56,23 +58,17 @@ export default defineComponent({
         },
       },
       scales: {
-        xAxes: [
-          {
-            type: 'time',
-            time: {
-              unit: 'day',
-            },
+        x: {
+          type: 'time',
+          time: {
+            unit: 'day',
           },
-        ],
-        yAxes: [
-          {
-            display: false,
-            ticks: {
-              min: 0,
-              max: 0.5,
-            },
-          },
-        ],
+        },
+        y: {
+          display: false,
+          min: 0,
+          max: 1,
+        },
       },
       onClick(event, elements = [], legend) {
         const first = elements[0]
@@ -121,15 +117,24 @@ export default defineComponent({
         return {
           datasets: [
             {
-              backgroundColor: 'rgb(0,255,0)',
+              fill: {
+                target: 'origin',
+                above: 'rgb(0,255,0)',
+              },
               data: datasets.green,
             },
             {
-              backgroundColor: 'rgb(255,165,0)',
+              fill: {
+                target: 'origin',
+                above: 'rgb(255,165,0)',
+              },
               data: datasets.amber,
             },
             {
-              backgroundColor: 'rgb(255,0,0)',
+              fill: {
+                target: 'origin',
+                above: 'rgb(255,0,0)',
+              },
               data: datasets.red,
             },
           ],

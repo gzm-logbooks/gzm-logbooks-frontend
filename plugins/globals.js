@@ -26,7 +26,7 @@ import {
   Tooltip,
 } from 'chart.js'
 import Vue from 'vue'
-
+import 'chartjs-adapter-date-fns'
 //
 Vue.prototype.$get = get
 
