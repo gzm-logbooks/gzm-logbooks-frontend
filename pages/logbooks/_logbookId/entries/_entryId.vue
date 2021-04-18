@@ -1,12 +1,12 @@
 <template>
-  <LayoutPage v-if="!$fetchState.pending">
+  <LayoutPage v-if="!$fetchState.pending || true">
     <LayoutPageHeader>
       <template #title>
         <h1>Update existing entry</h1>
       </template>
 
-      <nuxt-link class="link" :to="logbook.getRoute()">
-        Back to logbook "{{ logbook.name }}"
+      <nuxt-link class="link" :to="(logbook && logbook.getRoute()) || {}">
+        Back to logbook "{{ $get(logbook, 'name') }}"
       </nuxt-link>
     </LayoutPageHeader>
 
@@ -30,7 +30,7 @@ export default {
     return {
       entry: {},
       fields: {},
-      logbook: {},
+      logbook: null,
     }
   },
 
