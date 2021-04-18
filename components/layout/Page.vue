@@ -10,7 +10,7 @@
 
     <slot name="fullwidth" />
 
-    <div v-if="$slots.debug" class="w-full overflow-hidden mt-auto">
+    <div v-if="$slots.debug" class="w-full overflow-hidden mt-auto mb-4">
       <LayoutContainer>
         <slot name="debug" />
       </LayoutContainer>

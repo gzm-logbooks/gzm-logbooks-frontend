@@ -12,7 +12,13 @@
 
     <Card class="mb-6 bg-yellow-50">
       <h2 class="text-lg font-medium mb-2">My progress</h2>
-      <div class="border border-dashed border-indigo-200 h-48"></div>
+      <div class="border border-dashed border-indigo-200 min-h-48">
+        <ProgressChart
+          v-if="entries.length > 1"
+          :entries="entries"
+          @selected="chartClicked"
+        />
+      </div>
     </Card>
 
     <Card class="mb-6">
@@ -70,6 +76,8 @@ export default {
       .sort()
       .exec()
 
+    console.log(this.entries)
+
     // Redirect if logbook is missing.
     if (!this.logbook) {
       return this.$router.push({ name: 'logbooks' })
@@ -79,6 +87,18 @@ export default {
   computed: {
     logbookId() {
       return this.logbook?.primary
+    },
+  },
+
+  methods: {
+    chartClicked(timestamp) {
+      this.$router.push({
+        name: 'logbooks-logbookId-entries-entryId',
+        params: {
+          logbookId: this.logbook.primary,
+          entryId: timestamp,
+        },
+      })
     },
   },
 }
