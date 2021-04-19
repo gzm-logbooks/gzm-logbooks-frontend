@@ -27,7 +27,7 @@
   }
 
   .input {
-    @apply px-3 py-2 leading-none mb-1;
+    @apply max-w-full px-3 py-2 leading-none mb-1;
     @apply border border-indigo-200 focus:border-indigo-400;
     @apply rounded-sm shadow;
     @apply focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75;

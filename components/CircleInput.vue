@@ -2,7 +2,7 @@
   <div class="raginput" :class="{ active }">
     <div class="raginput__inner">
       <svg
-        viewBox="0 0 1 1"
+        :viewBox="`0 0 ${viewbox.outer} ${viewbox.outer}`"
         class="raginput__inner__svg"
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
@@ -12,34 +12,49 @@
         @mouseup="endDrag"
         @mouseleave="endDrag"
       >
-        <circle
-          ref="background"
-          cx="0.5"
-          cy="0.5"
-          r="0.5"
-          class="raginput__background"
-        />
-        <circle
-          cx="0.5"
-          cy="0.5"
-          r="0.5"
-          :transform="`scale(${model.red})`"
-          class="raginput__circle raginput__circle--outer"
-        />
-        <circle
-          cx="0.5"
-          cy="0.5"
-          r="0.5"
-          :transform="`scale(${model.amber})`"
-          class="raginput__circle raginput__circle--middle"
-        />
-        <circle
-          cx="0.5"
-          cy="0.5"
-          r="0.5"
-          :transform="`scale(${model.green})`"
-          class="raginput__circle raginput__circle--inner"
-        />
+        <defs>
+          <filter id="shadow">
+            <feDropShadow
+              dx="0"
+              dy="0"
+              stdDeviation="0.5"
+              flood-opacity="0.6"
+            />
+          </filter>
+        </defs>
+
+        <!-- -->
+        <g>
+          <circle
+            ref="background"
+            :cx="viewbox.center"
+            :cy="viewbox.center"
+            r="50"
+            class="raginput__background"
+            style="filter: url(#shadow)"
+          />
+          <circle
+            :cx="viewbox.center"
+            :cy="viewbox.center"
+            r="50"
+            :transform="`scale(${model.red})`"
+            class="raginput__circle raginput__circle--outer"
+          />
+          <circle
+            :cx="viewbox.center"
+            :cy="viewbox.center"
+            r="50"
+            :transform="`scale(${model.amber})`"
+            class="raginput__circle raginput__circle--middle"
+          />
+          <circle
+            :cx="viewbox.center"
+            :cy="viewbox.center"
+            r="50"
+            :transform="`scale(${model.green})`"
+            class="raginput__circle raginput__circle--inner"
+          />
+        </g>
       </svg>
     </div>
   </div>
@@ -70,6 +85,14 @@ export default {
         return {}
       },
     },
+    circleSize: {
+      type: Number,
+      default: 100,
+    },
+    offset: {
+      type: Number,
+      default: 14,
+    },
   },
   data() {
     return {
@@ -84,6 +107,18 @@ export default {
     }
   },
   computed: {
+    viewbox() {
+      const { circleSize, offset } = this
+      const padding = offset * 2
+      const center = offset + circleSize / 2
+
+      return {
+        inner: circleSize,
+        outer: circleSize + padding,
+        offset,
+        center,
+      }
+    },
     active() {
       return !!this.currentCircle
     },
@@ -263,7 +298,7 @@ export default {
 }
 
 .raginput__inner__svg {
-  max-height: 50vh;
+  /* max-height: 50vh; */
   margin: auto;
   flex: 1;
 }
@@ -275,8 +310,7 @@ export default {
 }
 
 .raginput__background {
-  @apply text-gray-200;
-  /* @apply stroke-gray-400; */
+  @apply text-gray-50;
 }
 
 .raginput__circle {
