@@ -8,7 +8,7 @@
  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
  */
 module.exports = {
-  darkMode: 'class',
+  important: '#__nuxt',
   // theme: {
   //   stroke: (theme) => ({
   //     current: 'currentColor',
@@ -17,17 +17,6 @@ module.exports = {
   //     blue: theme('colors.blue.500'),
   //   }),
   // },
-  variants: {
-    // backgroundColor: [
-    //   'dark',
-    //   'dark-hover',
-    //   'dark-group-hover',
-    //   'dark-even',
-    //   'dark-odd',
-    // ],
-    // borderColor: ['dark', 'dark-focus', 'dark-focus-within'],
-    // textColor: ['dark', 'dark-hover', 'dark-active'],
-  },
   plugins: [
     // pluginForms,
     // pluginTypography
