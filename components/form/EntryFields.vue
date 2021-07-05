@@ -1,7 +1,7 @@
 <template>
   <!-- v-bind="$attrs" v-on="$listeners" -->
   <div>
-    <FormulateInput type="mood-circle" name="mood" label="Mood" />
+    <FormulateInput type="mood-circle" name="mood" label="Mood" validation="required"/>
 
     <FormulateInput
       type="date"
