@@ -19,6 +19,14 @@
     <div class="flex justify-end">
       <button class="button" @click="$formulate.submit('entry')">Save</button>
     </div>
+
+    <!-- -->
+    <template v-if="!$fetchState.pending" #debug>
+      <Card>
+        <template #title>Saved data</template>
+        <pre>{{ JSON.stringify(entry, null, 2) }}</pre>
+      </Card>
+    </template>
   </LayoutPage>
 </template>
 
