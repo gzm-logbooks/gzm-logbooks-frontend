@@ -17,22 +17,32 @@ module.exports = {
   //     blue: theme('colors.blue.500'),
   //   }),
   // },
-  variants: {
-    // backgroundColor: [
-    //   'dark',
-    //   'dark-hover',
-    //   'dark-group-hover',
-    //   'dark-even',
-    //   'dark-odd',
-    // ],
-    // borderColor: ['dark', 'dark-focus', 'dark-focus-within'],
-    // textColor: ['dark', 'dark-hover', 'dark-active'],
-  },
+  // variants: {
+  //   // backgroundColor: [
+  //   //   'dark',
+  //   //   'dark-hover',
+  //   //   'dark-group-hover',
+  //   //   'dark-even',
+  //   //   'dark-odd',
+  //   // ],
+  //   // borderColor: ['dark', 'dark-focus', 'dark-focus-within'],
+  //   // textColor: ['dark', 'dark-hover', 'dark-active'],
+  // },
   plugins: [
     // pluginForms,
     // pluginTypography
   ],
   purge: {
     content: ['formulate.config.js'],
+  },
+  theme: {
+    extend: {
+      backgroundImage: (theme) => ({
+        texture:
+          'url("https://source.unsplash.com/collection/5019395/1600x900")',
+        paper: 'url("https://pagecdn.io/lib/subtlepatterns/lined-paper-2.png")',
+        doodles: 'url("https://pagecdn.io/lib/subtlepatterns/doodles.png")',
+      }),
+    },
   },
 }
