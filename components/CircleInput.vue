@@ -280,7 +280,7 @@ export default {
 }
 
 .raginput__circle {
-  @apply scale-100 origin-center;
+  @apply origin-center;
   @apply transition-transform duration-700;
 }
 
