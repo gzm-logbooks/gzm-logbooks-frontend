@@ -29,10 +29,14 @@
 </template>
 
 <script>
+import { format } from 'date-fns'
+
 export default {
   data() {
     return {
-      fields: {},
+      fields: {
+        timestamp: format(new Date(), 'yyyy-MM-dd'),
+      },
       logbook: {},
     }
   },
