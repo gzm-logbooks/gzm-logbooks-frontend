@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white mx-auto border border-indigo-200 shadow-sm sm:rounded">
-    <div v-if="$slots.title" class="bg-gray-50 px-4 py-3 border-b">
+  <div class="mx-auto border card shadow-sm sm:rounded">
+    <div v-if="$slots.title" class="card px-4 py-3 border-b">
       <slot name="title" />
     </div>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-50 flex flex-col flex-grow">
+  <div class="flex flex-col flex-grow">
     <LayoutHeader />
     <Nuxt />
   </div>

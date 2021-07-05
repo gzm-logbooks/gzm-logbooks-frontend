@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 bg-indigo-100 border-b border-indigo-200 text-indigo-800">
+  <div class="card border-b border-gray-200 text-gray-800">
     <LayoutContainer class="flex">
       <div
         class="py-3 flex flex-1 items-center flex-wrap sm:flex-nowrap sm:h-16 sm:py-0"
