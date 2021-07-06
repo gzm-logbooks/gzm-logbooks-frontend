@@ -1,6 +1,7 @@
 import { createRxDatabase, addRxPlugin } from 'rxdb/plugins/core'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
+import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 import proxymise from 'proxymise'
@@ -12,6 +13,7 @@ import logbookSchema from '~/data/schemas/logbook.json'
 // Add plugins.
 addRxPlugin(RxDBValidatePlugin)
 addRxPlugin(RxDBQueryBuilderPlugin)
+addRxPlugin(RxDBMigrationPlugin)
 addRxPlugin(IndexeddbAdaptor)
 
 // Add the dev plugins.
@@ -29,7 +31,11 @@ export const createDatabase = async function () {
   await db.addCollections({
     logbooks: {
       schema: logbookSchema,
-      migrationStrateies: {1: null},
+      migrationStrategies: {
+        1() {
+          return null
+        },
+      },
       methods: {
         getRoute() {
           const { primary } = this
@@ -63,7 +69,11 @@ export const createDatabase = async function () {
     },
     entries: {
       schema: entrySchema,
-      migrationStrateies: {1: null},
+      migrationStrategies: {
+        1() {
+          return null
+        },
+      },
       methods: {
         getRoute() {
           const { primary, logbook } = this
