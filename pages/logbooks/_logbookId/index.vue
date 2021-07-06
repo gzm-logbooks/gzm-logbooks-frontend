@@ -76,8 +76,6 @@ export default {
       .sort()
       .exec()
 
-    console.log(this.entries)
-
     // Redirect if logbook is missing.
     if (!this.logbook) {
       return this.$router.push({ name: 'logbooks' })

@@ -5,6 +5,8 @@ import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 import proxymise from 'proxymise'
 
+import { seedDatabase } from '~/data/seeder'
+
 // Load schemas.
 import entrySchema from '~/data/schemas/entry.json'
 import logbookSchema from '~/data/schemas/logbook.json'
@@ -96,4 +98,5 @@ export default function ({ app }, inject) {
 
   // Add $db field to app context.
   inject('db', proxymise(pendingInstance))
+  inject('seed', seedDatabase)
 }
