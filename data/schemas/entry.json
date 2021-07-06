@@ -1,6 +1,6 @@
 {
     "title": "Entry",
-    "version": 0,
+    "version": 1,
     "properties": {
         "timestamp": {
             "type": "string",

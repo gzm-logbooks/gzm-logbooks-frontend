@@ -29,6 +29,7 @@ export const createDatabase = async function () {
   await db.addCollections({
     logbooks: {
       schema: logbookSchema,
+      migrationStrateies: {1: null},
       methods: {
         getRoute() {
           const { primary } = this
@@ -62,6 +63,7 @@ export const createDatabase = async function () {
     },
     entries: {
       schema: entrySchema,
+      migrationStrateies: {1: null},
       methods: {
         getRoute() {
           const { primary, logbook } = this

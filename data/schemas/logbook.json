@@ -1,6 +1,6 @@
 {
 	"title": "logbook",
-	"version": 0,
+	"version": 1,
 	"properties": {
 		"name": {
 			"type": "string",
