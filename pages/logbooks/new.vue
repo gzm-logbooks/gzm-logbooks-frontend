@@ -22,8 +22,10 @@
 export default {
   methods: {
     async save(fields) {
+      const db = await this.$db
+
       // Create document in db.
-      const doc = await this.$db.logbooks.insert(fields)
+      const doc = await db.logbooks.insert(fields)
       // .catch(error) => console.log(error))
 
       if (doc) {

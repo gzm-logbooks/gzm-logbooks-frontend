@@ -59,9 +59,13 @@ export default defineComponent({
       },
       scales: {
         x: {
-          type: 'time',
+          type: 'timeseries',
           time: {
             unit: 'day',
+          },
+          ticks: {
+            source: 'data',
+            // maxTicksLimit: 50,
           },
         },
         y: {
@@ -76,9 +80,9 @@ export default defineComponent({
         if (first && first.element) {
           const dataset = legend.data?.datasets[first.datasetIndex]
           const pointData = dataset?.data[first.index]
-          const timestamp = pointData?.x
+          const id = pointData?.id
 
-          emit('selected', timestamp)
+          emit('selected', id)
         }
       },
     })
@@ -92,14 +96,17 @@ export default defineComponent({
         const datasets = props.entries.reduce(
           (accumulator, entry) => {
             accumulator.red.push({
+              id: entry.primary,
               x: entry.timestamp,
               y: entry.amountRed ?? 0,
             })
             accumulator.amber.push({
+              id: entry.primary,
               x: entry.timestamp,
               y: entry.amountAmber ?? 0,
             })
             accumulator.green.push({
+              id: entry.primary,
               x: entry.timestamp,
               y: entry.amountGreen ?? 0,
             })

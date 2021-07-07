@@ -65,18 +65,17 @@ export default {
 
   async fetch() {
     const { logbookId } = this.$route.params
+    const db = await this.$db
 
     // Get logbook record from database.
-    this.logbook = await this.$db.logbooks.findOne(logbookId).exec()
+    this.logbook = await db.logbooks.findOne(logbookId).exec()
 
     // Get logbook entry records.
-    this.entries = await this.$db.entries
+    this.entries = await db.entries
       .find()
       .where({ logbook: logbookId })
-      .sort()
+      .sort('timestamp')
       .exec()
-
-    console.log(this.entries)
 
     // Redirect if logbook is missing.
     if (!this.logbook) {

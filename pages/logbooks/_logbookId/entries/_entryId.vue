@@ -44,11 +44,12 @@ export default {
 
   async fetch() {
     const { logbookId, entryId } = this.$route.params
+    const db = await this.$db
 
     // Get entry record from database.
-    this.entry = await this.$db.entries
+    this.entry = await db.entries
       .findOne({
-        selector: { logbook: logbookId, timestamp: entryId },
+        selector: { logbook: logbookId, _id: entryId },
       })
       .exec()
 

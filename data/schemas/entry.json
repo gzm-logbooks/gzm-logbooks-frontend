@@ -3,8 +3,7 @@
     "version": 0,
     "properties": {
         "timestamp": {
-            "type": "string",
-            "primary": true
+            "type": "string"
         },
         "logbook": {
             "type": "string",

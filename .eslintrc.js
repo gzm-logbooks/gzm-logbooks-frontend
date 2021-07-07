@@ -16,5 +16,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'prettier/prettier': 'warn',
+    'no-unused-vars': 'warn',
+    'spaced-comment': 'warn',
   },
 }
