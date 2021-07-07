@@ -31,7 +31,11 @@ export default {
   },
 
   async fetch() {
-    this.logbooks = await this.$db.logbooks.find().exec()
+    const db = await this.$db
+
+    const logbooksQuery = db.logbooks.find()
+
+    this.$subscribeTo(logbooksQuery.$, (logbooks) => (this.logbooks = logbooks))
   },
 }
 </script>
