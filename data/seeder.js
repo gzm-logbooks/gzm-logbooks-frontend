@@ -19,16 +19,19 @@ const entryFactory = (
     const amountGreen = Math.min(
       Math.max(
         Math.sqrt(-2 * Math.log(Math.random())) *
-          Math.cos(2 * Math.PI * Math.random()),
+          Math.cos(2 * Math.PI * Math.random()) *
+          0.5 +
+          1 / 4,
         0
-      ) -
-        1 / 3,
+      ),
       0.8
     )
     const amountAmber = Math.min(
       Math.max(
         Math.sqrt(-2 * Math.log(Math.random())) *
-          Math.cos(2 * Math.PI * Math.random()),
+          Math.cos(2 * Math.PI * Math.random()) *
+          0.5 +
+          1 / 2,
         amountGreen + 0.1
       ),
       0.9
@@ -36,10 +39,11 @@ const entryFactory = (
     const amountRed = Math.min(
       Math.max(
         Math.sqrt(-2 * Math.log(Math.random())) *
-          Math.cos(2 * Math.PI * Math.random()),
+          Math.cos(2 * Math.PI * Math.random()) *
+          0.5 +
+          3 / 4,
         amountAmber + 0.1
-      ) +
-        1 / 3,
+      ),
       1
     )
 
@@ -70,14 +74,10 @@ const entryFactory = (
   return entries
 }
 
-export const seedDatabase = async function () {
-  const { $db } = window.$nuxt
-
-  console.log($db)
-
-  const logbook = await $db.logbooks.insert({
-    name: 'Example Subject',
+export const seedDatabase = async function (db) {
+  const logbook = await db.logbooks.insert({
+    name: 'Example Logbook',
   })
 
-  console.log(await $db.entries.bulkInsert(entryFactory(logbook.primary)))
+  console.log(await db.entries.bulkInsert(entryFactory(logbook.primary)))
 }

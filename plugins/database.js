@@ -97,5 +97,7 @@ export default function ({ app }, inject) {
 
   // Add $db field to app context.
   inject('db', pendingInstance)
-  inject('seed', seedDatabase)
+  inject('seed', async () => {
+    seedDatabase(await pendingInstance)
+  })
 }
