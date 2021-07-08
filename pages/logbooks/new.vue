@@ -8,13 +8,15 @@
 
     <Card class="mb-4">
       <FormLogbook @submit="save" />
-    </Card>
 
-    <div class="flex justify-end">
-      <button class="button" @click="$formulate.submit('logbook')">
-        Create
-      </button>
-    </div>
+      <template #footer>
+        <div class="flex gap-1 ml-auto">
+          <button class="button" @click="$formulate.submit('logbook')">
+            Create logbook
+          </button>
+        </div>
+      </template>
+    </Card>
   </LayoutPage>
 </template>
 
@@ -22,8 +24,10 @@
 export default {
   methods: {
     async save(fields) {
+      const db = await this.$db
+
       // Create document in db.
-      const doc = await this.$db.logbooks.insert(fields)
+      const doc = await db.logbooks.insert(fields)
       // .catch(error) => console.log(error))
 
       if (doc) {

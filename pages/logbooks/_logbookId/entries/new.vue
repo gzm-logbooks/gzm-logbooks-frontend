@@ -18,13 +18,15 @@
       <FormulateForm v-model="fields" name="entry" @submit="save">
         <FormEntryFields />
       </FormulateForm>
-    </Card>
 
-    <div class="flex justify-end">
-      <button class="button" @click="$formulate.submit('entry')">
-        Add entry
-      </button>
-    </div>
+      <template #footer>
+        <div class="flex ml-auto">
+          <button class="button" @click="$formulate.submit('entry')">
+            Save entry
+          </button>
+        </div>
+      </template>
+    </Card>
   </LayoutPage>
 </template>
 
@@ -43,9 +45,10 @@ export default {
 
   async fetch() {
     const { logbookId } = this.$route.params
+    const db = await this.$db
 
     // Get logbook record from database.
-    this.logbook = await this.$db.logbooks.findOne(logbookId).exec()
+    this.logbook = await db.logbooks.findOne(logbookId).exec()
 
     // Redirect if logbook is missing.
     if (!this.logbook) {
@@ -56,6 +59,7 @@ export default {
   methods: {
     async save(fields) {
       const { logbook } = this
+      const db = await this.$db
 
       const { comment, mood } = fields
 
@@ -68,7 +72,7 @@ export default {
       }
 
       // Create document in db.
-      const doc = await this.$db.entries.insert(data)
+      const doc = await db.entries.insert(data)
       // .catch((error) => console.log(error))
 
       if (doc) {

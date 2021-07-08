@@ -12,7 +12,7 @@
         @mouseup="endDrag"
         @mouseleave="endDrag"
       >
-        <defs>
+        <!-- <defs>
           <filter id="shadow">
             <feDropShadow
               dx="0"
@@ -21,7 +21,7 @@
               flood-opacity="0.6"
             />
           </filter>
-        </defs>
+        </defs> -->
 
         <!-- -->
         <g>
@@ -31,7 +31,6 @@
             :cy="viewbox.center"
             r="50"
             class="raginput__background"
-            style="filter: url(#shadow)"
           />
           <circle
             :cx="viewbox.center"
@@ -310,7 +309,7 @@ export default {
 }
 
 .raginput__background {
-  @apply text-gray-50;
+  @apply text-gray-200;
 }
 
 .raginput__circle {

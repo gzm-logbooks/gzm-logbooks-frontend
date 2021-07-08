@@ -18,7 +18,7 @@
           <div>
             <button
               v-if="canGoBack"
-              class="button button-outline"
+              class="button button--outline"
               @click="$router.back()"
             >
               Back

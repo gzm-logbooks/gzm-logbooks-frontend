@@ -4,7 +4,8 @@ import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
-import proxymise from 'proxymise'
+
+import { seedDatabase } from '~/data/seeder'
 
 // Load schemas.
 import entrySchema from '~/data/schemas/entry.json'
@@ -107,5 +108,8 @@ export default function ({ app }, inject) {
   const pendingInstance = createDatabase()
 
   // Add $db field to app context.
-  inject('db', proxymise(pendingInstance))
+  inject('db', pendingInstance)
+  inject('seed', async () => {
+    seedDatabase(await pendingInstance)
+  })
 }
