@@ -1,22 +1,24 @@
 <template>
-  <div>
+  <div class="w-full">
     <canvas ref="canvas" />
   </div>
 </template>
 
 <script>
 import { Chart } from 'chart.js'
-// import { defaultsDeep } from 'lodash-es'
 import {
   defineComponent,
   ref,
   reactive,
   computed,
+  watch,
   watchEffect,
   onMounted,
   readonly,
   // watch,
 } from '@nuxtjs/composition-api'
+import { theme } from '~tailwind.config'
+// import { defaultsDeep } from 'lodash-es'
 
 export default defineComponent({
   props: {
@@ -32,6 +34,10 @@ export default defineComponent({
         return {}
       },
     },
+    full: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['selected'],
   setup(props, { emit, refs }) {
@@ -41,6 +47,7 @@ export default defineComponent({
     const canvas = ref(null)
 
     const defaultOptions = readonly({
+      animation: false,
       plugins: {
         legend: {
           display: false,
@@ -49,24 +56,29 @@ export default defineComponent({
       elements: {
         point: {
           pointStyle: 'circle',
-          radius: 8,
+          radius: props.full ? 8 : 0,
         },
         line: {
-          borderWidth: 1,
+          showLine: false,
+          borderWidth: 0,
           tension: 0.4,
           cubicInterpolationMode: 'monotone',
         },
       },
       scales: {
         x: {
+          display: props.full,
           type: 'timeseries',
           time: {
             unit: 'day',
           },
-          ticks: {
-            source: 'data',
-            // maxTicksLimit: 50,
-          },
+          // ticks: {
+          //   // source: 'data',
+          //   autoSkip: true,
+          //   maxTicksLimit: 20,
+          // },
+          // max: new Date(),
+          // suggestedMax: new Date(),
         },
         y: {
           display: false,
@@ -80,9 +92,9 @@ export default defineComponent({
         if (first && first.element) {
           const dataset = legend.data?.datasets[first.datasetIndex]
           const pointData = dataset?.data[first.index]
-          const id = pointData?.id
+          const primary = pointData?.id
 
-          emit('selected', id)
+          emit('selected', primary)
         }
       },
     })
@@ -96,17 +108,17 @@ export default defineComponent({
         const datasets = props.entries.reduce(
           (accumulator, entry) => {
             accumulator.red.push({
-              id: entry.primary,
+              primary: entry.primary,
               x: entry.timestamp,
               y: entry.amountRed ?? 0,
             })
             accumulator.amber.push({
-              id: entry.primary,
+              primary: entry.primary,
               x: entry.timestamp,
               y: entry.amountAmber ?? 0,
             })
             accumulator.green.push({
-              id: entry.primary,
+              primary: entry.primary,
               x: entry.timestamp,
               y: entry.amountGreen ?? 0,
             })
@@ -126,23 +138,26 @@ export default defineComponent({
             {
               fill: {
                 target: 'origin',
-                above: 'rgb(0,255,0)',
+                above: theme.colors.green[400],
               },
               data: datasets.green,
+              stepped: props.full ? false : 'before',
             },
             {
               fill: {
                 target: 'origin',
-                above: 'rgb(255,165,0)',
+                above: theme.colors.yellow[400],
               },
               data: datasets.amber,
+              stepped: props.full ? false : 'before',
             },
             {
               fill: {
                 target: 'origin',
-                above: 'rgb(255,0,0)',
+                above: theme.colors.red[400],
               },
               data: datasets.red,
+              stepped: props.full ? false : 'before',
             },
           ],
         }
@@ -155,78 +170,24 @@ export default defineComponent({
       chart.value = new Chart(canvas, {
         type: 'line',
         options: chartOptions,
-        data: chartData.value,
+        data: {
+          datasets: chartData.value.datasets,
+        },
       })
 
       chart.value.update()
     })
 
     // Update chart on changes.
-    watchEffect(() => {
-      // chart.value.update()
+    watch(chartData, (value, oldValue) => {
+      if (!(value && chart.value?.data?.datasets?.length > 0)) {
+        return
+      }
+
+      console.log(`Updating chart...`)
+      chart.value.data.datasets = value.datasets
+      chart.value?.update()
     })
-
-    // watch(chartData, () => {
-    //   chart.value.update()
-    // })
-
-    //   function demoData() {
-    //     return {
-    //       datasets: [
-    //         {
-    //           backgroundColor: 'rgb(0,255,0)',
-    //           data: [
-    //             {
-    //               x: new Date('August 19, 1975 23:15:30'),
-    //               y: 0.3,
-    //             },
-    //             {
-    //               x: new Date('August 21, 1975 23:15:30'),
-    //               y: 0.2,
-    //             },
-    //             {
-    //               x: new Date('August 22, 1975 23:15:30'),
-    //               y: 0.2,
-    //             },
-    //           ],
-    //         },
-    //         {
-    //           backgroundColor: 'rgb(255,165,0)',
-    //           data: [
-    //             {
-    //               x: new Date('August 19, 1975 23:15:30'),
-    //               y: 0.4,
-    //             },
-    //             {
-    //               x: new Date('August 21, 1975 23:15:30'),
-    //               y: 0.3,
-    //             },
-    //             {
-    //               x: new Date('August 22, 1975 23:15:30'),
-    //               y: 0.3,
-    //             },
-    //           ],
-    //         },
-    //         {
-    //           backgroundColor: 'rgb(255,0,0)',
-    //           data: [
-    //             {
-    //               x: new Date('August 19, 1975 23:15:30'),
-    //               y: 0.5,
-    //             },
-    //             {
-    //               x: new Date('August 21, 1975 23:15:30'),
-    //               y: 0.4,
-    //             },
-    //             {
-    //               x: new Date('August 22, 1975 23:15:30'),
-    //               y: 0.5,
-    //             },
-    //           ],
-    //         },
-    //       ],
-    //     }
-    //   }
 
     return { canvas, chart, chartOptions, chartData }
   },

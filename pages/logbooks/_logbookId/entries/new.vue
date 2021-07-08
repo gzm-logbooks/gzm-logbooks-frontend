@@ -18,13 +18,16 @@
       <FormulateForm v-model="fields" name="entry" @submit="save">
         <FormEntryFields />
       </FormulateForm>
+
+      <template #footer>
+        <div class="flex ml-auto">
+          <button class="button" @click="$formulate.submit('entry')">
+            Save entry
+          </button>
+        </div>
+      </template>
     </Card>
 
-    <div class="flex justify-end">
-      <button class="button" @click="$formulate.submit('entry')">
-        Add entry
-      </button>
-    </div>
   </LayoutPage>
 </template>
 

@@ -73,7 +73,7 @@ export default {
   tailwindcss: {
     jit: true,
     // add '~tailwind.config` alias
-    // exposeConfig: true,
+    exposeConfig: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

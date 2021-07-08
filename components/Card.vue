@@ -1,12 +1,20 @@
 <template>
-  <div class="mx-auto border card shadow-sm sm:rounded">
-    <div v-if="$slots.title" class="card px-4 py-3 border-b">
+  <div class="card">
+    <slot name="top" />
+
+    <div v-if="$slots.title" class="card__section px-4 py-3">
       <slot name="title" />
     </div>
 
-    <div :class="contentClass">
+    <div class="card__content" :class="contentClass">
       <slot />
     </div>
+
+    <div v-if="$slots.footer" class="card__section px-4 py-3">
+      <slot name="footer" />
+    </div>
+
+    <slot name="bottom" />
   </div>
 </template>
 

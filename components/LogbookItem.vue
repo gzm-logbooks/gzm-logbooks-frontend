@@ -1,8 +1,14 @@
 <template>
   <nuxt-link :to="route">
-    <Card class="mb-4" content-class="p-2">
+    <Card class="rounded-lg" content-class="p-2">
       <span class="text-lg font-medium">{{ $get(logbook, 'name') }}</span>
       <p class="text-sm mb-1 text-gray-600">{{ countEntries }} entries</p>
+
+      <template #top>
+        <div class="shadow-inner min-h-[8rem] bg-gray-100">
+          <ProgressChart v-if="entries.length > 1" :entries="entries" />
+        </div>
+      </template>
     </Card>
   </nuxt-link>
 </template>
@@ -26,7 +32,10 @@ export default {
     const logbookQuery = db.logbooks.findOne(logbookId)
 
     //
-    const entriesQuery = db.entries.find().where({ logbook: this.primary })
+    const entriesQuery = db.entries
+      .find()
+      .where({ logbook: this.primary })
+      .sort('timestamp')
 
     this.$subscribeTo(logbookQuery.$, (logbook) => (this.logbook = logbook))
     this.$subscribeTo(entriesQuery.$, (entries) => (this.entries = entries))

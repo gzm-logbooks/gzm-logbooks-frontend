@@ -5,6 +5,7 @@
       name="name"
       label="Logbook Name"
       validation="required"
+      input-class="input w-full"
     />
   </FormulateForm>
 </template>

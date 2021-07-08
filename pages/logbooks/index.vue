@@ -7,18 +7,29 @@
     </LayoutPageHeader>
 
     <Card class="mb-4">
+      <template #title>
+        <div class="flex gap-1 ml-auto">
+          <nuxt-link class="button button--outline" to="/logbooks/new">Create blank logbook</nuxt-link>
+          <nuxt-link class="button" to="/logbooks/new">Add logbook from web</nuxt-link>
+        </div>
+      </template>
+
       <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
         <LogbookItem
           v-for="logbook in logbooks"
           :key="logbook.primary"
           :primary="logbook.primary"
         />
+
+        <Card class="rounded-lg">
+          <nuxt-link
+            class="button button--center button--outline flex-1"
+            to="/logbooks/new"
+            >Add Logbook</nuxt-link
+          >
+        </Card>
       </div>
     </Card>
-
-    <div class="flex justify-end">
-      <nuxt-link class="button" to="/logbooks/new">Add Logbook</nuxt-link>
-    </div>
   </LayoutPage>
 </template>
 

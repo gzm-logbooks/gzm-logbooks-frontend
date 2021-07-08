@@ -8,13 +8,15 @@
 
     <Card class="mb-4">
       <FormLogbook @submit="save" />
-    </Card>
 
-    <div class="flex justify-end">
-      <button class="button" @click="$formulate.submit('logbook')">
-        Create
-      </button>
-    </div>
+      <template #footer>
+        <div class="flex gap-1 ml-auto">
+          <button class="button" @click="$formulate.submit('logbook')">
+            Create logbook
+          </button>
+        </div>
+      </template>
+    </Card>
   </LayoutPage>
 </template>
 

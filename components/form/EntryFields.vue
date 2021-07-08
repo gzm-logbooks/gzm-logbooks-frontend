@@ -6,6 +6,7 @@
         name="mood"
         label="Mood"
         validation="required"
+        label-class="hidden"
       />
     </div>
 
@@ -16,11 +17,11 @@
         label="Date"
         validation="required|after:2000-01-01"
         error-behavior="live"
-        class="w-full"
+        input-class="input w-full"
       />
 
       <FormulateInput
-        class="w-full"
+        input-class="input w-full"
         type="textarea"
         name="comment"
         label="Comment"

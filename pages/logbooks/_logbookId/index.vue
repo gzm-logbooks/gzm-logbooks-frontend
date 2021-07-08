@@ -16,6 +16,7 @@
         <ProgressChart
           v-if="entries.length > 1"
           :entries="entries"
+          full
           @selected="chartClicked"
         />
       </div>
@@ -25,7 +26,7 @@
       <div class="flex space-x-4 mb-2">
         <h2 class="text-lg font-medium self-end mr-auto">Recent entries</h2>
         <nuxt-link
-          class="button button-outline"
+          class="button button--outline"
           :to="logbook.getNewEntryRoute()"
         >
           Add entry

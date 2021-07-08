@@ -6,8 +6,8 @@ const entryFactory = (
   logbookId,
   from = new Date(),
   amount = 40,
-  step = -week / 3,
-  spread = day / 2
+  step = 2 * week,
+  spread = week,
 ) => {
   //
   function getSpread() {
@@ -62,7 +62,7 @@ const entryFactory = (
     const lastTime = new Date(last ? last.timestamp : from)
 
     //
-    const next = new Date(lastTime.getTime() + step + getSpread())
+    const next = new Date(lastTime.getTime() - (step + getSpread()))
 
     entries.push({
       timestamp: next.toISOString(),
@@ -79,5 +79,13 @@ export const seedDatabase = async function (db) {
     name: 'Example Logbook',
   })
 
-  console.log(await db.entries.bulkInsert(entryFactory(logbook.primary)))
+  let counter = 0
+  const timer = setInterval(async function () {
+    await db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1))
+
+    counter++
+    if (counter >= 40) {
+      clearInterval(timer)
+    }
+  }, 200)
 }

@@ -17,7 +17,9 @@
     </Card>
 
     <div class="flex justify-end">
-      <button class="button" @click="$formulate.submit('entry')">Save</button>
+      <button class="button" @click="$formulate.submit('entry')">
+        Update entry
+      </button>
     </div>
 
     <!-- -->
