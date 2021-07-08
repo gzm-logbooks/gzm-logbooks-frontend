@@ -14,12 +14,16 @@
     @apply focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75;
   }
 
+  .button--disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
   .button--center {
     @apply justify-center;
   }
 
   .button--default {
-    @apply bg-gray-500 text-gray-50 hover:bg-gray-700;
+    @apply bg-gray-500 text-gray-50 hover:bg-gray-700 hover:text-gray-50;
   }
 
   .button--outline {

@@ -4,6 +4,10 @@
     @apply button--default;
   }
 
+  button:disabled {
+    @apply button--disabled;
+  }
+
   a {
     @apply link;
   }

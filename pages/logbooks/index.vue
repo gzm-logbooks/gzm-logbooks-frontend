@@ -10,7 +10,9 @@
       <template #title>
         <div class="flex gap-1 ml-auto">
           <nuxt-link class="button button--outline" to="/logbooks/new">Create blank logbook</nuxt-link>
-          <nuxt-link class="button" to="/logbooks/new">Add logbook from web</nuxt-link>
+          <button class="button" disabled>Add logbook from web</button>
+          <button class="button" @click="$seed">Generate demo logbook</button>
+
         </div>
       </template>
 
