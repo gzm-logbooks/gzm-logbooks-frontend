@@ -27,7 +27,6 @@
         </div>
       </template>
     </Card>
-
   </LayoutPage>
 </template>
 

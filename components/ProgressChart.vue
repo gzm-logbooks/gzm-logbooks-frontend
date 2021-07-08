@@ -48,6 +48,7 @@ export default defineComponent({
 
     const defaultOptions = readonly({
       animation: false,
+      responsive: true,
       plugins: {
         legend: {
           display: false,
@@ -62,9 +63,11 @@ export default defineComponent({
           showLine: false,
           borderWidth: 0,
           tension: 0.4,
-          cubicInterpolationMode: 'monotone',
         },
       },
+      // layout: {
+      //   padding: props.full ? 80 : 0,
+      // },
       scales: {
         x: {
           display: props.full,
@@ -72,18 +75,22 @@ export default defineComponent({
           time: {
             unit: 'day',
           },
-          // ticks: {
-          //   // source: 'data',
-          //   autoSkip: true,
-          //   maxTicksLimit: 20,
-          // },
+          ticks: {
+            source: 'data',
+            maxTicksLimit: 50,
+            minRotation: 30,
+            // autoSkip: true,
+          },
+          grid: {
+            display: false,
+          },
           // max: new Date(),
           // suggestedMax: new Date(),
         },
         y: {
           display: false,
           min: 0,
-          max: 1,
+          max: props.full ? 1.03 : 1,
         },
       },
       onClick(event, elements = [], legend) {

@@ -2,7 +2,10 @@
   <div class="card">
     <slot name="top" />
 
-    <div v-if="$slots.title" class="card__section px-4 py-3">
+    <div
+      v-if="$slots.title"
+      class="card__section flex-row text-lg items-center bg-gray-50"
+    >
       <slot name="title" />
     </div>
 
