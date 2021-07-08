@@ -28,16 +28,17 @@
   }
 
   .button__icon {
-    @apply h-full mx-2 no-underline;
+    @apply h-full mx-2;
+    @apply no-underline;
   }
 
-  .button__icon::first-child {
+  /* .button > :first-child.button__icon {
     @apply ml-0;
   }
 
-  .button__icon::last-child {
+  .button > :last-child.button__icon {
     @apply mr-0;
-  }
+  } */
 
   /*  */
   .input {

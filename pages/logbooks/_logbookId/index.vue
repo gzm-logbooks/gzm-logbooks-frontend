@@ -3,18 +3,18 @@
     <Card class="bg-gray-50">
       <template #top>
         <div class="card__section bg-gray-50">
-          <div class="flex items-start gap-1 ml-auto h-16 -mb-16 z-20">
+          <div class="flex items-start gap-2 ml-auto h-16 -mb-16 z-20">
             <template v-if="edit">
               <button
-                class="button button--primary bg-yellow-500"
-                @click="edit = false"
+                class="button button--primary bg-yellow-200"
+                @click="reset"
               >
                 Cancel
                 <span class="button__icon"></span>
               </button>
 
               <button
-                class="button button--primary bg-green-500"
+                class="button button--primary bg-green-200"
                 @click="$formulate.submit('logbook')"
               >
                 Save
@@ -43,7 +43,7 @@
             v-if="edit"
             v-model="fields"
             name="logbook"
-            @submit="saveEdit"
+            @submit="save"
           >
             <FormLogbookFields />
           </FormulateForm>
@@ -128,6 +128,9 @@ export default {
     if (!this.logbook) {
       return this.$router.push({ name: 'logbooks' })
     }
+
+    // Set form data.
+    this.reset()
   },
 
   computed: {
@@ -147,13 +150,27 @@ export default {
       })
     },
 
-    async saveEdit(fields) {
-      this.edit = false
+    async save(fields) {
       const data = {
         name: fields.name,
       }
-      console.log(fields)
+
       await this.logbook.atomicPatch(data)
+
+      //
+      this.$fetch()
+    },
+
+    reset() {
+      const { name } = this.logbook
+      console.log(this.logbook)
+
+      this.fields = {
+        name:  this.logbook.name
+      }
+      this.$fetch() // Dirty
+      //
+      this.edit = false
     },
   },
 }
