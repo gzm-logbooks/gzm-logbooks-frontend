@@ -1,7 +1,7 @@
 <template>
-  <div class="px-4 flex flex-col items-center">
+  <div class="flex flex-col items-center px-4">
     <LayoutContainer max="lg" class="my-6">
-      <div v-if="$slots.title" class="text-xl mb-4">
+      <div v-if="$slots.title" class="mb-4 text-xl">
         <slot name="title" />
       </div>
 
@@ -10,7 +10,7 @@
 
     <slot name="fullwidth" />
 
-    <div v-if="$slots.debug" class="w-full overflow-hidden mt-auto mb-4">
+    <div v-if="$slots.debug && false" class="w-full mt-auto mb-4 overflow-hidden">
       <LayoutContainer>
         <slot name="debug" />
       </LayoutContainer>
