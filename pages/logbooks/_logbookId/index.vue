@@ -77,14 +77,28 @@
         </div>
 
         <div>
-          <CircleSemi />
-          <div style="height: 100px"><CircleStrip /></div>
+          <CircleSemi
+            :state="{
+              red: entries[0].amountRed,
+              amber: entries[0].amountAmber,
+              green: entries[0].amountGreen,
+            }"
+          />
         </div>
 
         <div v-for="entry in entries" :key="entry.primary">
           <nuxt-link :to="entry.getRoute()">
             {{ new Date(entry.timestamp).toDateString() }}
           </nuxt-link>
+          <div style="height: 50px">
+            <CircleStrip
+              :state="{
+                red: entry.amountRed,
+                amber: entry.amountAmber,
+                green: entry.amountGreen,
+              }"
+            />
+          </div>
         </div>
       </Card>
 
