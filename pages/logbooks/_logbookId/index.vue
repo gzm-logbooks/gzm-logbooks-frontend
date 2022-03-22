@@ -3,10 +3,10 @@
     <Card class="bg-gray-50">
       <template #top>
         <div class="card__section bg-gray-50">
-          <div class="flex items-start gap-2 ml-auto h-16 -mb-16 z-20">
+          <div class="z-20 flex items-start h-16 gap-2 ml-auto -mb-16">
             <template v-if="edit">
               <button
-                class="button button--primary bg-yellow-200"
+                class="bg-yellow-200 button button--primary"
                 @click="reset"
               >
                 Cancel
@@ -14,7 +14,7 @@
               </button>
 
               <button
-                class="button button--primary bg-green-200"
+                class="bg-green-200 button button--primary"
                 @click="$formulate.submit('logbook')"
               >
                 Save
@@ -66,14 +66,19 @@
       </Card>
 
       <Card class="mb-6">
-        <div class="flex space-x-4 mb-2">
-          <h2 class="text-lg font-medium self-end mr-auto">Recent entries</h2>
+        <div class="flex mb-2 space-x-4">
+          <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
           <nuxt-link
             class="button button--outline"
             :to="logbook.getNewEntryRoute()"
           >
             Add entry
           </nuxt-link>
+        </div>
+
+        <div>
+          <CircleSemi />
+          <div style="height: 100px"><CircleStrip /></div>
         </div>
 
         <div v-for="entry in entries" :key="entry.primary">
@@ -166,7 +171,7 @@ export default {
       console.log(this.logbook)
 
       this.fields = {
-        name:  this.logbook.name
+        name: this.logbook.name,
       }
       this.$fetch() // Dirty
       //
