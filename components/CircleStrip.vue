@@ -7,6 +7,7 @@
       :transform="scaleRed"
       :fill="red"
     />
+
     <rect
       width="100%"
       height="100%"
@@ -14,6 +15,7 @@
       :transform="scaleAmber"
       :fill="amber"
     />
+
     <rect
       width="100%"
       height="100%"

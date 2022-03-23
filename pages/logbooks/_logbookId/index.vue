@@ -76,24 +76,21 @@
           </nuxt-link>
         </div>
 
-        <!-- Most recent entry -->
-        <div>
-          <nuxt-link :to="lastEntry.getRoute()" class="grid grid-cols-3">
-            <div>
-              {{
-                new Intl.DateTimeFormat('default', {
-                  weekday: 'long',
-                }).format(new Date(lastEntry.timestamp))
-              }}
-              {{
-                new Intl.DateTimeFormat('default', {
-                  month: '2-digit',
-                  day: '2-digit',
-                }).format(new Date(lastEntry.timestamp))
-              }}
-            </div>
+        <!-- Logbook entries feed -->
+        <div class="space-y-1 entries">
+          <h3 class="pt-4 text-lg font-medium">This week</h3>
+
+          <!-- Most recent entry -->
+          <nuxt-link
+            :to="lastEntry.getRoute()"
+            class="grid items-end grid-cols-3 entries__entry"
+          >
+            <span class="mr-auto text-lg font-medium">
+              {{ recentDateFormatter.format(new Date(lastEntry.timestamp)) }}
+            </span>
+
             <CircleSemi
-              class="col-span-2 col-start-2"
+              class="col-span-2 col-start-2 entry__slice"
               :state="{
                 red: lastEntry.amountRed,
                 amber: lastEntry.amountAmber,
@@ -101,54 +98,51 @@
               }"
             />
           </nuxt-link>
-        </div>
 
-        <div v-for="entry in lastWeekEntries" :key="entry.primary">
-          <nuxt-link :to="entry.getRoute()" class="grid grid-cols-3">
-            <div>
-              {{
-                new Intl.DateTimeFormat('default', {
-                  weekday: 'long',
-                }).format(new Date(entry.timestamp))
-              }}
-              {{
-                new Intl.DateTimeFormat('default', {
-                  month: '2-digit',
-                  day: '2-digit',
-                }).format(new Date(entry.timestamp))
-              }}
-            </div>
-            <div style="height: 60px" class="col-span-2 col-start-2">
-              <CircleStrip
-                :state="{
-                  red: entry.amountRed,
-                  amber: entry.amountAmber,
-                  green: entry.amountGreen,
-                }"
-              />
-            </div>
+          <!-- Last week's entries -->
+          <nuxt-link
+            v-for="entry in lastWeekEntries"
+            :key="entry.primary"
+            :to="entry.getRoute()"
+            class="grid items-end content-end grid-cols-3 entries__entry"
+          >
+            <span>
+              {{ recentDateFormatter.format(new Date(entry.timestamp)) }}
+            </span>
+
+            <CircleStrip
+              style="height: 60px"
+              class="col-span-2 col-start-2 entry__slice"
+              :state="{
+                red: entry.amountRed,
+                amber: entry.amountAmber,
+                green: entry.amountGreen,
+              }"
+            />
           </nuxt-link>
-        </div>
 
-        <div v-for="entry in otherEntries" :key="entry.primary">
-          <nuxt-link :to="entry.getRoute()" class="grid grid-cols-3">
-            <div>
-              {{
-                new Intl.DateTimeFormat('default', {
-                  month: '2-digit',
-                  day: '2-digit',
-                }).format(new Date(entry.timestamp))
-              }}
-            </div>
-            <div style="height: 30px" class="col-span-2 col-start-2">
-              <CircleStrip
-                :state="{
-                  red: entry.amountRed,
-                  amber: entry.amountAmber,
-                  green: entry.amountGreen,
-                }"
-              />
-            </div>
+          <!-- Older entries -->
+          <h3 class="pt-4 text-lg font-medium">Older</h3>
+
+          <nuxt-link
+            v-for="entry in olderEntries"
+            :key="entry.primary"
+            :to="entry.getRoute()"
+            class="grid items-center grid-cols-3 entries__entry"
+          >
+            <span>
+              {{ olderDateFormatter.format(new Date(entry.timestamp)) }}
+            </span>
+
+            <CircleStrip
+              style="height: 30px"
+              class="col-span-2 col-start-2 entry__slice"
+              :state="{
+                red: entry.amountRed,
+                amber: entry.amountAmber,
+                green: entry.amountGreen,
+              }"
+            />
           </nuxt-link>
         </div>
       </Card>
@@ -187,31 +181,12 @@ export default {
     // Get logbook record from database.
     this.logbook = await db.logbooks.findOne(logbookId).exec()
 
-    // Get logbook entries for the graph.
+    // Get all entries.
     this.entries = await db.entries
       .find()
       .where({ logbook: logbookId })
       .sort({ timestamp: 'desc' })
       .exec()
-
-    // Get last logbook entry.
-    this.lastEntry = this.entries[0]
-
-    // Get last weeks records.
-    this.lastWeekEntries = this.entries
-      .slice(1)
-      .filter(
-        (entry) =>
-          Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp)
-      )
-
-    // Get other records.
-    this.otherEntries = this.entries
-      .slice(1)
-      .filter(
-        (entry) =>
-          Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp)
-      )
 
     // Redirect if logbook is missing.
     if (!this.logbook) {
@@ -226,6 +201,46 @@ export default {
     logbookId() {
       return this.logbook?.primary
     },
+
+    // Slices of logbook entries...
+    lastEntry() {
+      // Get last logbook entry.
+      return this.entries[0]
+    },
+
+    lastWeekEntries() {
+      // Get last weeks records.
+      return this.entries
+        .slice(1)
+        .filter(
+          (entry) =>
+            Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp)
+        )
+    },
+
+    olderEntries() {
+      // Get other records.
+      return this.entries
+        .slice(1)
+        .filter(
+          (entry) =>
+            Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp)
+        )
+    },
+
+    // Setup date formatters...
+    recentDateFormatter: () =>
+      new Intl.DateTimeFormat('default', {
+        weekday: 'long',
+        month: '2-digit',
+        day: '2-digit',
+      }),
+
+    olderDateFormatter: () =>
+      new Intl.DateTimeFormat('default', {
+        month: '2-digit',
+        day: '2-digit',
+      }),
   },
 
   methods: {
@@ -264,3 +279,18 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.entries__entry {
+  transition: 0.5s;
+  transition-property: opacity;
+}
+
+.entries:hover .entry__slice {
+  opacity: 0.5;
+}
+
+.entries__entry:hover .entry__slice {
+  opacity: 1;
+}
+</style>
