@@ -76,29 +76,80 @@
           </nuxt-link>
         </div>
 
+        <!-- Most recent entry -->
         <div>
-          <CircleSemi
-            :state="{
-              red: entries[0].amountRed,
-              amber: entries[0].amountAmber,
-              green: entries[0].amountGreen,
-            }"
-          />
-        </div>
-
-        <div v-for="entry in entries" :key="entry.primary">
-          <nuxt-link :to="entry.getRoute()">
-            {{ new Date(entry.timestamp).toDateString() }}
-          </nuxt-link>
-          <div style="height: 50px">
-            <CircleStrip
+          <nuxt-link :to="lastEntry.getRoute()" class="grid grid-cols-3">
+            <div>
+              {{
+                new Intl.DateTimeFormat('default', {
+                  weekday: 'long',
+                }).format(new Date(lastEntry.timestamp))
+              }}
+              {{
+                new Intl.DateTimeFormat('default', {
+                  month: '2-digit',
+                  day: '2-digit',
+                }).format(new Date(lastEntry.timestamp))
+              }}
+            </div>
+            <CircleSemi
+              class="col-span-2 col-start-2"
               :state="{
-                red: entry.amountRed,
-                amber: entry.amountAmber,
-                green: entry.amountGreen,
+                red: lastEntry.amountRed,
+                amber: lastEntry.amountAmber,
+                green: lastEntry.amountGreen,
               }"
             />
-          </div>
+          </nuxt-link>
+        </div>
+
+        <div v-for="entry in lastWeekEntries" :key="entry.primary">
+          <nuxt-link :to="entry.getRoute()" class="grid grid-cols-3">
+            <div>
+              {{
+                new Intl.DateTimeFormat('default', {
+                  weekday: 'long',
+                }).format(new Date(entry.timestamp))
+              }}
+              {{
+                new Intl.DateTimeFormat('default', {
+                  month: '2-digit',
+                  day: '2-digit',
+                }).format(new Date(entry.timestamp))
+              }}
+            </div>
+            <div style="height: 60px" class="col-span-2 col-start-2">
+              <CircleStrip
+                :state="{
+                  red: entry.amountRed,
+                  amber: entry.amountAmber,
+                  green: entry.amountGreen,
+                }"
+              />
+            </div>
+          </nuxt-link>
+        </div>
+
+        <div v-for="entry in otherEntries" :key="entry.primary">
+          <nuxt-link :to="entry.getRoute()" class="grid grid-cols-3">
+            <div>
+              {{
+                new Intl.DateTimeFormat('default', {
+                  month: '2-digit',
+                  day: '2-digit',
+                }).format(new Date(entry.timestamp))
+              }}
+            </div>
+            <div style="height: 30px" class="col-span-2 col-start-2">
+              <CircleStrip
+                :state="{
+                  red: entry.amountRed,
+                  amber: entry.amountAmber,
+                  green: entry.amountGreen,
+                }"
+              />
+            </div>
+          </nuxt-link>
         </div>
       </Card>
 
@@ -136,12 +187,31 @@ export default {
     // Get logbook record from database.
     this.logbook = await db.logbooks.findOne(logbookId).exec()
 
-    // Get logbook entry records.
+    // Get logbook entries for the graph.
     this.entries = await db.entries
       .find()
       .where({ logbook: logbookId })
-      .sort('timestamp')
+      .sort({ timestamp: 'desc' })
       .exec()
+
+    // Get last logbook entry.
+    this.lastEntry = this.entries[0]
+
+    // Get last weeks records.
+    this.lastWeekEntries = this.entries
+      .slice(1)
+      .filter(
+        (entry) =>
+          Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp)
+      )
+
+    // Get other records.
+    this.otherEntries = this.entries
+      .slice(1)
+      .filter(
+        (entry) =>
+          Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp)
+      )
 
     // Redirect if logbook is missing.
     if (!this.logbook) {
