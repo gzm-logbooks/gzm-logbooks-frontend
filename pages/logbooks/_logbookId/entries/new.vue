@@ -11,9 +11,13 @@
     </LayoutPageHeader>
 
     <Card class="mb-4">
-      <div class="mb-4 flex justify-center">
+      <div class="flex justify-center mb-4">
         <span class="text-xl italic">How did things go today?</span>
       </div>
+
+      <p class="text-3xl font-bold">{{ analysis.toFixed(2) }}</p>
+
+      <p>{{ fields.mood }}</p>
 
       <FormulateForm v-model="fields" name="entry" @submit="save">
         <FormEntryFields />
@@ -54,6 +58,37 @@ export default {
     if (!this.logbook) {
       return this.$router.push({ name: 'logbooks' })
     }
+  },
+
+  computed: {
+    analysis() {
+      const mood = this.fields?.mood
+
+      if (!mood) {
+        return 0
+      }
+
+      //
+      const { amountRed, amountAmber, amountGreen } = mood ?? {
+        amountRed: 0,
+        amountAmber: 0,
+        amountGreen: 0,
+      }
+
+      const ringRed = (amountRed - amountAmber - 0.05) / 0.8
+      const ringAmber = (amountAmber - amountGreen - 0.05) / 0.8
+      const ringGreen = (amountGreen - 0.1) / 0.8
+
+      // const ringGreen = amountGreen - 0.14
+      // const ringAmber = amountAmber - ringGreen
+      // const ringRed = amountRed - amountAmber
+
+      return (ringGreen - ringRed) / (ringAmber + 1)
+    },
+
+    scaleBand() {
+      return this.analysis
+    },
   },
 
   methods: {
