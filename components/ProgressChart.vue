@@ -57,7 +57,7 @@ export default defineComponent({
       elements: {
         point: {
           pointStyle: 'circle',
-          radius: props.full ? 8 : 0,
+          radius: 0,
         },
         line: {
           showLine: false,

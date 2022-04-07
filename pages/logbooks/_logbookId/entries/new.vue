@@ -11,13 +11,15 @@
     </LayoutPageHeader>
 
     <Card class="mb-4">
-      <div class="mb-4 flex justify-center">
+      <div class="flex justify-center mb-4">
         <span class="text-xl italic">How did things go today?</span>
       </div>
 
       <FormulateForm v-model="fields" name="entry" @submit="save">
         <FormEntryFields />
       </FormulateForm>
+
+      <Analysis :mood="fields.mood" />
 
       <template #footer>
         <div class="flex ml-auto">
@@ -32,8 +34,10 @@
 
 <script>
 import { format } from 'date-fns'
+import Analysis from '~/components/Analysis.vue'
 
 export default {
+  components: { Analysis },
   data() {
     return {
       fields: {
@@ -42,27 +46,21 @@ export default {
       logbook: {},
     }
   },
-
   async fetch() {
     const { logbookId } = this.$route.params
     const db = await this.$db
-
     // Get logbook record from database.
     this.logbook = await db.logbooks.findOne(logbookId).exec()
-
     // Redirect if logbook is missing.
     if (!this.logbook) {
       return this.$router.push({ name: 'logbooks' })
     }
   },
-
   methods: {
     async save(fields) {
       const { logbook } = this
       const db = await this.$db
-
       const { comment, mood } = fields
-
       // Build document data.
       const data = {
         ...mood,
@@ -70,11 +68,9 @@ export default {
         timestamp: new Date(fields.timestamp).toISOString(),
         logbook: logbook.primary,
       }
-
       // Create document in db.
       const doc = await db.entries.insert(data)
       // .catch((error) => console.log(error))
-
       if (doc) {
         // Back to logbook.
         return this.$router.push(this.logbook.getRoute())
