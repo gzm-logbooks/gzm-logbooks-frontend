@@ -2,8 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import "./base.css";
-@import "./components.css";
+/* @import "./base.css";
+@import "./components.css"; */
 
 html,
 body {
@@ -11,7 +11,7 @@ body {
 }
 
 body {
-  /* @apply bg-texture bg-cover bg-blend-lighten bg-gray-800; */
-  @apply bg-doodles bg-blend-lighten bg-gray-100;
+  /* @apply bg-gray-800 bg-cover bg-texture bg-blend-lighten; */
+  @apply bg-gray-100 bg-doodles bg-blend-lighten;
   /* @apply bg-indigo-100; */
 }
