@@ -5,7 +5,7 @@ import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
-import { seedDatabase } from '~/data/seeder'
+import { seedFakeLogbook } from '~/data/seeder'
 
 // Load schemas.
 import entrySchema from '~/data/schemas/entry.json'
@@ -110,6 +110,6 @@ export default function ({ app }, inject) {
   // Add $db field to app context.
   inject('db', pendingInstance)
   inject('seed', async () => {
-    seedDatabase(await pendingInstance)
+    seedFakeLogbook(await pendingInstance, 200)
   })
 }

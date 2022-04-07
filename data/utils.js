@@ -8,7 +8,7 @@ export const entryAmountsToCircleInputModel = function (entry) {
 
 export const circleInputModelToEntryAmounts = function (model) {
   return {
-    amountRed: model.red,
+    amountRed: 1, // Outer ring is fixed.
     amountAmber: model.amber,
     amountGreen: model.green,
   }

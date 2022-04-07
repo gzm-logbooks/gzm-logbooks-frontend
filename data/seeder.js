@@ -1,3 +1,5 @@
+import { growthInputDefaults, validateMoodInput } from '~/data/config'
+
 const hour = 1000 * 60 * 60
 const day = hour * 24
 const week = day * 7
@@ -7,51 +9,22 @@ const entryFactory = (
   from = new Date(),
   amount = 40,
   step = 2 * week,
-  spread = week,
+  spread = week
 ) => {
   //
   function getSpread() {
     return parseInt(Math.random() * spread)
   }
 
-  function getAmounts() {
-    // const max = { red: 0.05, amber: 0.33 }
-    const amountGreen = Math.min(
-      Math.max(
-        Math.sqrt(-2 * Math.log(Math.random())) *
-          Math.cos(2 * Math.PI * Math.random()) *
-          0.5 +
-          1 / 4,
-        0
-      ),
-      0.8
-    )
-    const amountAmber = Math.min(
-      Math.max(
-        Math.sqrt(-2 * Math.log(Math.random())) *
-          Math.cos(2 * Math.PI * Math.random()) *
-          0.5 +
-          1 / 2,
-        amountGreen + 0.1
-      ),
-      0.9
-    )
-    const amountRed = Math.min(
-      Math.max(
-        Math.sqrt(-2 * Math.log(Math.random())) *
-          Math.cos(2 * Math.PI * Math.random()) *
-          0.5 +
-          3 / 4,
-        amountAmber + 0.1
-      ),
-      1
-    )
+  // function boxMuller() {
+  //   return (
+  //     Math.sqrt(-2 * Math.log(Math.random())) *
+  //     Math.cos(2 * Math.PI * Math.random())
+  //   )
+  // }
 
-    return {
-      amountGreen,
-      amountAmber,
-      amountRed,
-    }
+  function getAmounts() {
+    return fakeMoodInputValues()
   }
 
   //
@@ -74,7 +47,12 @@ const entryFactory = (
   return entries
 }
 
-export const seedDatabase = async function (db) {
+/**
+ * Create a demo logbook and fill it with fake data.
+ *
+ * @param {*} db
+ */
+export const seedFakeLogbook = async function (db, delay = 200) {
   const logbook = await db.logbooks.insert({
     name: 'Example Logbook',
   })
@@ -87,5 +65,28 @@ export const seedDatabase = async function (db) {
     if (counter >= 40) {
       clearInterval(timer)
     }
-  }, 200)
+  }, delay)
+}
+
+/**
+ *
+ * @returns
+ */
+export function fakeMoodInputValues() {
+  const { padding, minRadius } = growthInputDefaults
+
+  // const max = { red: 0.05, amber: 0.33 }
+
+  const amountGreen = Math.random() * (1 - minRadius - padding * 2) + minRadius
+
+  const amountAmber = Math.max(
+    Math.random() * (1 - minRadius - padding * 2) + minRadius + padding,
+    amountGreen + padding
+  )
+
+  return validateMoodInput({
+    amountGreen,
+    amountAmber,
+    amountRed: 1,
+  })
 }

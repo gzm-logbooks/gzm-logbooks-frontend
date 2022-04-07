@@ -220,22 +220,14 @@ export default {
     },
 
     updateCircleScale(circle, scale) {
-      const { padding, minRadius, maxDepth } = growthInputDefaults
-
-      const getMinScale = (depth) => {
-        return minRadius + (maxDepth - depth) * padding
-      }
-
-      const getMaxScale = (depth) => {
-        return 1 - padding * depth
-      }
+      const { padding, minRadius } = growthInputDefaults
 
       if (circle === 'amber') {
         //
         this.$set(
           this.state,
           'amber',
-          clamp(scale - this.dragDiff, getMinScale(1), getMaxScale(1))
+          clamp(scale - this.dragDiff, minRadius + padding, 1 - padding)
         )
 
         if (this.model.amber - this.model.green < padding) {
@@ -248,7 +240,7 @@ export default {
         this.$set(
           this.state,
           'green',
-          clamp(scale - this.dragDiff, getMinScale(2), getMaxScale(2))
+          clamp(scale - this.dragDiff, minRadius, 1 - padding * 2)
         )
 
         if (this.model.amber - this.model.green < padding) {
