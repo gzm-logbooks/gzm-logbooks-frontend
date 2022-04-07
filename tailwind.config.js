@@ -1,5 +1,6 @@
 import pluginForms from '@tailwindcss/forms'
 import pluginTypography from '@tailwindcss/typography'
+import pluginDaisy from 'daisyui'
 
 /*
  ** TailwindCSS Configuration File
@@ -44,7 +45,7 @@ module.exports = {
   //     blue: theme('colors.blue.500'),
   //   }),
   // },
-  plugins: [require('daisyui'), pluginForms, pluginTypography],
+  plugins: [pluginDaisy, pluginForms, pluginTypography],
   purge: {
     content: ['formulate.config.js'],
   },
