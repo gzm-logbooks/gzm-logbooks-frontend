@@ -9,12 +9,12 @@ export default {
     input(context) {
       switch (context.classification) {
         case 'button':
-          return 'button'
+          return 'btn'
         default:
           return 'input'
       }
     },
-    label: 'text-sm mb-2 font-medium',
+    label: 'label-text',
     help: 'text-xs mb-1 text-gray-600',
     error: 'text-xs mb-1 text-red-700',
   },
