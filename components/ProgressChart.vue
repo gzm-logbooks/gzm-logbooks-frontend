@@ -12,10 +12,8 @@ import {
   reactive,
   computed,
   watch,
-  watchEffect,
   onMounted,
   readonly,
-  // watch,
 } from '@nuxtjs/composition-api'
 import { theme } from '~tailwind.config'
 // import { defaultsDeep } from 'lodash-es'

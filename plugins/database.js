@@ -1,4 +1,4 @@
-import { createRxDatabase, addRxPlugin } from 'rxdb/plugins/core'
+import { addRxPlugin } from 'rxdb/plugins/core'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
@@ -6,10 +6,7 @@ import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
 import { seedFakeLogbook } from '~/data/seeder'
-
-// Load schemas.
-import entrySchema from '~/data/schemas/entry.json'
-import logbookSchema from '~/data/schemas/logbook.json'
+import { getDatabaseInstance } from '~/data/database'
 
 // Add plugins.
 addRxPlugin(RxDBValidatePlugin)
@@ -23,89 +20,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //
-export const createDatabase = async function () {
-  const db = await createRxDatabase({
-    name: 'logbooks',
-    adapter: 'indexeddb',
-  })
-
-  await db.addCollections({
-    logbooks: {
-      schema: logbookSchema,
-      migrationStrategies: {
-        1() {
-          return null
-        },
-      },
-      methods: {
-        getRoute() {
-          const { primary } = this
-
-          if (!primary) {
-            return null
-          }
-
-          return {
-            name: 'logbooks-logbookId',
-            params: {
-              logbookId: primary,
-            },
-          }
-        },
-        getNewEntryRoute() {
-          const { primary } = this
-
-          if (!primary) {
-            return null
-          }
-
-          return {
-            name: 'logbooks-logbookId-entries-new',
-            params: {
-              logbookId: primary,
-            },
-          }
-        },
-      },
-    },
-    entries: {
-      schema: entrySchema,
-      migrationStrategies: {
-        1() {
-          return null
-        },
-      },
-      methods: {
-        getRoute() {
-          const { primary, logbook } = this
-
-          if (!primary || !logbook) {
-            return null
-          }
-
-          return {
-            name: 'logbooks-logbookId-entries-entryId',
-            params: {
-              logbookId: logbook,
-              entryId: primary,
-            },
-          }
-        },
-      },
-    },
-  })
-
-  // Delay for testing 😈
-  // // await new Promise((resolve) => {
-  // //   setTimeout(resolve, 6666)
-  // // })
-
-  return db
-}
-
 export default function ({ app }, inject) {
   // Initialize the database.
-  const pendingInstance = createDatabase()
+  const pendingInstance = getDatabaseInstance()
 
   // Add $db field to app context.
   inject('db', pendingInstance)
