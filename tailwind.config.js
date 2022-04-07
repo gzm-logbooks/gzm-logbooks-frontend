@@ -8,6 +8,33 @@ import pluginTypography from '@tailwindcss/typography'
  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
  */
 module.exports = {
+  daisyui: {
+    themes: [
+      {
+        default: {
+          primary: '#2a9d8f',
+          secondary: '#f4a261',
+          accent: '#e76f51',
+          neutral: '#264653',
+          'base-100': '#e9c46a',
+        },
+        meanteen: {
+          primary: '#3d5a80',
+          secondary: '#98c1d9',
+          accent: '#ee6c4d',
+          neutral: '#293241',
+          'base-100': '#e0fbfc',
+        },
+        pinkpalace: {
+          primary: '#cdb4db',
+          secondary: '#ffc8dd',
+          accent: '#ffafcc',
+          neutral: '#a2d2ff',
+          'base-100': '#bde0fe',
+        },
+      },
+    ],
+  },
   important: '#__nuxt',
   // theme: {
   //   stroke: (theme) => ({
@@ -17,7 +44,7 @@ module.exports = {
   //     blue: theme('colors.blue.500'),
   //   }),
   // },
-  plugins: [pluginForms, pluginTypography],
+  plugins: [require('daisyui'), pluginForms, pluginTypography],
   purge: {
     content: ['formulate.config.js'],
   },

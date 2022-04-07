@@ -287,14 +287,14 @@ export default {
 }
 
 .raginput__circle--outer {
-  @apply text-red-400;
+  @apply text-accent;
 }
 
 .raginput__circle--middle {
-  @apply text-yellow-400;
+  @apply text-secondary;
 }
 
 .raginput__circle--inner {
-  @apply text-green-400;
+  @apply text-primary;
 }
 </style>
