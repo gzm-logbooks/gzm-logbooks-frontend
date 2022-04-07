@@ -62,7 +62,7 @@ export default defineComponent({
         line: {
           showLine: false,
           borderWidth: 0,
-          tension: 0.4,
+          tension: 1 / 4,
         },
       },
       // layout: {
@@ -76,9 +76,13 @@ export default defineComponent({
             unit: 'day',
           },
           ticks: {
+            display: false,
+            align: 'start',
+            // showLabelBackdrop: true,
             source: 'data',
-            maxTicksLimit: 50,
-            minRotation: 30,
+            maxTicksLimit: 12,
+            minRotation: 0,
+
             // autoSkip: true,
           },
           grid: {
