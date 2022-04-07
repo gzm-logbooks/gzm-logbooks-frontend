@@ -61,6 +61,7 @@
 
 <script>
 import { clamp, defaults } from 'lodash-es'
+import { growthInputDefaults } from '~/data/config'
 
 function getTouchEventCoords(params) {
   // Get viewpoint coords.
@@ -84,10 +85,6 @@ export default {
         return {}
       },
     },
-    circleSize: {
-      type: Number,
-      default: 100,
-    },
     offset: {
       type: Number,
       default: 14,
@@ -101,7 +98,8 @@ export default {
         amber: 2 / 3,
         green: 1 / 3,
       },
-
+      dragDiff: 0,
+      circleSize: 100,
       currentCircle: null,
     }
   },
@@ -156,6 +154,12 @@ export default {
       const { scale } = this.getRelativeCoords(viewportCoords)
 
       this.currentCircle = this.getCirclePicked(scale)
+
+      if (this.currentCircle === 'amber') {
+        this.dragDiff = scale - this.model.amber
+      } else {
+        this.dragDiff = scale - this.model.green
+      }
     },
 
     endDrag(event) {
@@ -206,12 +210,9 @@ export default {
     //
     getCirclePicked(scale) {
       // Pick which circle is effected.
-      const thresh1 = (this.model.red + this.model.amber) / 2
-      const thresh2 = (this.model.amber + this.model.green) / 2
+      const thresh = (this.model.amber + this.model.green) / 2
 
-      if (scale > thresh1) {
-        return 'red'
-      } else if (scale > thresh2) {
+      if (scale > thresh) {
         return 'amber'
       } else {
         return 'green'
@@ -219,68 +220,40 @@ export default {
     },
 
     updateCircleScale(circle, scale) {
-      const pad = 0.05
-      const minr = 0.1
-      const maxDepth = 2
+      const { padding, minRadius, maxDepth } = growthInputDefaults
 
       const getMinScale = (depth) => {
-        return minr + (maxDepth - depth) * pad
+        return minRadius + (maxDepth - depth) * padding
       }
 
       const getMaxScale = (depth) => {
-        return 1 - pad * depth
+        return 1 - padding * depth
       }
 
-      switch (circle) {
-        case 'red':
-          //
-          this.$set(
-            this.state,
-            'red',
-            clamp(scale, getMinScale(0), getMaxScale(0))
-          )
+      if (circle === 'amber') {
+        //
+        this.$set(
+          this.state,
+          'amber',
+          clamp(scale - this.dragDiff, getMinScale(1), getMaxScale(1))
+        )
 
-          //
-          if (this.model.red - this.model.amber < pad) {
-            this.$set(this.state, 'amber', this.model.red - pad)
-          }
-          if (this.model.amber - this.model.green < pad) {
-            this.$set(this.state, 'green', this.model.amber - pad)
-          }
+        if (this.model.amber - this.model.green < padding) {
+          this.$set(this.state, 'green', this.model.amber - padding)
+        }
+      }
 
-          break
-        case 'amber':
-          //
-          this.$set(
-            this.state,
-            'amber',
-            clamp(scale, getMinScale(1), getMaxScale(1))
-          )
+      if (circle === 'green') {
+        //
+        this.$set(
+          this.state,
+          'green',
+          clamp(scale - this.dragDiff, getMinScale(2), getMaxScale(2))
+        )
 
-          if (this.model.red - this.model.amber < pad) {
-            this.$set(this.state, 'red', this.model.amber + pad)
-          }
-          if (this.model.amber - this.model.green < pad) {
-            this.$set(this.state, 'green', this.model.amber - pad)
-          }
-
-          break
-        case 'green':
-          //
-          this.$set(
-            this.state,
-            'green',
-            clamp(scale, getMinScale(2), getMaxScale(2))
-          )
-
-          if (this.model.amber - this.model.green < pad) {
-            this.$set(this.state, 'amber', this.model.green + pad)
-          }
-          if (this.model.red - this.model.amber < pad) {
-            this.$set(this.state, 'red', this.model.amber + pad)
-          }
-
-          break
+        if (this.model.amber - this.model.green < padding) {
+          this.$set(this.state, 'amber', this.model.green + padding)
+        }
       }
     },
   },
