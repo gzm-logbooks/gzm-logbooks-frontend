@@ -23,7 +23,7 @@
     </Card>
 
     <div class="flex justify-end">
-      <button class="btn" @click="$formulate.submit('entry')">
+      <button class="btn btn-primary" @click="$formulate.submit('entry')">
         Update entry
       </button>
     </div>
