@@ -23,7 +23,7 @@
 
       <template #footer>
         <div class="flex ml-auto">
-          <button class="button" @click="$formulate.submit('entry')">
+          <button class="btn" @click="$formulate.submit('entry')">
             Save entry
           </button>
         </div>

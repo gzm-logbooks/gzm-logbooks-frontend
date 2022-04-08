@@ -2,7 +2,7 @@
   <LayoutPage v-if="!$fetchState.pending">
     <Card class="bg-gray-50">
       <template #top>
-        <div class="card__section bg-gray-50">
+        <div class="card-body bg-gray-50">
           <div class="z-20 flex items-start h-16 gap-2 ml-auto -mb-16">
             <template v-if="edit">
               <button
@@ -10,7 +10,7 @@
                 @click="reset"
               >
                 Cancel
-                <span class="button__icon"></span>
+                <span class="btn__icon"></span>
               </button>
 
               <button
@@ -18,13 +18,13 @@
                 @click="$formulate.submit('logbook')"
               >
                 Save
-                <span class="button__icon">💾</span>
+                <span class="btn__icon">💾</span>
               </button>
             </template>
             <template v-else>
-              <button class="button button--outline" @click="edit = true">
+              <button class="btn btn-outline" @click="edit = true">
                 Rename
-                <span class="button__icon">✏️</span>
+                <span class="btn__icon">✏️</span>
               </button>
             </template>
           </div>
@@ -69,7 +69,7 @@
         <div class="flex mb-2 space-x-4">
           <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
           <nuxt-link
-            class="button button--outline"
+            class="btn btn-outline"
             :to="logbook.getNewEntryRoute()"
           >
             Add entry
@@ -148,7 +148,7 @@
       </Card>
 
       <div class="flex justify-end">
-        <nuxt-link class="button" :to="logbook.getNewEntryRoute()"
+        <nuxt-link class="btn" :to="logbook.getNewEntryRoute()"
           >Add entry</nuxt-link
         >
       </div>

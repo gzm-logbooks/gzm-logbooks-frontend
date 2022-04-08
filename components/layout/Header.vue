@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-800 border-b border-gray-200 card">
+  <div class="text-gray-800 border-b border-gray-200">
     <LayoutContainer class="flex">
       <div
         class="flex flex-wrap items-center flex-1 py-3  sm:flex-nowrap sm:h-16 sm:py-0"
@@ -12,7 +12,7 @@
           <div>
             <button
               v-if="canGoBack"
-              class="button button--outline"
+              class="btn btn-outline"
               @click="$router.back()"
             >
               Back
@@ -21,13 +21,14 @@
         </div>
 
         <div class="flex-1 flex-grow order-last">
-          <div class="ml-auto d-flex">
+          <div class="flex justify-end">
             <button class="btn btn-warning" @click="resetDatabase()">
               Reset
             </button>
           </div>
         </div>
       </div>
+
       <div class="flex max-w-xl mx-auto md:max-w-4xl xl:max-w-6xl"></div>
     </LayoutContainer>
   </div>
@@ -43,7 +44,13 @@ export default {
     },
   },
   methods: {
-    resetDatabase,
+    async resetDatabase() {
+      try {
+        await resetDatabase()
+      } finally {
+        window.location.reload(true)
+      }
+    },
   },
 }
 </script>

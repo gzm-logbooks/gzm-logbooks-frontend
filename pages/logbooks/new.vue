@@ -11,7 +11,7 @@
 
       <template #footer>
         <div class="flex gap-1 ml-auto">
-          <button class="button" @click="$formulate.submit('logbook')">
+          <button class="btn" @click="$formulate.submit('logbook')">
             Create logbook
           </button>
         </div>

@@ -9,14 +9,14 @@
     <Card class="mb-4">
       <template #title>
         <div class="flex gap-1 ml-auto">
-          <nuxt-link class="button button--outline" to="/logbooks/new">Create blank logbook</nuxt-link>
-          <button class="button" disabled>Add logbook from web</button>
-          <button class="button" @click="$seed">Generate demo logbook</button>
+          <nuxt-link class="btn btn-outline" to="/logbooks/new">Create blank logbook</nuxt-link>
+          <button class="btn" disabled>Add logbook from web</button>
+          <button class="btn" @click="$seed">Generate demo logbook</button>
 
         </div>
       </template>
 
-      <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <LogbookItem
           v-for="logbook in logbooks"
           :key="logbook.primary"
@@ -25,7 +25,7 @@
 
         <Card class="rounded-lg">
           <nuxt-link
-            class="button button--center button--outline flex-1"
+            class="flex-1 button button--center button--outline"
             to="/logbooks/new"
             >Add Logbook</nuxt-link
           >
