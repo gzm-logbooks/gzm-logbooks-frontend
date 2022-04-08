@@ -7,12 +7,11 @@ export default {
   classes: {
     outer: 'mb-4',
     input(context) {
-      console.log(context);
       switch (context.type) {
         case 'button':
           return 'btn'
-        case 'text':
-          return 'input input-bordered bg-white'
+        default:
+          return 'input input-bordered'
       }
     },
     label: 'label label-text',

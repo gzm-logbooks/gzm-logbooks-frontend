@@ -45,14 +45,14 @@
         bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
       />
 
-      <g :transform="triangleTransform">
+      <g v-if="mood" :transform="triangleTransform">
         <circle r="3" fill="red" />
         <circle r="2" fill="orange" />
         <circle r="1" fill="green" />
       </g>
 
-      <g class="uppercase">
-        <text style="text-anchor: middle" x="50%" width="100" y="20">
+      <g class="text-sm uppercase">
+        <text style="text-anchor: middle" x="50%" width="50%" y="20">
           Growth
         </text>
 
@@ -60,7 +60,7 @@
           Comfort
         </text>
 
-        <text style="text-anchor: start" x="80%" width="20%" y="245">
+        <text style="text-anchor: end" x="100%" width="20%" y="245">
           Anxiety
         </text>
       </g>
@@ -73,10 +73,15 @@ import { scaledModeInput } from '~/data/config'
 
 export default {
   props: {
-    mood: { type: Object, required: true },
+    mood: { type: Object, default: null },
   },
   computed: {
     triangleTransform() {
+      if (!this.mood) {
+        return ``
+      }
+
+      //
       const scaled = scaledModeInput(this.mood)
 
       const scaler = 200 * Math.sqrt(2)

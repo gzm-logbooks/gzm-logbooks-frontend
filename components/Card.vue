@@ -25,7 +25,7 @@ export default {
   props: {
     contentClass: {
       type: [String, Object, Array],
-      default: 'p-4',
+      default: '',
     },
   },
 }

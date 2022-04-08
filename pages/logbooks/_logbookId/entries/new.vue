@@ -24,23 +24,37 @@
       <FormulateForm v-model="fields" name="entry" @submit="save">
         <FormEntryFields />
       </FormulateForm>
+    </Card>
 
-      <template #footer>
-        <div class="flex justify-end">
-          <button class="btn btn-primary" @click="$formulate.submit('entry')">
-            Save entry
-          </button>
+    <div class="flex justify-end">
+      <button class="btn btn-primary" @click="$formulate.submit('entry')">
+        Save entry
+      </button>
+    </div>
+
+    <div class="divider" />
+
+    <div class="grid grid-cols-2 gap-4">
+      <Card class="bg-white">
+        <template #title>
+          <h2>Metrics and Analysis</h2>
+        </template>
+
+        <div class="grid gap-4">
+          <GrowthAnalysisMetrics :mood="fields.mood" />
+
+          <GrowthAnalysisTriangle :mood="fields.mood" />
         </div>
-      </template>
-    </Card>
+      </Card>
 
-    <Card class="bg-white">
-      <template #title>
-        <h2>Metrics and Analysis</h2>
-      </template>
+      <Card class="bg-white">
+        <template #title>
+          <h2>Suggestions</h2>
+        </template>
 
-      <GrowthAnalysis :mood="fields.mood || {}" />
-    </Card>
+        <GrowthSuggestions :mood="fields.mood" />
+      </Card>
+    </div>
   </LayoutPage>
 </template>
 
