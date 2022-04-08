@@ -1,12 +1,11 @@
 <template>
-  <div class="shadow-sm bg-gray-50 card">
+  <div class="shadow-sm card">
     <slot name="top" />
 
-    <div
-      v-if="$slots.title"
-      class="flex-row items-center text-lg card-body bg-gray-50"
-    >
-      <slot name="title" />
+    <div v-if="$slots.title" class="flex-row card-body">
+      <div class="card-title">
+        <slot name="title" />
+      </div>
     </div>
 
     <div class="card-body" :class="contentClass">

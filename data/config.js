@@ -6,10 +6,11 @@ export const growthInputDefaults = {
   maxDepth: 2,
 }
 
+/**
+ *
+ */
 export function validateMoodInput(value) {
   const { padding, minRadius } = growthInputDefaults
-
-  // const max = { red: 0.05, amber: 0.33 }
 
   const amountGreen = clamp(value.amountGreen, minRadius, 1 - padding * 2)
   const amountAmber = clamp(
@@ -22,5 +23,16 @@ export function validateMoodInput(value) {
     amountGreen,
     amountAmber,
     amountRed: 1,
+  }
+}
+
+/**
+ *
+ */
+export function scaledModeInput({ amountRed, amountAmber, amountGreen }) {
+  return {
+    amountRed: (amountRed - amountAmber - 0.05) / 0.8,
+    amountAmber: (amountAmber - amountGreen - 0.05) / 0.8,
+    amountGreen: (amountGreen - 0.1) / 0.8,
   }
 }

@@ -6,17 +6,15 @@
       </template>
     </LayoutPageHeader>
 
-    <Card class="mb-4">
+    <Card class="mb-4 bg-white">
       <FormLogbook @submit="save" />
-
-      <template #footer>
-        <div class="flex gap-1 ml-auto">
-          <button class="btn" @click="$formulate.submit('logbook')">
-            Create logbook
-          </button>
-        </div>
-      </template>
     </Card>
+
+    <div class="flex justify-end gap-2">
+      <button class="btn btn-primary" @click="$formulate.submit('logbook')">
+        Create logbook
+      </button>
+    </div>
   </LayoutPage>
 </template>
 
@@ -32,7 +30,7 @@ export default {
 
       if (doc) {
         // Redirect to logbook page.
-        return this.$router.push(doc.getRoute())
+        return this.$router.push(doc?.getRoute())
       }
     },
   },

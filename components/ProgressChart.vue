@@ -74,17 +74,16 @@ export default defineComponent({
             unit: 'day',
           },
           ticks: {
-            display: false,
+            auto: true,
+            display: true,
             align: 'start',
             // showLabelBackdrop: true,
             source: 'data',
-            maxTicksLimit: 12,
+            // maxTicksLimit: 12,
             minRotation: 0,
-
-            // autoSkip: true,
           },
           grid: {
-            display: false,
+            display: true,
           },
           // max: new Date(),
           // suggestedMax: new Date(),

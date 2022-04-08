@@ -1,8 +1,8 @@
 <template>
-  <div class="text-gray-800 border-b border-gray-200">
+  <div class="text-gray-800 border-b border-base-200 bg-base-100">
     <LayoutContainer class="flex">
       <div
-        class="flex flex-wrap items-center flex-1 py-3  sm:flex-nowrap sm:h-16 sm:py-0"
+        class="flex flex-wrap items-center flex-1 py-3 sm:flex-nowrap sm:h-16 sm:py-0"
       >
         <div class="text-lg text-center md:text-xl">
           <nuxt-link to="/" class="font-bold"> growth-app </nuxt-link>
@@ -22,8 +22,9 @@
 
         <div class="flex-1 flex-grow order-last">
           <div class="flex justify-end">
-            <button class="btn btn-warning" @click="resetDatabase()">
+            <button class="gap-2 btn btn-warning" @click="resetDatabase()">
               Reset
+              <span>🔥</span>
             </button>
           </div>
         </div>

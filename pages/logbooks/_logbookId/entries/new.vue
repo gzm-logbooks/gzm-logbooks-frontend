@@ -5,12 +5,18 @@
         <h1>Add a new entry</h1>
       </template>
 
-      <nuxt-link class="link" :to="logbook.getRoute()">
-        Back to logbook "{{ logbook.name }}"
-      </nuxt-link>
+      <template #main-actions>
+        <nuxt-link
+          v-if="logbook"
+          class="btn btn-outline"
+          :to="logbook.getRoute()"
+        >
+          Back to logbook "{{ logbook.name }}"
+        </nuxt-link>
+      </template>
     </LayoutPageHeader>
 
-    <Card class="mb-4">
+    <Card class="mb-4 bg-white">
       <div class="flex justify-center mb-4">
         <span class="text-xl italic">How did things go today?</span>
       </div>
@@ -19,25 +25,29 @@
         <FormEntryFields />
       </FormulateForm>
 
-      <Analysis :mood="fields.mood" />
-
       <template #footer>
-        <div class="flex ml-auto">
-          <button class="btn" @click="$formulate.submit('entry')">
+        <div class="flex justify-end">
+          <button class="btn btn-primary" @click="$formulate.submit('entry')">
             Save entry
           </button>
         </div>
       </template>
+    </Card>
+
+    <Card class="bg-white">
+      <template #title>
+        <h2>Metrics and Analysis</h2>
+      </template>
+
+      <GrowthAnalysis :mood="fields.mood || {}" />
     </Card>
   </LayoutPage>
 </template>
 
 <script>
 import { format } from 'date-fns'
-import Analysis from '~/components/Analysis.vue'
 
 export default {
-  components: { Analysis },
   data() {
     return {
       fields: {

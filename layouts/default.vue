@@ -1,6 +1,11 @@
 <template>
   <div class="flex flex-col flex-grow" data-theme="garden">
     <LayoutHeader />
+
+    <LayoutContainer max="lg" class="my-4">
+      <DemoWarning />
+    </LayoutContainer>
+
     <Nuxt />
   </div>
 </template>

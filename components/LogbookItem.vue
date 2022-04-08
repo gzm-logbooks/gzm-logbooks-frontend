@@ -1,11 +1,11 @@
 <template>
   <nuxt-link :to="route">
-    <Card class="rounded-lg" content-class="p-2">
-      <span class="text-lg font-medium">{{ $get(logbook, 'name') }}</span>
-      <p class="text-sm mb-1 text-gray-600">{{ countEntries }} entries</p>
+    <Card content-class="p-2">
+      <span class="card-title">{{ $get(logbook, 'name') }}</span>
+      <p class="mb-1 text-sm text-gray-600">{{ countEntries }} entries</p>
 
       <template #top>
-        <div class="shadow-inner min-h-[8rem] bg-gray-100">
+        <div class="shadow-inner min-h-[8rem]">
           <ProgressChart v-if="entries.length > 1" :entries="entries" />
         </div>
       </template>
@@ -42,10 +42,10 @@ export default {
   },
   computed: {
     route() {
-      return this.logbook?.getRoute() || {}
+      return this.logbook?.getRoute() ?? {}
     },
     countEntries() {
-      return this.entries?.length || 0
+      return this.entries?.length ?? 0
     },
   },
 }

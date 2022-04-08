@@ -7,14 +7,15 @@ export default {
   classes: {
     outer: 'mb-4',
     input(context) {
-      switch (context.classification) {
+      console.log(context);
+      switch (context.type) {
         case 'button':
           return 'btn'
-        default:
-          return 'input'
+        case 'text':
+          return 'input input-bordered bg-white'
       }
     },
-    label: 'label-text',
+    label: 'label label-text',
     help: 'text-xs mb-1 text-gray-600',
     error: 'text-xs mb-1 text-red-700',
   },

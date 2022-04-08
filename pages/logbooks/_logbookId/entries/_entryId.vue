@@ -5,9 +5,15 @@
         <h1>Update existing entry</h1>
       </template>
 
-      <nuxt-link class="link" :to="(logbook && logbook.getRoute()) || {}">
-        Back to logbook "{{ $get(logbook, 'name') }}"
-      </nuxt-link>
+      <template #main-actions>
+        <nuxt-link
+          v-if="logbook"
+          class="btn btn-outline"
+          :to="logbook.getRoute()"
+        >
+          Back to logbook "{{ $get(logbook, 'name') }}"
+        </nuxt-link>
+      </template>
     </LayoutPageHeader>
 
     <Card class="mb-4">
