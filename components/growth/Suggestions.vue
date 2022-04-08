@@ -21,7 +21,7 @@
       thinking brain.
     </p>
 
-    <p></p>
+    
   </div>
 </template>
 

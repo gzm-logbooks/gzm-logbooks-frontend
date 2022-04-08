@@ -45,11 +45,7 @@
         bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
       />
 
-      <g v-if="mood" :transform="triangleTransform">
-        <circle r="3" fill="red" />
-        <circle r="2" fill="orange" />
-        <circle r="1" fill="green" />
-      </g>
+      <circle v-if="mood" :transform="triangleTransform" r="2" />
 
       <g class="text-sm uppercase">
         <text style="text-anchor: middle" x="50%" width="50%" y="20">
