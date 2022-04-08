@@ -1,27 +1,27 @@
 <template>
   <div class="prose">
-    {{ metric }}
+    <p v-if="suggestion == 0">Good Job keep it up!</p>
 
-    <p>
+    <p v-if="suggestion == 1">Maybe you need a challenge!</p>
+
+    <p v-if="suggestion == 2">
+      To reconnect your thinking brain, try 5/7 breathing. Breathe in while you
+      count to 5, and out while you count to 7. Do this again and again until
+      you start to feel calm.
+    </p>
+
+    <p v-if="suggestion == 3">You definitely need a challenge!</p>
+
+    <p v-if="suggestion == 4">Self Safeguarding Saves Students</p>
+
+    <p v-if="suggestion == 5">
       Remember when you feel confused or panicky or stupid, that this is only
       your brain trying to keep you safe. You can think more clearly if you
       reverse the fight, flight or freeze response. This will reconnect your
       thinking brain.
     </p>
 
-    <p v-if="metric > 0.4">
-      When you make a mistake, remember that more new connections are made in
-      your brain than when you get it right. Mistakes are good! When you make a
-      mistake, imagine the new connections in your brain, like the new creases
-      on a scrumpled bit of paper. Then keep trying.
-      <em>You are learning!</em>
-    </p>
-
-    <p>
-      To reconnect your thinking brain, try 5/7 breathing. Breathe in while you
-      count to 5, and out while you count to 7. Do this again and again until
-      you start to feel calm.
-    </p>
+    
   </div>
 </template>
 
@@ -33,18 +33,41 @@ export default {
     mood: { type: Object, default: null },
   },
   computed: {
-    scaled() {
-      if (this.mood) {
-        scaledModeInput(this.mood)
+    suggestion() {
+      if (!this.mood) {
+        return ``
+      }
+
+      //
+      const scaled = scaledModeInput(this.mood)
+
+      const { amountRed, amountGreen } = scaled
+
+      if (amountRed < 1 / 3 && amountGreen < 1 / 3) {
+        return 0
+      }
+
+      if (amountRed < 1 / 3 && amountGreen < 2 / 3) {
+        return 1
+      }
+
+      if (amountRed < 2 / 3 && amountGreen < 1 / 3) {
+        return 2
+      }
+
+      if (amountGreen > 2 / 3) {
+        return 3
+      }
+
+      if (amountRed > 1 / 3 && amountGreen > 1 / 3) {
+        return 4
+      }
+
+      if (amountRed > 2 / 3) {
+        return 5
       }
 
       return null
-    },
-    metric() {
-      return (
-        (this.scaled?.amountGreen - this.scaled?.amountRed) /
-        (this.scaled?.amountAmber + 1)
-      )
     },
   },
 }

@@ -27,7 +27,7 @@ export default {
   computed: {
     scaled() {
       if (this.mood) {
-        scaledModeInput(this.mood)
+        return scaledModeInput(this.mood)
       }
 
       return null
