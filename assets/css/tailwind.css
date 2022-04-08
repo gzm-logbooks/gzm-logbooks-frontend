@@ -12,6 +12,6 @@ body {
 
 body {
   /* @apply bg-gray-800 bg-cover bg-texture bg-blend-lighten; */
-  @apply bg-gray-100 bg-doodles bg-blend-lighten;
+  /* @apply bg-gray-100 bg-doodles bg-blend-lighten; */
   /* @apply bg-indigo-100; */
 }
