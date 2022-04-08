@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-grow">
+  <div class="flex flex-col flex-grow" data-theme="garden">
     <LayoutHeader />
     <Nuxt />
   </div>
