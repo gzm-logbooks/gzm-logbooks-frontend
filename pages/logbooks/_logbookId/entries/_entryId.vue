@@ -31,30 +31,12 @@
     <div class="divider" />
 
     <div class="grid grid-cols-2 gap-4">
-      <Card class="bg-white">
-        <template #title>
-          <h2>Metrics and Analysis</h2>
-        </template>
-
-        <div class="grid gap-4">
-          <GrowthAnalysisMetrics :mood="fields.mood" />
-
-          <GrowthAnalysisTriangle :mood="fields.mood" />
-        </div>
-      </Card>
-
-      <Card class="bg-white">
-        <template #title>
-          <h2>Suggestions</h2>
-        </template>
-
-        <GrowthSuggestions :mood="fields.mood" />
-      </Card>
+      <GrowthAnalysis :mood="fields.mood" />
     </div>
 
     <!-- -->
     <template v-if="!$fetchState.pending" #debug>
-      <Card>
+      <Card >
         <template #title>Saved data</template>
         <pre>{{ JSON.stringify(entry, null, 2) }}</pre>
       </Card>
