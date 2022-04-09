@@ -17,7 +17,7 @@
       class="w-full"
     />
 
-    <!-- TODO: Fix width. -->
+    <!-- TODO: Fix width -->
     <FormulateInput
       class="w-full"
       type="textarea"

@@ -17,8 +17,18 @@
       <h3>Password</h3>
     </Card> -->
 
+    <!-- Remote storage -->
+    <Card class="mb-6 bg-white">
+      <template #title>
+        <h2>Backup and sync</h2>
+      </template>
+
+      <div class="flex flex-grow">
+        <ConnectRemoteStorage />
+      </div>
     </Card>
 
+    <!-- Theme -->
     <Card class="mb-6 bg-white">
       <template #title>
         <h2>Theme</h2>

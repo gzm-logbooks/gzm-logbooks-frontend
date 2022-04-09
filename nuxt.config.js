@@ -1,3 +1,4 @@
+import { name, version } from './package.json'
 // import globals from '@rollup/plugin-node-resolve'
 
 // //
@@ -29,7 +30,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/globals', '~/plugins/database'],
+  plugins: ['~/plugins/globals', '~/plugins/database', '~/plugins/storage'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -60,6 +61,11 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
   ],
+
+  // https://nuxtjs.org/guide/runtime-config
+  publicRuntimeConfig: {
+    appInfo: { name, version },
+  },
 
   //
   generate: {

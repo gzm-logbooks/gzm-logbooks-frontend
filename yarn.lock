@@ -1635,6 +1635,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.23.tgz#3b41a6e643589ac6442bdbd7a4a3ded62f33f7da"
   integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
 
+"@types/node@12.20.5":
+  version "12.20.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.5.tgz#4ca82a766f05c359fd6c77505007e5a272f4bb9b"
+  integrity sha512-5Oy7tYZnu3a4pnJ//d4yVvOImExl4Vtwf0D40iKUlU+XlUsyV9iyFWyCFlwy489b72FMAik/EFwRkNLjjOdSPg==
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
@@ -1726,6 +1731,11 @@
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.8.tgz#b94a4391c85666c7b73299fd3ad79d4faa435310"
   integrity sha512-ipixuVrh2OdNmauvtT51o3d8z12p6LtFW9in7U79der/kwejjdNchQC5UMn5u/KxNoM7VHHOs/l8KS8uHxhODQ==
+
+"@types/tv4@^1.2.29":
+  version "1.2.31"
+  resolved "https://registry.yarnpkg.com/@types/tv4/-/tv4-1.2.31.tgz#b33f3e6f082782a90f1fc5f414ad8722db8c9baa"
+  integrity sha512-P97XU07fcpauSw3/fE2Q7eF6bHl4oHhwkikjnM7zlQLENrdC2rZuHSdNlMBhnW82NyBEsVJHII1Jk3d/MtQsQQ==
 
 "@types/uglify-js@*":
   version "3.13.1"
@@ -5046,7 +5056,7 @@ fsevents@^1.2.7:
     bindings "^1.5.0"
     nan "^2.12.1"
 
-fsevents@~2.3.2:
+fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
@@ -9112,6 +9122,24 @@ relateurl@^0.2.7:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
+remotestorage-widget@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/remotestorage-widget/-/remotestorage-widget-1.5.4.tgz#eff935ad56e930a7e7923daf486c1bc6acea9677"
+  integrity sha512-9QTThtgUeAJ0ShEYIOoJV2LlPS6sfBrZ/nBKfrJ8iqFjxcCzQOkXiJwBLb1YhamlOGY3LKNervrvSmJokofNTQ==
+
+remotestoragejs@^2.0.0-beta.3:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/remotestoragejs/-/remotestoragejs-2.0.0-beta.3.tgz#28c4abfe6bc34ca5010b2326e368ea1aaafc6925"
+  integrity sha512-VyGBNOuTWA1/lq0sNW+kVHhv+j/ixFnJV2Oiy11VqWxvhlixLtcpKdDYCh5Ex2EoUOSbFndFlujQqSGKhRA9iA==
+  dependencies:
+    "@types/node" "12.20.5"
+    "@types/tv4" "^1.2.29"
+    tv4 "^1.3.0"
+    webfinger.js "^2.7.0"
+    xhr2 "^0.2.1"
+  optionalDependencies:
+    fsevents "^2.3.2"
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -10352,6 +10380,11 @@ tty-browserify@0.0.0:
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
 
+tv4@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/tv4/-/tv4-1.3.0.tgz#d020c846fadd50c855abb25ebaecc68fc10f7963"
+  integrity sha1-0CDIRvrdUMhVq7JeuuzGj8EPeWM=
+
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1"
@@ -10780,6 +10813,13 @@ watchpack@^1.7.4:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
 
+webfinger.js@^2.7.0:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/webfinger.js/-/webfinger.js-2.7.1.tgz#6a96ce1c4c36222f3664fe81b2641ceef771c4ea"
+  integrity sha512-H4RokaE4RC39N3uiRTcjKMmy6yYg06lUPORQHvv8DjowZ6I5SalxUeoqHbtTN3EVBmYP/XHQ8Ow6BLEIpe2DtA==
+  dependencies:
+    xhr2 "0.2.1"
+
 webidl-conversions@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
@@ -11003,6 +11043,11 @@ ws@^7.3.1:
   version "7.5.7"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.7.tgz#9e0ac77ee50af70d58326ecff7e85eb3fa375e67"
   integrity sha512-KMvVuFzpKBuiIXW3E4u3mySRO2/mCHSyZDJQM5NQ9Q9KHWHWh0NHgfbRMLLrceUK5qAL4ytALJbpRMjixFZh8A==
+
+xhr2@0.2.1, xhr2@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.2.1.tgz#4e73adc4f9cfec9cbd2157f73efdce3a5f108a93"
+  integrity sha512-sID0rrVCqkVNUn8t6xuv9+6FViXjUVXq8H5rWOH2rz9fDNQEd4g0EA2XlcEdJXRz5BMEn4O1pJFdT+z4YHhoWw==
 
 xtend@^4.0.0, xtend@^4.0.2, xtend@~4.0.1:
   version "4.0.2"

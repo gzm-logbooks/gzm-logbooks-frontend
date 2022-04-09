@@ -26,6 +26,8 @@
     "nuxt": "^2.15.7",
     "pouchdb-adapter-indexeddb": "^7.2.2",
     "proxymise": "^1.0.2",
+    "remotestorage-widget": "^1.5.4",
+    "remotestoragejs": "^2.0.0-beta.3",
     "rxdb": "^9.0",
     "rxjs": "^7.0",
     "vue-rx": "^6.2.0"
