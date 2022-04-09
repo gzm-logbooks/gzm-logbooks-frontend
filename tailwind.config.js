@@ -1,4 +1,4 @@
-import pluginForms from '@tailwindcss/forms'
+// import pluginForms from '@tailwindcss/forms'
 import pluginTypography from '@tailwindcss/typography'
 import pluginDaisy from 'daisyui'
 
@@ -8,7 +8,7 @@ import pluginDaisy from 'daisyui'
  ** Docs: https://tailwindcss.com/docs/configuration
  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
  */
-module.exports = {
+export default {
   daisyui: {
     themes: [
       'light',
@@ -47,43 +47,34 @@ module.exports = {
           accent: '#e76f51',
           neutral: '#264653',
           // 'base-100': '#e9c46a',
-        },
-        meanteen: {
-          primary: '#3d5a80',
-          secondary: '#98c1d9',
-          accent: '#ee6c4d',
-          neutral: '#293241',
-          // 'base-100': '#e0fbfc',
-        },
-        pinkpalace: {
-          primary: '#cdb4db',
-          secondary: '#ffc8dd',
-          accent: '#ffafcc',
-          neutral: '#a2d2ff',
-          // 'base-100': '#bde0fe',
-        },
-      },
-    ],
   },
+
   important: '#__nuxt',
-  // theme: {
-  //   stroke: (theme) => ({
-  //     current: 'currentColor',
-  //     red: theme('colors.red.500'),
-  //     green: theme('colors.green.800'),
-  //     blue: theme('colors.blue.500'),
-  //   }),
-  // },
+
   plugins: [
     // pluginForms,
     pluginTypography,
     pluginDaisy,
   ],
-  purge: {
-    content: ['formulate.config.js'],
-  },
+
+  content: ['formulate.config.js'],
+
   theme: {
     extend: {
+      colors: {
+        'light-comfort': '#2a9d8f',
+        'light-growth': '#f4a261',
+        'light-anxiety': '#e76f51',
+        'dark-comfort': '#2a9d8f',
+        'dark-growth': '#f4a261',
+        'dark-anxiety': '#e76f51',
+        'cupcake-comfort': '#cdb4db',
+        'cupcake-growth': '#ffc8dd',
+        'cupcake-anxiety': '#ffafcc',
+        'bumblebee-comfort': '#3d5a80',
+        'bumblebee-growth': '#98c1d9',
+        'bumblebee-anxiety': '#ee6c4d',
+      },
       backgroundImage: (theme) => ({
         texture:
           'url("https://source.unsplash.com/collection/5019395/1600x900")',

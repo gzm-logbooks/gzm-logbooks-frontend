@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { theme } from '~tailwind.config'
+import { theme } from '#tailwind-config'
 
 export default {
   props: {

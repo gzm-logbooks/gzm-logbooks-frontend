@@ -15,7 +15,7 @@ import {
   onMounted,
   readonly,
 } from '@nuxtjs/composition-api'
-import { theme } from '~tailwind.config'
+import { theme } from '#tailwind-config'
 // import { defaultsDeep } from 'lodash-es'
 
 export default defineComponent({
