@@ -4,10 +4,12 @@
       <div
         class="flex flex-wrap items-center flex-1 py-3 sm:flex-nowrap sm:h-16 sm:py-0"
       >
+        <!-- Title -->
         <div class="text-lg text-center md:text-xl">
           <nuxt-link to="/" class="font-bold"> growth-app </nuxt-link>
         </div>
 
+        <!-- Left buttons -->
         <div class="flex-1 flex-grow order-first">
           <div>
             <button
@@ -20,13 +22,16 @@
           </div>
         </div>
 
-        <div class="flex-1 flex-grow order-last">
-          <div class="flex justify-end">
-            <button class="gap-2 btn btn-warning" @click="resetDatabase()">
-              Reset
-              <span>🔥</span>
-            </button>
-          </div>
+        <!-- Right buttons -->
+        <div class="flex justify-end flex-1 flex-grow order-last gap-2">
+          <button class="gap-2 btn btn-warning" @click="resetDatabase()">
+            Reset data
+            <span>🔥</span>
+          </button>
+
+          <nuxt-link class="btn btn-outline" to="/settings">
+            Settings
+          </nuxt-link>
         </div>
       </div>
 
