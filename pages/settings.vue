@@ -35,49 +35,57 @@
       </template>
 
       <div class="flex space-x-3">
-        <SettingsThemePreview v-for="theme in themes" :key="theme.key" />
+        <SettingsThemePreview
+          v-for="(themeName, index) in themeNames"
+          :key="index"
+          :theme-name="themeName"
+        />
       </div>
     </Card>
   </LayoutPage>
 </template>
 
 <script>
+import tailwindConfig from '#tailwind-config'
+
 export default {
   data() {
-    return {
-      settings: {
-        darkMode: false,
-        theme: 0,
-      },
-      themes: {
-        default: {
-          primary: '#2a9d8f',
-          secondary: '#f4a261',
-          accent: '#e76f51',
-          neutral: '#264653',
-          'base-100': '#e9c46a',
-        },
-        meanteen: {
-          primary: '#3d5a80',
-          secondary: '#98c1d9',
-          accent: '#ee6c4d',
-          neutral: '#293241',
-          'base-100': '#e0fbfc',
-        },
-        pinkpalace: {
-          primary: '#cdb4db',
-          secondary: '#ffc8dd',
-          accent: '#ffafcc',
-          neutral: '#a2d2ff',
-          'base-100': '#bde0fe',
-        },
-      },
-    }
+    return {}
   },
-  methods: {
-    toggle() {
-      console.log('toggle')
+  computed: {
+    themeNames() {
+      // Get themes list from daisyui config.
+      // const fullConfig = resolveConfig(tailwindConfig)
+      const { themes } = tailwindConfig.daisyui
+
+      // Get a theme name string from each config item.
+      return themes
+        .map(function (theme) {
+          // Simple string keys.
+          if (typeof theme === 'string') {
+            return theme
+          }
+
+          // User defined theme objects.
+          if (theme instanceof Object) {
+            const keys = Object.keys(theme)
+            return keys[0]
+            // return theme
+          }
+
+          return null
+        })
+        .filter(function (themeName) {
+          return typeof themeName === 'string'
+        })
     },
   },
+  mounted() {
+    const { themeNames } = this
+
+    // console.log({ tailwindConfig, themeNames })
+    // debugger
+  },
+  methods: {},
 }
 </script>
