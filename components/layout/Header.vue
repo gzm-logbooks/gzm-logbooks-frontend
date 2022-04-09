@@ -24,6 +24,13 @@
 
         <!-- Right buttons -->
         <div class="flex justify-end flex-1 flex-grow order-last gap-2">
+          <a href="https://forms.gle/8LsDP9BTpcNFk9nZ9" target="_blank">
+            <button class="gap-2 btn">
+              Feedback Form
+              <span>📝</span>
+            </button></a
+          >
+
           <button class="gap-2 btn btn-warning" @click="resetDatabase()">
             Reset data
             <span>🔥</span>
