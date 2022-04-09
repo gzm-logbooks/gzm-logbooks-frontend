@@ -16,44 +16,27 @@
       </template>
     </LayoutPageHeader>
 
-    <Card class="mb-4 bg-white">
-      <div class="flex justify-center mb-4">
-        <span class="text-xl italic">How did things go today?</span>
-      </div>
+    <!-- -->
+    <div class="flex flex-col w-full mb-4 lg:flex-row">
+      <Card class="flex-grow bg-white">
+        <div class="flex justify-center mb-4">
+          <span class="text-xl italic">How did things go today?</span>
+        </div>
 
-      <FormulateForm v-model="fields" name="entry" @submit="save">
-        <FormEntryFields />
-      </FormulateForm>
-    </Card>
+        <FormulateForm v-model="fields" name="entry" @submit="save">
+          <FormEntryFields />
+        </FormulateForm>
+      </Card>
+
+      <div class="divider lg:divider-horizontal"></div>
+
+      <GrowthAnalysis :mood="fields.mood" class="max-w-sm" />
+    </div>
 
     <div class="flex justify-end">
       <button class="btn btn-primary" @click="$formulate.submit('entry')">
         Save entry
       </button>
-    </div>
-
-    <div class="divider" />
-
-    <div class="grid grid-cols-2 gap-4">
-      <Card class="bg-white">
-        <template #title>
-          <h2>Metrics and Analysis</h2>
-        </template>
-
-        <div class="grid gap-4">
-          <GrowthAnalysisMetrics :mood="fields.mood" />
-
-          <GrowthAnalysisTriangle :mood="fields.mood" />
-        </div>
-      </Card>
-
-      <Card class="bg-white">
-        <template #title>
-          <h2>Suggestions</h2>
-        </template>
-
-        <GrowthSuggestions :mood="fields.mood" />
-      </Card>
     </div>
   </LayoutPage>
 </template>

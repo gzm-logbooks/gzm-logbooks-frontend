@@ -1,5 +1,5 @@
 <template>
-  <Card class="mb-4 bg-white">
+  <Card class="bg-white/50">
     <template #title>
       <h2>Metrics and Analysis</h2>
     </template>

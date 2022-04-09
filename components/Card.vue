@@ -2,7 +2,7 @@
   <div class="shadow-sm card">
     <slot name="top" />
 
-    <div v-if="$slots.title" class="flex-row card-body">
+    <div v-if="$slots.title" class="card-body">
       <div class="card-title">
         <slot name="title" />
       </div>
