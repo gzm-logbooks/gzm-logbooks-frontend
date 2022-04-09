@@ -6,16 +6,35 @@ export default {
   },
   classes: {
     outer: 'mb-4',
-    input(context) {
-      switch (context.type) {
-        case 'button':
-          return 'btn'
-        default:
-          return 'input input-bordered'
-      }
+    wrapper: 'form-control',
+    input(context, classes) {
+      const _classes = classes.concat([
+        getDaisyUiInputClass(context.classification),
+      ])
+
+      // console.log(_classes, context)
+
+      return _classes
     },
     label: 'label label-text',
     help: 'text-xs mb-1 text-gray-600',
     error: 'text-xs mb-1 text-red-700',
   },
+}
+
+/**
+ *
+ * @param {*} type
+ * @returns
+ */
+function getDaisyUiInputClass(type) {
+  if (type === 'button') {
+    return 'btn'
+  }
+
+  if (type === 'textarea') {
+    return 'textarea textarea-bordered'
+  }
+
+  return 'input input-bordered'
 }

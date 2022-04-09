@@ -74,7 +74,11 @@ module.exports = {
   //     blue: theme('colors.blue.500'),
   //   }),
   // },
-  plugins: [pluginDaisy, pluginForms, pluginTypography],
+  plugins: [
+    // pluginForms,
+    pluginTypography,
+    pluginDaisy,
+  ],
   purge: {
     content: ['formulate.config.js'],
   },
