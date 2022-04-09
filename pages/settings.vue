@@ -7,26 +7,16 @@
           <h1>Settings</h1>
         </div>
       </template>
-
-      <template #main-actions>
-        <button class="gap-2 btn btn-warning" @click="reset">Cancel</button>
-
-        <button
-          class="gap-2 btn btn-success"
-          @click="$formulate.submit('logbook')"
-        >
-          Save
-          <span>💾</span>
-        </button>
-      </template>
     </LayoutPageHeader>
 
-    <Card class="mb-6 bg-white">
+    <!-- <Card class="mb-6 bg-white">
       <template #title>
         <h2>Account Info</h2>
       </template>
       <h3>Email</h3>
       <h3>Password</h3>
+    </Card> -->
+
     </Card>
 
     <Card class="mb-6 bg-white">
