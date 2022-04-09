@@ -1,10 +1,11 @@
 <template>
-  <Card class="bg-white/50">
+  <Card class="bg-white/80">
     <template #title>
       <h2>Metrics and Analysis</h2>
     </template>
 
-    <div class="grid grid-cols-3">
+    <!-- Stats -->
+    <div class="grid grid-cols-3 mb-4">
       <div class="stat">
         <div class="stat-title">Growth</div>
         <div v-if="scaled" class="stat-value">
@@ -27,69 +28,73 @@
       </div>
     </div>
 
-    <svg
-      viewBox="0 0 400 250"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:bx="https://boxy-svg.com"
-    >
-      <defs>
-        <bx:grid x="0" y="0" width="100" height="95.446" />
-        <linearGradient
-          id="gradient-0"
-          gradientUnits="userSpaceOnUse"
-          x1="200"
-          y1="0"
-          x2="200"
-          y2="141.421"
-          gradientTransform="matrix(0, -1, 2.82842712475, 0, 0, 0)"
-        >
-          <stop offset="0" style="stop-color: rgba(0, 255, 8, 0.79)" />
-          <stop offset="1" style="stop-color: rgba(255, 9, 0, 0.85)" />
-        </linearGradient>
+    <!-- Analysis triangle -->
+    <div class="mb-4">
+      <svg
+        viewBox="0 0 400 250"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:bx="https://boxy-svg.com"
+      >
+        <defs>
+          <bx:grid x="0" y="0" width="100" height="95.446" />
+          <linearGradient
+            id="gradient-0"
+            gradientUnits="userSpaceOnUse"
+            x1="200"
+            y1="0"
+            x2="200"
+            y2="141.421"
+            gradientTransform="matrix(0, -1, 2.82842712475, 0, 0, 0)"
+          >
+            <stop offset="0" style="stop-color: rgba(0, 255, 8, 0.79)" />
+            <stop offset="1" style="stop-color: rgba(255, 9, 0, 0.85)" />
+          </linearGradient>
 
-        <linearGradient
-          id="gradient-1"
-          gradientUnits="userSpaceOnUse"
-          x1="200"
-          y1="0"
-          x2="200"
-          y2="141.421"
-          gradientTransform="matrix(1, 0, 0, 1, 0, 0)"
-        >
-          <stop offset="0" style="stop-color: rgb(255, 115, 0)" />
-          <stop offset="1" style="stop-color: rgba(255, 115, 0, 0)" />
-        </linearGradient>
-      </defs>
+          <linearGradient
+            id="gradient-1"
+            gradientUnits="userSpaceOnUse"
+            x1="200"
+            y1="0"
+            x2="200"
+            y2="141.421"
+            gradientTransform="matrix(1, 0, 0, 1, 0, 0)"
+          >
+            <stop offset="0" style="stop-color: rgb(255, 115, 0)" />
+            <stop offset="1" style="stop-color: rgba(255, 115, 0, 0)" />
+          </linearGradient>
+        </defs>
 
-      <path
-        d="M 200 25 L 400 225 L 0 225 L 200 25 Z"
-        style="fill: url(#gradient-0)"
-        bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
-      />
-      <path
-        d="M 200 25 L 400 225 L 0 225 L 200 25 Z"
-        style="fill: url(#gradient-1)"
-        bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
-      />
+        <path
+          d="M 200 25 L 400 225 L 0 225 L 200 25 Z"
+          style="fill: url(#gradient-0)"
+          bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
+        />
+        <path
+          d="M 200 25 L 400 225 L 0 225 L 200 25 Z"
+          style="fill: url(#gradient-1)"
+          bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
+        />
 
-      <circle v-if="mood" :transform="triangleTransform" r="2" />
+        <circle v-if="mood" :transform="triangleTransform" r="2" />
 
-      <g class="text-sm uppercase">
-        <text style="text-anchor: middle" x="50%" width="50%" y="20">
-          Growth
-        </text>
+        <g class="text-sm uppercase">
+          <text style="text-anchor: middle" x="50%" width="50%" y="20">
+            Growth
+          </text>
 
-        <text style="text-anchor: start" x="0%" width="20%" y="245">
-          Comfort
-        </text>
+          <text style="text-anchor: start" x="0%" width="20%" y="245">
+            Comfort
+          </text>
 
-        <text style="text-anchor: end" x="100%" width="20%" y="245">
-          Anxiety
-        </text>
-      </g>
-    </svg>
+          <text style="text-anchor: end" x="100%" width="20%" y="245">
+            Anxiety
+          </text>
+        </g>
+      </svg>
+    </div>
 
-    <div class="prose">
+    <!-- Suggestions -->
+    <div class="flex-grow prose">
       <p v-if="suggestion == 0">Good Job keep it up!</p>
 
       <p v-if="suggestion == 1">Maybe you need a challenge!</p>
