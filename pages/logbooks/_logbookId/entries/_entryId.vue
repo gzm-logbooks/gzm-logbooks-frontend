@@ -16,27 +16,34 @@
       </template>
     </LayoutPageHeader>
 
-    <Card class="mb-4 bg-white">
-      <FormulateForm v-model="fields" name="entry" @submit="save">
-        <FormEntryFields />
-      </FormulateForm>
-    </Card>
+    <!-- -->
+    <div class="flex flex-col w-full mb-4 lg:flex-row">
+      <Card class="flex-grow bg-white">
+        <div class="flex justify-between mb-4">
+            <h3 class="text-xl">{{ date }}</h3>
 
-    <div class="flex justify-end">
-      <button class="btn btn-primary" @click="$formulate.submit('entry')">
-        Update entry
-      </button>
-    </div>
+            <span>{{ dateRelative }}</span>
+        </div>
 
-    <div class="divider" />
+        <FormulateForm v-model="fields" name="entry" @submit="save">
+          <FormEntryFields />
+        </FormulateForm>
 
-    <div class="grid grid-cols-2 gap-4">
-      <GrowthAnalysis :mood="fields.mood" />
+        <div class="flex justify-end">
+          <button class="btn btn-primary" @click="$formulate.submit('entry')">
+            Update entry
+          </button>
+        </div>
+      </Card>
+
+      <div class="divider lg:divider-horizontal"></div>
+
+      <GrowthAnalysis :mood="fields.mood" class="max-w-sm" />
     </div>
 
     <!-- -->
     <template v-if="!$fetchState.pending" #debug>
-      <Card >
+      <Card>
         <template #title>Saved data</template>
         <pre>{{ JSON.stringify(entry, null, 2) }}</pre>
       </Card>
@@ -45,7 +52,7 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
+import { format, formatDistance } from 'date-fns'
 
 export default {
   data() {
@@ -82,6 +89,26 @@ export default {
   computed: {
     loading() {
       return this.$fetchState?.pending
+    },
+    date() {
+      const { timestamp } = this.entry
+
+      if (timestamp) {
+        return format(new Date(timestamp), 'yyyy-MM-dd')
+      }
+
+      return ''
+    },
+    dateRelative() {
+      const { timestamp } = this.entry
+
+      if (timestamp) {
+        return formatDistance(new Date(timestamp), new Date(), {
+          addSuffix: true,
+        })
+      }
+
+      return ''
     },
   },
 

@@ -26,17 +26,17 @@
         <FormulateForm v-model="fields" name="entry" @submit="save">
           <FormEntryFields />
         </FormulateForm>
+
+        <div class="flex justify-end">
+          <button class="btn btn-primary" @click="$formulate.submit('entry')">
+            Save entry
+          </button>
+        </div>
       </Card>
 
       <div class="divider lg:divider-horizontal"></div>
 
       <GrowthAnalysis :mood="fields.mood" class="max-w-sm" />
-    </div>
-
-    <div class="flex justify-end">
-      <button class="btn btn-primary" @click="$formulate.submit('entry')">
-        Save entry
-      </button>
     </div>
   </LayoutPage>
 </template>
