@@ -1,5 +1,5 @@
 <template>
-  <Card class="bg-white/80">
+  <Card class="bg-base-200">
     <template #title>
       <h2>Metrics and Analysis</h2>
     </template>
@@ -46,8 +46,8 @@
             y2="141.421"
             gradientTransform="matrix(0, -1, 2.82842712475, 0, 0, 0)"
           >
-            <stop offset="0" style="stop-color: rgba(0, 255, 8, 0.79)" />
-            <stop offset="1" style="stop-color: rgba(255, 9, 0, 0.85)" />
+            <stop offset="0" :style="`stop-color: ${comfort}`" />
+            <stop offset="1" :style="`stop-color: ${anxiety}`" />
           </linearGradient>
 
           <linearGradient
@@ -59,8 +59,8 @@
             y2="141.421"
             gradientTransform="matrix(1, 0, 0, 1, 0, 0)"
           >
-            <stop offset="0" style="stop-color: rgb(255, 115, 0)" />
-            <stop offset="1" style="stop-color: rgba(255, 115, 0, 0)" />
+            <stop offset="0" :style="`stop-color: ${growth}`" />
+            <stop offset="1" :style="`stop-color: ${growthOpacity}`" />
           </linearGradient>
         </defs>
 
@@ -77,7 +77,7 @@
 
         <circle v-if="mood" :transform="triangleTransform" r="4" />
 
-        <g class="text-sm uppercase">
+        <g class="text-sm uppercase fill-base-content">
           <text style="text-anchor: middle" x="50%" width="50%" y="20">
             Growth
           </text>
@@ -102,14 +102,29 @@
 
 <script>
 import { scaledMoodInput, getTriangleSection } from '~/data/config'
-
+import tailwindConfig from '#tailwind-config'
 export default {
   props: {
     mood: { type: Object, default: null },
   },
 
   data() {
+    const {
+      'light-comfort': comfortCol,
+      'light-growth': growthCol,
+      'light-anxiety': anxietyCol,
+    } = tailwindConfig.theme.colors
+
+    const comfort = comfortCol + 'FF'
+    const growth = growthCol + 'FF'
+    const anxiety = anxietyCol + 'FF'
+    const growthOpacity = growthCol + '00'
+
     return {
+      comfort,
+      growth,
+      anxiety,
+      growthOpacity,
       resources: [
         'zone not found',
         'zone 1',

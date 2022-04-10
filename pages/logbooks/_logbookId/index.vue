@@ -58,7 +58,7 @@
     </template>
 
     <template v-else>
-      <Card class="mb-6 bg-white">
+      <Card class="mb-6 bg-base-200">
         <!-- <template #title>
         <h3>My progress</h3>
       </template> -->
@@ -73,7 +73,7 @@
         </div>
       </Card>
 
-      <Card class="mb-6 bg-white">
+      <Card class="mb-6 bg-base-200">
         <div class="flex mb-2 space-x-4">
           <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
           <nuxt-link class="btn btn-primary" :to="logbook.getNewEntryRoute()">

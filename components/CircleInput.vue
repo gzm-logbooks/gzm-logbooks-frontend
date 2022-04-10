@@ -1,5 +1,5 @@
 <template>
-  <div class="raginput" :class="{ active }" data-theme="default">
+  <div class="raginput" :class="{ active }" >
     <div class="raginput__inner">
       <svg
         :viewBox="`0 0 ${viewbox.outer} ${viewbox.outer}`"
@@ -267,6 +267,7 @@ export default {
 <style scoped>
 .raginput {
   width: 100%;
+  background-color: base-200;
 }
 
 .raginput__inner {
