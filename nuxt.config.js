@@ -1,11 +1,13 @@
+import { defineNuxtConfig } from '@nuxt/bridge'
 import { name, version } from './package.json'
+
 // import globals from '@rollup/plugin-node-resolve'
 
 // //
 // const globalsPlugin = globals();
 // globalsPlugin.name = 'globals'; // required, see https://github.com/vitejs/vite/issues/728
 
-export default {
+export default defineNuxtConfig({
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -37,9 +39,6 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://composition-api.nuxtjs.org
-    '@nuxtjs/composition-api/module',
-
     // https://github.com/nuxt-community/color-mode-module
     '@nuxtjs/color-mode',
 
@@ -51,9 +50,6 @@ export default {
 
     // https://vueformulate.com/guide
     '@braid/vue-formulate/nuxt',
-
-    // https://github.com/nuxt/vite
-    // 'nuxt-vite',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -106,4 +102,4 @@ export default {
   //     },
   //   },
   // },
-}
+})

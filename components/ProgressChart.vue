@@ -6,15 +6,6 @@
 
 <script>
 import { Chart } from 'chart.js'
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  onMounted,
-  readonly,
-} from '@nuxtjs/composition-api'
 import tailwindConfig from '#tailwind-config'
 // import { defaultsDeep } from 'lodash-es'
 
