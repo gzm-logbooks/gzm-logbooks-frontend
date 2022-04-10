@@ -1,34 +1,42 @@
 import { addRxPlugin } from 'rxdb/plugins/core'
+import { addPouchPlugin } from 'rxdb/plugins/pouchdb'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
+import { defineNuxtPlugin } from '#app'
 
 import { seedFakeLogbook } from '~/data/seeder'
-import { getDatabaseInstance } from '~/data/database'
+import { createDatabase } from '~/data/database'
 
 // Add plugins.
 addRxPlugin(RxDBValidatePlugin)
 addRxPlugin(RxDBQueryBuilderPlugin)
 addRxPlugin(RxDBMigrationPlugin)
-addRxPlugin(IndexeddbAdaptor)
+addPouchPlugin(IndexeddbAdaptor)
 
 // Add the dev plugins.
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   addRxPlugin(RxDBDevModePlugin)
 }
 
 /**
  * Register the plugin...
  */
-export default function ({ app }, inject) {
+export default defineNuxtPlugin(async (nuxtApp) => {
   // Initialize the database.
-  const pendingInstance = getDatabaseInstance()
+  const db = await createDatabase()
 
-  // Add $db field to app context.
-  inject('db', pendingInstance)
-  inject('seed', async () => {
-    seedFakeLogbook(await pendingInstance, 200)
-  })
-}
+  console.log({db})
+
+  return {
+    // Add $db and $seed fields to app context.
+    provide: {
+      db,
+      seed: async () => {
+        seedFakeLogbook(await db, 200)
+      },
+    },
+  }
+})

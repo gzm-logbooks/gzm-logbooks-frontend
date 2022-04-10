@@ -1,19 +1,12 @@
 import { createRxDatabase, removeRxDatabase } from 'rxdb/plugins/core'
+import { useNuxtApp } from '#app'
 
 // Load schemas.
 import entrySchema from '~/data/schemas/entry.json'
 import logbookSchema from '~/data/schemas/logbook.json'
 
-let dbInstance = null
-
-export async function getDatabaseInstance() {
-  if (dbInstance) {
-    return dbInstance
-  }
-
-  dbInstance = await createDatabase()
-
-  return dbInstance
+export function useDatabase() {
+  return useNuxtApp().$db
 }
 
 /**

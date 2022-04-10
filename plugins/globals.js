@@ -28,6 +28,7 @@ import {
 import Vue from 'vue'
 import VueRx from 'vue-rx'
 import 'chartjs-adapter-date-fns'
+import { defineNuxtPlugin } from '#app'
 
 //
 Vue.use(VueRx)
@@ -60,3 +61,10 @@ Chart.register(
   Title,
   Tooltip
 )
+
+/**
+ * Register the plugin...
+ */
+export default defineNuxtPlugin((nuxtApp) => {
+  // Default export required.
+})
