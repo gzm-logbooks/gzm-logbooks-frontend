@@ -21,7 +21,10 @@ export default {
     pluginDaisy,
   ],
 
-  content: ['formulate.config.js'],
+  content: [
+    'formulate.config.*',
+    'nuxt.config.*'
+  ],
 
   theme: {
     extend: {
