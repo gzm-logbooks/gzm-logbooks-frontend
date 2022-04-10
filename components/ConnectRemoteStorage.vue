@@ -1,5 +1,5 @@
 <template>
-  <div ref="remoteStorageWidget"></div>
+  <div id="remoteStorageWidget" ref="widgetContainer"></div>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ import Widget from 'remotestorage-widget'
 export default {
   async mounted() {
     const { $remoteStorage: storage } = this
-    const { remoteStorageWidget: element } = this.$refs
+    const { widgetContainer: element } = this.$refs
 
     console.log({ storage, element })
 
@@ -19,7 +19,7 @@ export default {
     await storage.on('ready', () => {
       const widget = new Widget(storage)
 
-      widget.attach(element)
+      widget.attach(element.id)
     })
   },
 }

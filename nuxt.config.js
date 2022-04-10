@@ -12,8 +12,14 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  // https://nuxtjs.org/guide/runtime-config
   publicRuntimeConfig: {
     title: 'GZM Logbooks (alpha)',
+    services: {
+      dropboxAppKey: process.env.DROPBOX_APP_KEY,
+      googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID,
+    },
+    appInfo: { name, version },
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -65,11 +71,6 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
   ],
-
-  // https://nuxtjs.org/guide/runtime-config
-  publicRuntimeConfig: {
-    appInfo: { name, version },
-  },
 
   //
   generate: {
