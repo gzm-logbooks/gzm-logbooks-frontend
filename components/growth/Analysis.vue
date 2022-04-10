@@ -75,7 +75,7 @@
           bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
         />
 
-        <circle v-if="mood" :transform="triangleTransform" r="2" />
+        <circle v-if="mood" :transform="triangleTransform" r="4" />
 
         <g class="text-sm uppercase">
           <text style="text-anchor: middle" x="50%" width="50%" y="20">
@@ -95,25 +95,35 @@
 
     <!-- Suggestions -->
     <div class="flex-grow prose">
-      <p v-if="suggestion == 0">Good Job keep it up!</p>
-
-      <p v-if="suggestion == 1">Maybe you need a challenge!</p>
-
-      <p v-if="suggestion == 2">
-        To reconnect your thinking brain, try 5/7 breathing. Breathe in while
-        you count to 5, and out while you count to 7. Do this again and again
-        until you start to feel calm.
+      <p v-if="suggestion == 0">
+        You were in the best zone for learning, good job! What do you think
+        helped you stay in the growth zone?
       </p>
 
-      <p v-if="suggestion == 3">You definitely need a challenge!</p>
+      <p v-if="suggestion == 1">
+        Looks like you have found your growth zone, what could you do to spend
+        more time there?
+      </p>
 
-      <p v-if="suggestion == 4">Self Safeguarding Saves Students</p>
+      <p v-if="suggestion == 2">
+        Looks like you have found your growth zone, what could you do to spend
+        more time there?
+      </p>
+
+      <p v-if="suggestion == 3">
+        Looks like you stayed in the comfort zone a lot of the time. What could
+        you do to challenge yourself?
+      </p>
+
+      <p v-if="suggestion == 4">
+        Looks like you need to develop a growth zone, where you feel safe to
+        take risks and can cope with manageable challenges. What could help you
+        feel safe enough to take a risk?
+      </p>
 
       <p v-if="suggestion == 5">
-        Remember when you feel confused or panicky or stupid, that this is only
-        your brain trying to keep you safe. You can think more clearly if you
-        reverse the fight, flight or freeze response. This will reconnect your
-        thinking brain.
+        Looks like you felt of your depth a lot of the time. What could you have
+        done to calm down?
       </p>
     </div>
   </Card>
