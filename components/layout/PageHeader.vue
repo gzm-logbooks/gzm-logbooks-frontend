@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4">
     <div class="flex items-end min-h-16 align-end">
-      <div class="flex items-center w-full gap-2">
+      <div class="flex flex-wrap items-center w-full gap-2">
         <span
           v-if="$slots.title"
           class="mr-4 text-2xl font-medium text-base-content"
@@ -13,7 +13,7 @@
           <slot name="inline-actions" />
         </div>
 
-        <div class="flex justify-end flex-1 gap-2 main-actions grow">
+        <div class="flex justify-end gap-2 main-actions grow">
           <slot name="main-actions" />
         </div>
       </div>
