@@ -24,7 +24,9 @@
       </template>
 
       <div class="flex grow">
-        <ConnectRemoteStorage />
+        <ClientOnly>
+          <ConnectRemoteStorage />
+        </ClientOnly>
       </div>
     </Card>
 
