@@ -10,7 +10,7 @@ import pluginDaisy from 'daisyui'
  */
 export default {
   daisyui: {
-    themes: ['light', 'dark', 'cupcake', 'bumblebee'],
+    themes: ['light', 'cupcake', 'bumblebee'],
   },
 
   important: '#__nuxt',
