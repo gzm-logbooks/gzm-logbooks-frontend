@@ -74,6 +74,7 @@ export default defineNuxtConfig({
 
   // https://nuxtjs.org/guide/runtime-config
   publicRuntimeConfig: {
+    buildInfo: { name, version },
   },
 
   //

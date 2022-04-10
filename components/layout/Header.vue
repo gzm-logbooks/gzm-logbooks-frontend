@@ -53,15 +53,22 @@ import { resetDatabase } from '~/data/database'
 export default {
   computed: {
     canGoBack() {
-      return window.history?.length > 2
+      const router = useRouter()
+
+      console.log({router})
+
+      // FIXME: Get history from router.
+      // return window?.history?.length > 2
     },
   },
   methods: {
     async resetDatabase() {
+      const router = useRouter()
+
       try {
         await resetDatabase()
       } finally {
-        window.location.reload(true)
+        router.go('/')
       }
     },
   },
