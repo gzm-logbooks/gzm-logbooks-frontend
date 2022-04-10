@@ -4,7 +4,7 @@
       <div class="flex items-center w-full gap-2">
         <span
           v-if="$slots.title"
-          class="mr-4 text-2xl font-medium text-gray-800"
+          class="mr-4 text-2xl font-medium text-base-content"
         >
           <slot name="title" />
         </span>

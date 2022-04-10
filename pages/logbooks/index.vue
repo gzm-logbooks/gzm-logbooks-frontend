@@ -24,7 +24,7 @@
 
     <div class="flex justify-end gap-2 mb-4"></div>
 
-    <Card class="mb-4 bg-white">
+    <Card class="mb-4 bg-base-200">
       <template #title> </template>
 
       <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

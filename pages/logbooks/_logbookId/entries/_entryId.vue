@@ -18,7 +18,7 @@
 
     <!-- -->
     <div class="flex flex-col w-full mb-4 lg:flex-row">
-      <Card class="w-full bg-white grow shrink">
+      <Card class="w-full bg-base-200 grow shrink">
         <div class="flex justify-between mb-4">
           <h3 class="text-xl">{{ date }}</h3>
 

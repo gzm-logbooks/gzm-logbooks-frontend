@@ -6,7 +6,7 @@
       >
         <!-- Title -->
         <div class="text-lg text-center md:text-xl">
-          <nuxt-link to="/" class="font-bold"> growth-app </nuxt-link>
+          <nuxt-link to="/" class="font-bold text-base-content"> growth-app </nuxt-link>
         </div>
 
         <!-- Left buttons -->

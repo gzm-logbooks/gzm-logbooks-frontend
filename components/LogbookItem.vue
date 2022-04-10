@@ -1,6 +1,6 @@
 <template>
   <nuxt-link :to="route">
-    <Card content-class="p-2">
+    <Card content-class="p-2 bg-base-300">
       <span class="card-title">{{ $get(logbook, 'name') }}</span>
       <p class="mb-1 text-sm text-gray-600">{{ countEntries }} entries</p>
 
