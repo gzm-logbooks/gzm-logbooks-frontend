@@ -7,7 +7,17 @@ import { name, version } from './package.json'
 // const globalsPlugin = globals();
 // globalsPlugin.name = 'globals'; // required, see https://github.com/vitejs/vite/issues/728
 
+const title = process.env.appName ?? name
+
 export default defineNuxtConfig({
+  bridge: {
+    // Use Vite as the bundler instead of webpack 4
+    vite: true,
+
+    // Enable Nuxt 3 compatible useHead
+    // meta: true,
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -16,7 +26,7 @@ export default defineNuxtConfig({
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'growth-app',
+    title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -32,7 +42,6 @@ export default defineNuxtConfig({
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/globals', '~/plugins/database', '~/plugins/storage'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,7 +52,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
 
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
 
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
@@ -60,12 +69,11 @@ export default defineNuxtConfig({
 
   // https://nuxtjs.org/guide/runtime-config
   publicRuntimeConfig: {
-    appInfo: { name, version },
   },
 
   //
   generate: {
-    fallback: true,
+    // fallback: true,
   },
 
   colorMode: {
@@ -85,7 +93,9 @@ export default defineNuxtConfig({
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    // transpile: ['remotestorage-widget', 'pouchdb-core']
+  },
 
   // vite: {
   //   /* options for vite */
