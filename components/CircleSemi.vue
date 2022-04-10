@@ -4,19 +4,19 @@
       d="M0,50 a1,1 0 0,1 100,0"
       transform-origin="bottom center"
       :transform="scaleRed"
-      :fill="red"
+      :fill="anxiety"
     />
     <path
       d="M0,50 a1,1 0 0,1 100,0"
       transform-origin="bottom center"
       :transform="scaleAmber"
-      :fill="amber"
+      :fill="growth"
     />
     <path
       d="M0,50 a1,1 0 0,1 100,0"
       transform-origin="bottom center"
       :transform="scaleGreen"
-      :fill="green"
+      :fill="comfort"
     />
   </svg>
 </template>
@@ -44,9 +44,9 @@ export default {
       'light-anxiety': anxiety,
     } = tailwindConfig.theme.colors
     return {
-      red: anxiety,
-      amber: growth,
-      green: comfort,
+      anxiety,
+      growth,
+      comfort,
     }
   },
   computed: {

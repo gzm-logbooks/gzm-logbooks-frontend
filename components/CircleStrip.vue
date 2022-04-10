@@ -5,7 +5,7 @@
       height="100%"
       transform-origin="center"
       :transform="scaleRed"
-      :fill="red"
+      :fill="anxiety"
     />
 
     <rect
@@ -13,7 +13,7 @@
       height="100%"
       transform-origin="center"
       :transform="scaleAmber"
-      :fill="amber"
+      :fill="growth"
     />
 
     <rect
@@ -21,7 +21,7 @@
       height="100%"
       transform-origin="center"
       :transform="scaleGreen"
-      :fill="green"
+      :fill="comfort"
     />
   </svg>
 </template>
@@ -49,9 +49,9 @@ export default {
       'light-anxiety': anxiety,
     } = tailwindConfig.theme.colors
     return {
-      red: anxiety,
-      amber: growth,
-      green: comfort,
+      anxiety,
+      growth,
+      comfort,
     }
   },
   computed: {
