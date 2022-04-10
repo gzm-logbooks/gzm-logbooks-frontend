@@ -5,7 +5,7 @@
         class="flex flex-wrap items-center flex-1 py-3 sm:flex-nowrap sm:h-16 sm:py-0"
       >
         <div class="text-lg text-center md:text-xl">
-          <nuxt-link to="/" class="font-bold"> growth-app </nuxt-link>
+          <nuxt-link to="/" class="font-bold"> {{ $config.title }} </nuxt-link>
         </div>
 
         <div class="flex-1 flex-grow order-first">
