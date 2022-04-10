@@ -3,9 +3,10 @@
         "arrterian.nix-env-selector",
         "bradlc.vscode-tailwindcss",
         "dbaeumer.vscode-eslint",
-        "EditorConfig.EditorConfig",
+        "editorconfig.editorconfig",
         "mikestead.dotenv",
         "mkhl.direnv",
         "octref.vetur",
+        "johnsoncodehk.volar"
     ]
 }
