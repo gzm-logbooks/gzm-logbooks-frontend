@@ -53,6 +53,7 @@
 
 <script>
 import { format, formatDistance } from 'date-fns'
+import { useDatabase } from '~/data/database'
 
 export default {
   data() {
@@ -65,7 +66,7 @@ export default {
 
   async fetch() {
     const { logbookId, entryId } = this.$route.params
-    const db = await this.$db
+    const db = useDatabase()
 
     // Get entry record from database.
     this.entry = await db.entries

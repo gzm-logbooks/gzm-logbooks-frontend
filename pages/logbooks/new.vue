@@ -19,10 +19,12 @@
 </template>
 
 <script>
+import { useDatabase } from '~/data/database'
+
 export default {
   methods: {
     async save(fields) {
-      const db = await this.$db
+      const db = useDatabase()
 
       // Create document in db.
       const doc = await db.logbooks.insert(fields)

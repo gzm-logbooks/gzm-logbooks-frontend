@@ -44,7 +44,9 @@
   </LayoutPage>
 </template>
 
-<script lang="javascript">
+<script>
+import { useDatabase } from '~/data/database'
+
 export default {
   data() {
     return {
@@ -53,7 +55,7 @@ export default {
   },
 
   async fetch() {
-    const db = await this.$db
+    const db = useDatabase()
 
     const logbooksQuery = db.logbooks.find()
 

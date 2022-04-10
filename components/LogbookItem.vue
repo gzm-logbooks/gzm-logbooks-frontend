@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { useDatabase } from '~/data/database'
+
 export default {
   props: {
     primary: { type: String, required: true },
@@ -25,7 +27,7 @@ export default {
     }
   },
   async fetch() {
-    const db = await this.$db
+    const db = useDatabase()
     const logbookId = this.primary
 
     // Get logbook record from database.

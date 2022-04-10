@@ -165,6 +165,9 @@
 </template>
 
 <script>
+// import { useRoute } from '#app'
+import { useDatabase } from '~/data/database'
+
 export default {
   data() {
     return {
@@ -176,7 +179,7 @@ export default {
 
   async fetch() {
     const { logbookId } = this.$route.params
-    const db = await this.$db
+    const db = useDatabase()
 
     // Get logbook record from database.
     this.logbook = await db.logbooks.findOne(logbookId).exec()

@@ -42,7 +42,9 @@
 </template>
 
 <script>
+// import { useRoute } from '#app'
 import { format } from 'date-fns'
+import { useDatabase } from '~/data/database'
 
 export default {
   data() {
@@ -55,7 +57,8 @@ export default {
   },
   async fetch() {
     const { logbookId } = this.$route.params
-    const db = await this.$db
+    const db = useDatabase()
+
     // Get logbook record from database.
     this.logbook = await db.logbooks.findOne(logbookId).exec()
     // Redirect if logbook is missing.
@@ -63,10 +66,11 @@ export default {
       return this.$router.push({ name: 'logbooks' })
     }
   },
+
   methods: {
     async save(fields) {
       const { logbook } = this
-      const db = await this.$db
+      const db = useDatabase()
       const { comment, mood } = fields
       // Build document data.
       const data = {
