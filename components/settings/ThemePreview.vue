@@ -10,9 +10,9 @@
         ry="2"
         class="fill-base-100"
       />
-      <circle cx="10" cy="10" r="9" :class="`fill-${themeName}-comfort`" />
-      <circle cx="10" cy="10" r="6" :class="`fill-${themeName}-growth`" />
-      <circle cx="10" cy="10" r="3" :class="`fill-${themeName}-anxiety`" />
+      <circle cx="10" cy="10" r="9" :fill="comfort" />
+      <circle cx="10" cy="10" r="6" :fill="growth" />
+      <circle cx="10" cy="10" r="3" :fill="anxiety" />
       <rect
         x="1"
         y="20"
@@ -45,9 +45,25 @@
 </template>
 
 <script>
+import tailwindConfig from '#tailwind-config'
 export default {
   props: {
     themeName: { type: String, required: true },
+  },
+  data() {
+    const themeComfort = `${this.themeName}-comfort`
+    const themeGrowth = `${this.themeName}-growth`
+    const themeAnxiety = `${this.themeName}-anxiety`
+    const {
+      [themeComfort]: comfort,
+      [themeGrowth]: growth,
+      [themeAnxiety]: anxiety,
+    } = tailwindConfig.theme.colors
+    return {
+      anxiety,
+      growth,
+      comfort,
+    }
   },
 }
 </script>

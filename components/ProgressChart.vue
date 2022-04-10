@@ -15,7 +15,7 @@ import {
   onMounted,
   readonly,
 } from '@nuxtjs/composition-api'
-import { theme } from '#tailwind-config'
+import tailwindConfig from '#tailwind-config'
 // import { defaultsDeep } from 'lodash-es'
 
 export default defineComponent({
@@ -141,12 +141,19 @@ export default defineComponent({
           }
         )
 
+        // NEED TO FIND CURRENT THEME FOR BELOW
+        const {
+          'light-comfort': comfort,
+          'light-growth': growth,
+          'light-anxiety': anxiety,
+        } = tailwindConfig.theme.colors
+
         return {
           datasets: [
             {
               fill: {
                 target: 'origin',
-                above: theme.colors.green[400],
+                above: comfort,
               },
               data: datasets.green,
               stepped: props.full ? false : 'before',
@@ -154,7 +161,7 @@ export default defineComponent({
             {
               fill: {
                 target: 'origin',
-                above: theme.colors.yellow[400],
+                above: growth,
               },
               data: datasets.amber,
               stepped: props.full ? false : 'before',
@@ -162,7 +169,7 @@ export default defineComponent({
             {
               fill: {
                 target: 'origin',
-                above: theme.colors.red[400],
+                above: anxiety,
               },
               data: datasets.red,
               stepped: props.full ? false : 'before',

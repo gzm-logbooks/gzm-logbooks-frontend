@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { theme } from '#tailwind-config'
+import tailwindConfig from '#tailwind-config'
 
 export default {
   props: {
@@ -43,10 +43,15 @@ export default {
     },
   },
   data() {
+    const {
+      'light-comfort': comfort,
+      'light-growth': growth,
+      'light-anxiety': anxiety,
+    } = tailwindConfig.theme.colors
     return {
-      red: theme.colors.red[400],
-      amber: theme.colors.yellow[400],
-      green: theme.colors.green[400],
+      red: anxiety,
+      amber: growth,
+      green: comfort,
     }
   },
   computed: {
