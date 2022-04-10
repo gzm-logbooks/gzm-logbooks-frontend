@@ -94,52 +94,38 @@
     </div>
 
     <!-- Suggestions -->
-    <div class="flex-grow prose">
-      <p v-if="suggestion == 0">
-        You were in the best zone for learning, good job! What do you think
-        helped you stay in the growth zone?
-      </p>
-
-      <p v-if="suggestion == 1">
-        Looks like you have found your growth zone, what could you do to spend
-        more time there?
-      </p>
-
-      <p v-if="suggestion == 2">
-        Looks like you have found your growth zone, what could you do to spend
-        more time there?
-      </p>
-
-      <p v-if="suggestion == 3">
-        Looks like you stayed in the comfort zone a lot of the time. What could
-        you do to challenge yourself?
-      </p>
-
-      <p v-if="suggestion == 4">
-        Looks like you need to develop a growth zone, where you feel safe to
-        take risks and can cope with manageable challenges. What could help you
-        feel safe enough to take a risk?
-      </p>
-
-      <p v-if="suggestion == 5">
-        Looks like you felt of your depth a lot of the time. What could you have
-        done to calm down?
-      </p>
+    <div class="prose grow">
+      <p>{{ resources[section] }}</p>
     </div>
   </Card>
 </template>
 
 <script>
-import { scaledModeInput } from '~/data/config'
+import { scaledMoodInput, getTriangleSection } from '~/data/config'
 
 export default {
   props: {
     mood: { type: Object, default: null },
   },
+
+  data() {
+    return {
+      resources: [
+        'zone not found',
+        'zone 1',
+        'zone 2',
+        'zone 3',
+        'zone 4',
+        'zone 5',
+        'zone 6',
+      ],
+    }
+  },
+
   computed: {
     scaled() {
       if (this.mood) {
-        return scaledModeInput(this.mood)
+        return scaledMoodInput(this.mood)
       }
 
       return null
@@ -150,7 +136,7 @@ export default {
       }
 
       //
-      const scaled = scaledModeInput(this.mood)
+      const scaled = scaledMoodInput(this.mood)
 
       const scaler = 200 * Math.sqrt(2)
 
@@ -161,41 +147,14 @@ export default {
           ${(scaled?.amountGreen ?? 0) * scaler}
         )`
     },
-    suggestion() {
+    section() {
       if (!this.mood) {
         return ``
       }
 
-      //
-      const scaled = scaledModeInput(this.mood)
+      const scaled = scaledMoodInput(this.mood)
 
-      const { amountRed, amountGreen } = scaled
-
-      if (amountRed < 1 / 3 && amountGreen < 1 / 3) {
-        return 0
-      }
-
-      if (amountRed < 1 / 3 && amountGreen < 2 / 3) {
-        return 1
-      }
-
-      if (amountRed < 2 / 3 && amountGreen < 1 / 3) {
-        return 2
-      }
-
-      if (amountGreen > 2 / 3) {
-        return 3
-      }
-
-      if (amountRed > 1 / 3 && amountGreen > 1 / 3) {
-        return 4
-      }
-
-      if (amountRed > 2 / 3) {
-        return 5
-      }
-
-      return null
+      return getTriangleSection(scaled)
     },
   },
 }

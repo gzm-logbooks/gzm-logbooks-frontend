@@ -23,7 +23,7 @@
         <h2>Backup and sync</h2>
       </template>
 
-      <div class="flex flex-grow">
+      <div class="flex grow">
         <ConnectRemoteStorage />
       </div>
     </Card>
@@ -56,6 +56,7 @@ export default {
     themeNames() {
       // Get themes list from daisyui config.
       // const fullConfig = resolveConfig(tailwindConfig)
+
       const { themes } = tailwindConfig.daisyui
 
       // Get a theme name string from each config item.

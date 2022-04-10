@@ -10,7 +10,7 @@
         </div>
 
         <!-- Left buttons -->
-        <div class="flex-1 flex-grow order-first">
+        <div class="flex-1 order-first grow">
           <div>
             <button
               v-if="canGoBack"
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Right buttons -->
-        <div class="flex justify-end flex-1 flex-grow order-last gap-2">
+        <div class="flex justify-end flex-1 order-last gap-2 grow">
           <a href="https://forms.gle/8LsDP9BTpcNFk9nZ9" target="_blank">
             <button class="gap-2 btn">
               Feedback Form

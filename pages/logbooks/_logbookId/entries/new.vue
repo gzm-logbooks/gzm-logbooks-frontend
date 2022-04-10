@@ -18,7 +18,7 @@
 
     <!-- -->
     <div class="flex flex-col w-full mb-4 lg:flex-row">
-      <Card class="flex-grow bg-white">
+      <Card class="bg-white grow shrink">
         <div class="flex justify-center mb-4">
           <span class="text-xl italic">How did things go today?</span>
         </div>
@@ -36,7 +36,7 @@
 
       <div class="divider lg:divider-horizontal"></div>
 
-      <GrowthAnalysis :mood="fields.mood" class="max-w-sm" />
+      <GrowthAnalysis :mood="fields.mood" class="w-full max-w-sm" />
     </div>
   </LayoutPage>
 </template>
