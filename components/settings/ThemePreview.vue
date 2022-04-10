@@ -5,7 +5,7 @@
         x="0"
         y="0"
         width="20"
-        height="29"
+        height="34"
         rx="2"
         ry="2"
         class="fill-base-100"
