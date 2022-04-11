@@ -18,7 +18,7 @@
     </Card> -->
 
     <!-- Remote storage -->
-    <Card class="mb-6 bg-white">
+    <Card class="mb-6 bg-base-200">
       <template #title>
         <h2>Backup and sync</h2>
       </template>
@@ -31,7 +31,7 @@
     </Card>
 
     <!-- Theme -->
-    <Card class="mb-6 bg-white">
+    <Card class="mb-6 bg-base-200">
       <template #title>
         <h2>Theme</h2>
       </template>
