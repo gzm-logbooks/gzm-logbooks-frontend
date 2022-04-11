@@ -1,9 +1,10 @@
 import { name, version } from './package.json'
-// import globals from '@rollup/plugin-node-resolve'
 
-// //
-// const globalsPlugin = globals();
-// globalsPlugin.name = 'globals'; // required, see https://github.com/vitejs/vite/issues/728
+//
+const { BRANCH: branch, COMMIT_REF: shaRef } = process.env
+
+const siteTitle = 'GZM Logbooks'
+const buildName = [branch, shaRef ?? 'dev'].join('.')
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -14,17 +15,18 @@ export default {
 
   // https://nuxtjs.org/guide/runtime-config
   publicRuntimeConfig: {
-    title: 'GZM Logbooks (alpha)',
+    siteTitle,
+    buildName,
     services: {
       dropboxAppKey: process.env.DROPBOX_APP_KEY,
       googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID,
     },
-    appInfo: { name, version },
+    appInfo: { name, version, branch, shaRef },
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - GZM Logbooks (alpha)',
+    titleTemplate: `%s - ${siteTitle} (${buildName})`,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

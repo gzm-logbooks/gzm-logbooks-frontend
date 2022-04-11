@@ -7,7 +7,7 @@
         <!-- Title -->
         <div class="text-center text-base-content navbar-center">
           <nuxt-link to="/" class="text-lg font-bold md:text-xl">
-            {{ $config.title }}
+            {{ title }}
           </nuxt-link>
         </div>
 
@@ -71,6 +71,11 @@ import { resetDatabase } from '~/data/database'
 
 export default {
   computed: {
+    title() {
+      const { siteTitle, buildName } = this.$config
+
+      return `${siteTitle} (${buildName})`
+    },
     canGoBack() {
       return window.history?.length > 2
     },
