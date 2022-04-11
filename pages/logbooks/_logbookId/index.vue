@@ -39,11 +39,6 @@
               <span>✏️</span>
             </button>
           </template>
-
-          <button class="gap-2 btn btn-success" @click="downloadLogbook">
-            Download
-            <span>💾</span>
-          </button>
         </template>
       </template>
 
@@ -55,6 +50,11 @@
         <nuxt-link class="btn btn-outline" :to="{ name: 'logbooks' }">
           Back to logbooks
         </nuxt-link>
+
+        <button class="gap-2 btn btn-success" @click="downloadLogbook">
+          Download
+          <span>💾</span>
+        </button>
       </template>
     </LayoutPageHeader>
 
