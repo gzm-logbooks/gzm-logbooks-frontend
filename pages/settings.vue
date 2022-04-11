@@ -23,7 +23,9 @@
         <h2>Backup and sync</h2>
       </template>
 
-      <div class="flex grow">
+      <div class="flex flex-col grow">
+        <PlaceholderNote class="mb-4" />
+
         <ConnectRemoteStorage />
       </div>
     </Card>
@@ -34,12 +36,16 @@
         <h2>Theme</h2>
       </template>
 
-      <div class="flex space-x-3">
-        <SettingsThemePreview
-          v-for="(themeName, index) in themeNames"
-          :key="index"
-          :theme-name="themeName"
-        />
+      <div class="flex flex-col">
+        <PlaceholderNote class="mb-4" />
+
+        <div class="grid grid-cols-4 gap-2">
+          <SettingsThemePreview
+            v-for="(themeName, index) in themeNames"
+            :key="index"
+            :theme-name="themeName"
+          />
+        </div>
       </div>
     </Card>
   </LayoutPage>
