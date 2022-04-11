@@ -5,7 +5,7 @@
       height="100%"
       transform-origin="center"
       :transform="scaleRed"
-      :fill="red"
+      :fill="anxiety"
     />
 
     <rect
@@ -13,7 +13,7 @@
       height="100%"
       transform-origin="center"
       :transform="scaleAmber"
-      :fill="amber"
+      :fill="growth"
     />
 
     <rect
@@ -21,13 +21,13 @@
       height="100%"
       transform-origin="center"
       :transform="scaleGreen"
-      :fill="green"
+      :fill="comfort"
     />
   </svg>
 </template>
 
 <script>
-import { theme } from '~tailwind.config'
+import tailwindConfig from '#tailwind-config'
 
 export default {
   props: {
@@ -43,10 +43,15 @@ export default {
     },
   },
   data() {
+    const {
+      'light-comfort': comfort,
+      'light-growth': growth,
+      'light-anxiety': anxiety,
+    } = tailwindConfig.theme.colors
     return {
-      red: theme.colors.red[400],
-      amber: theme.colors.yellow[400],
-      green: theme.colors.green[400],
+      anxiety,
+      growth,
+      comfort,
     }
   },
   computed: {

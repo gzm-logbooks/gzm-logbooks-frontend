@@ -50,6 +50,11 @@
         <nuxt-link class="btn btn-outline" :to="{ name: 'logbooks' }">
           Back to logbooks
         </nuxt-link>
+
+        <button class="gap-2 btn btn-success" @click="downloadLogbook">
+          Download
+          <span>💾</span>
+        </button>
       </template>
     </LayoutPageHeader>
 
@@ -58,7 +63,7 @@
     </template>
 
     <template v-else>
-      <Card class="mb-6 bg-white">
+      <Card class="mb-6 bg-base-200">
         <!-- <template #title>
         <h3>My progress</h3>
       </template> -->
@@ -73,7 +78,7 @@
         </div>
       </Card>
 
-      <Card class="mb-6 bg-white">
+      <Card class="mb-6 bg-base-200">
         <div class="flex mb-2 space-x-4">
           <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
           <nuxt-link class="btn btn-primary" :to="logbook.getNewEntryRoute()">
@@ -165,6 +170,8 @@
 </template>
 
 <script>
+import { format } from 'date-fns'
+import { scaledMoodInput } from '~/data/config'
 export default {
   data() {
     return {
@@ -265,6 +272,39 @@ export default {
       this.$fetch()
     },
 
+    downloadLogbook() {
+
+      const data = this.entries.map((entry) => {
+        const { timestamp, comment, amountRed, amountAmber, amountGreen } =
+          entry
+
+        const mood = scaledMoodInput({
+          amountRed,
+          amountAmber,
+          amountGreen,
+        })
+
+        return [
+          format(new Date(timestamp), 'yyyy-MM-dd'),
+          comment,
+          mood.amountRed.toFixed(4),
+          mood.amountAmber.toFixed(4),
+          mood.amountGreen.toFixed(4),
+        ]
+      })
+
+      let csv = 'Date,Comment,Anxiety,Growth,Comfort,\n'
+      data.forEach(function (row) {
+        csv += row.join(',')
+        csv += '\n'
+      })
+
+      const hiddenElement = document.createElement('a')
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
+      hiddenElement.target = '_blank'
+      hiddenElement.download = this.logbook.name + '.csv'
+      hiddenElement.click()
+    },
     reset() {
       const { name } = this.logbook
       console.log(this.logbook)

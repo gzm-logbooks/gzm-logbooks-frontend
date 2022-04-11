@@ -18,11 +18,11 @@
 
     <!-- -->
     <div class="flex flex-col w-full mb-4 lg:flex-row">
-      <Card class="flex-grow bg-white">
+      <Card class="w-full bg-base-200 grow shrink">
         <div class="flex justify-between mb-4">
-            <h3 class="text-xl">{{ date }}</h3>
+          <h3 class="text-xl">{{ date }}</h3>
 
-            <span>{{ dateRelative }}</span>
+          <span>{{ dateRelative }}</span>
         </div>
 
         <FormulateForm v-model="fields" name="entry" @submit="save">
@@ -38,7 +38,7 @@
 
       <div class="divider lg:divider-horizontal"></div>
 
-      <GrowthAnalysis :mood="fields.mood" class="max-w-sm" />
+      <GrowthAnalysis :mood="fields.mood" class="w-full max-w-sm" />
     </div>
 
     <!-- -->

@@ -1,3 +1,4 @@
+import { name, version } from './package.json'
 // import globals from '@rollup/plugin-node-resolve'
 
 // //
@@ -11,9 +12,19 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  // https://nuxtjs.org/guide/runtime-config
+  publicRuntimeConfig: {
+    title: 'GZM Logbooks (alpha)',
+    services: {
+      dropboxAppKey: process.env.DROPBOX_APP_KEY,
+      googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID,
+    },
+    appInfo: { name, version },
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'growth-app',
+    titleTemplate: '%s - GZM Logbooks (alpha)',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -29,7 +40,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/globals', '~/plugins/database'],
+  plugins: ['~/plugins/globals', '~/plugins/database', '~/plugins/storage'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -71,8 +82,7 @@ export default {
   },
 
   tailwindcss: {
-    jit: true,
-    // add '~tailwind.config` alias
+    // add '#tailwind-config` alias
     exposeConfig: true,
   },
 

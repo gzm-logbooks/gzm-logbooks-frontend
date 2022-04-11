@@ -6,6 +6,7 @@
       label="Mood"
       validation="required"
       label-class="hidden"
+      @input="updateSection"
     />
 
     <FormulateInput
@@ -17,12 +18,52 @@
       class="w-full"
     />
 
-    <!-- TODO: Fix width. -->
+    <!-- TODO: Fix width -->
     <FormulateInput
+      :label="questionPrompt"
       class="w-full"
       type="textarea"
       name="comment"
-      label="Comment"
     />
   </div>
 </template>
+
+<script>
+import {
+  scaledMoodInput,
+  getTriangleSection,
+  analysisSectionPrompts,
+} from '~/data/config'
+
+export default {
+  data() {
+    return {
+      questions: analysisSectionPrompts,
+
+      // question: 'Zone not found',
+      section: null,
+    }
+  },
+
+  computed: {
+    questionPrompt() {
+      const { section, questions } = this
+
+      if (section) {
+        return questions[section] ?? null
+      }
+
+      //
+      return null
+    },
+  },
+
+  methods: {
+    updateSection(moodInputData) {
+      const scaled = scaledMoodInput(moodInputData)
+
+      this.section = getTriangleSection(scaled)
+    },
+  },
+}
+</script>

@@ -1,5 +1,5 @@
 <template>
-  <Card class="bg-white/80">
+  <Card class="bg-base-200">
     <template #title>
       <h2>Metrics and Analysis</h2>
     </template>
@@ -46,8 +46,8 @@
             y2="141.421"
             gradientTransform="matrix(0, -1, 2.82842712475, 0, 0, 0)"
           >
-            <stop offset="0" style="stop-color: rgba(0, 255, 8, 0.79)" />
-            <stop offset="1" style="stop-color: rgba(255, 9, 0, 0.85)" />
+            <stop offset="0" :style="`stop-color: ${comfort}`" />
+            <stop offset="1" :style="`stop-color: ${anxiety}`" />
           </linearGradient>
 
           <linearGradient
@@ -59,8 +59,8 @@
             y2="141.421"
             gradientTransform="matrix(1, 0, 0, 1, 0, 0)"
           >
-            <stop offset="0" style="stop-color: rgb(255, 115, 0)" />
-            <stop offset="1" style="stop-color: rgba(255, 115, 0, 0)" />
+            <stop offset="0" :style="`stop-color: ${growth}`" />
+            <stop offset="1" :style="`stop-color: ${growthOpacity}`" />
           </linearGradient>
         </defs>
 
@@ -75,9 +75,9 @@
           bx:shape="triangle 0 25 400 141.421 0.5 0 1@88f9a85d"
         />
 
-        <circle v-if="mood" :transform="triangleTransform" r="2" />
+        <circle v-if="mood" :transform="triangleTransform" r="4" />
 
-        <g class="text-sm uppercase">
+        <g class="text-sm uppercase fill-base-content">
           <text style="text-anchor: middle" x="50%" width="50%" y="20">
             Growth
           </text>
@@ -94,42 +94,53 @@
     </div>
 
     <!-- Suggestions -->
-    <div class="flex-grow prose">
-      <p v-if="suggestion == 0">Good Job keep it up!</p>
-
-      <p v-if="suggestion == 1">Maybe you need a challenge!</p>
-
-      <p v-if="suggestion == 2">
-        To reconnect your thinking brain, try 5/7 breathing. Breathe in while
-        you count to 5, and out while you count to 7. Do this again and again
-        until you start to feel calm.
-      </p>
-
-      <p v-if="suggestion == 3">You definitely need a challenge!</p>
-
-      <p v-if="suggestion == 4">Self Safeguarding Saves Students</p>
-
-      <p v-if="suggestion == 5">
-        Remember when you feel confused or panicky or stupid, that this is only
-        your brain trying to keep you safe. You can think more clearly if you
-        reverse the fight, flight or freeze response. This will reconnect your
-        thinking brain.
-      </p>
+    <div class="prose grow">
+      <p>{{ resources[section] }}</p>
     </div>
   </Card>
 </template>
 
 <script>
-import { scaledModeInput } from '~/data/config'
-
+import { scaledMoodInput, getTriangleSection } from '~/data/config'
+import tailwindConfig from '#tailwind-config'
 export default {
   props: {
     mood: { type: Object, default: null },
   },
+
+  data() {
+    const {
+      'light-comfort': comfortCol,
+      'light-growth': growthCol,
+      'light-anxiety': anxietyCol,
+    } = tailwindConfig.theme.colors
+
+    const comfort = comfortCol + 'FF'
+    const growth = growthCol + 'FF'
+    const anxiety = anxietyCol + 'FF'
+    const growthOpacity = growthCol + '00'
+
+    return {
+      comfort,
+      growth,
+      anxiety,
+      growthOpacity,
+      resources: [
+        'zone not found',
+        'zone 1',
+        'zone 2',
+        'zone 3',
+        'zone 4',
+        'zone 5',
+        'zone 6',
+      ],
+    }
+  },
+
   computed: {
     scaled() {
       if (this.mood) {
-        return scaledModeInput(this.mood)
+        return scaledMoodInput(this.mood)
       }
 
       return null
@@ -140,7 +151,7 @@ export default {
       }
 
       //
-      const scaled = scaledModeInput(this.mood)
+      const scaled = scaledMoodInput(this.mood)
 
       const scaler = 200 * Math.sqrt(2)
 
@@ -151,41 +162,14 @@ export default {
           ${(scaled?.amountGreen ?? 0) * scaler}
         )`
     },
-    suggestion() {
+    section() {
       if (!this.mood) {
         return ``
       }
 
-      //
-      const scaled = scaledModeInput(this.mood)
+      const scaled = scaledMoodInput(this.mood)
 
-      const { amountRed, amountGreen } = scaled
-
-      if (amountRed < 1 / 3 && amountGreen < 1 / 3) {
-        return 0
-      }
-
-      if (amountRed < 1 / 3 && amountGreen < 2 / 3) {
-        return 1
-      }
-
-      if (amountRed < 2 / 3 && amountGreen < 1 / 3) {
-        return 2
-      }
-
-      if (amountGreen > 2 / 3) {
-        return 3
-      }
-
-      if (amountRed > 1 / 3 && amountGreen > 1 / 3) {
-        return 4
-      }
-
-      if (amountRed > 2 / 3) {
-        return 5
-      }
-
-      return null
+      return getTriangleSection(scaled)
     },
   },
 }

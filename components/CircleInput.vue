@@ -1,5 +1,5 @@
 <template>
-  <div class="raginput" :class="{ active }" data-theme="default">
+  <div class="raginput" :class="{ active }" >
     <div class="raginput__inner">
       <svg
         :viewBox="`0 0 ${viewbox.outer} ${viewbox.outer}`"
@@ -37,21 +37,24 @@
             :cy="viewbox.center"
             r="50"
             :transform="`scale(${model.red})`"
-            class="raginput__circle raginput__circle--outer"
+            class="raginput__circle"
+            :fill="anxiety"
           />
           <circle
             :cx="viewbox.center"
             :cy="viewbox.center"
             r="50"
             :transform="`scale(${model.amber})`"
-            class="raginput__circle raginput__circle--middle"
+            class="raginput__circle"
+            :fill="growth"
           />
           <circle
             :cx="viewbox.center"
             :cy="viewbox.center"
             r="50"
             :transform="`scale(${model.green})`"
-            class="raginput__circle raginput__circle--inner"
+            class="raginput__circle"
+            :fill="comfort"
           />
         </g>
       </svg>
@@ -62,6 +65,7 @@
 <script>
 import { clamp, defaults } from 'lodash-es'
 import { growthInputDefaults } from '~/data/config'
+import tailwindConfig from '#tailwind-config'
 
 function getTouchEventCoords(params) {
   // Get viewpoint coords.
@@ -91,6 +95,11 @@ export default {
     },
   },
   data() {
+    const {
+      'light-comfort': comfort,
+      'light-growth': growth,
+      'light-anxiety': anxiety,
+    } = tailwindConfig.theme.colors
     return {
       state: {},
       defaultState: {
@@ -101,6 +110,9 @@ export default {
       dragDiff: 0,
       circleSize: 100,
       currentCircle: null,
+      anxiety,
+      growth,
+      comfort,
     }
   },
   computed: {
@@ -255,6 +267,7 @@ export default {
 <style scoped>
 .raginput {
   width: 100%;
+  background-color: base-200;
 }
 
 .raginput__inner {
@@ -269,12 +282,7 @@ export default {
 
 .raginput__background,
 .raginput__circle {
-  @apply fill-current;
   @apply border;
-}
-
-.raginput__background {
-  @apply text-gray-200;
 }
 
 .raginput__circle {
@@ -284,17 +292,5 @@ export default {
 
 .active .raginput__circle {
   @apply transition-none;
-}
-
-.raginput__circle--outer {
-  @apply text-accent;
-}
-
-.raginput__circle--middle {
-  @apply text-secondary;
-}
-
-.raginput__circle--inner {
-  @apply text-primary;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-grow" data-theme="garden">
+  <div class="flex flex-col grow">
     <LayoutHeader />
 
     <LayoutContainer max="lg" class="my-4">
@@ -14,7 +14,7 @@
 export default {
   mounted() {
     // Print routes for debug.
-    console.log('Routes...', this.$nuxt.context.app.router.getRoutes())
+    // console.log('Routes...', this.$nuxt.context.app.router.getRoutes())
   },
 }
 </script>

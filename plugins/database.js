@@ -19,7 +19,9 @@ if (process.env.NODE_ENV === 'development') {
   addRxPlugin(RxDBDevModePlugin)
 }
 
-//
+/**
+ * Register the plugin...
+ */
 export default function ({ app }, inject) {
   // Initialize the database.
   const pendingInstance = getDatabaseInstance()
