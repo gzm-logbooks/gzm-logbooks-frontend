@@ -74,7 +74,7 @@ export default {
     title() {
       const { siteTitle, buildName } = this.$config
 
-      return `${siteTitle} (${buildName})`
+      return `${siteTitle} (${buildName.slice(0, 18)})`
     },
     canGoBack() {
       return window.history?.length > 2
