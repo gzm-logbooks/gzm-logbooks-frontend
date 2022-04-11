@@ -2,46 +2,45 @@
   <div class="text-gray-800 border-b border-base-200 bg-base-100">
     <LayoutContainer class="flex flex-col gap-1">
       <div class="flex max-w-xl mx-auto md:max-w-4xl xl:max-w-screen-xl"></div>
-      <div
-        class="flex flex-wrap items-center flex-1 py-3 sm:flex-nowrap sm:h-16 sm:py-0"
-      >
+
+      <div class="navbar">
         <!-- Title -->
-        <div class="text-lg text-center md:text-xl">
-          <nuxt-link to="/" class="font-bold text-base-content"> {{ $config.title }} </nuxt-link>
+        <div class="text-center text-base-content navbar-center">
+          <nuxt-link to="/" class="text-lg font-bold md:text-xl">
+            {{ $config.title }}
+          </nuxt-link>
         </div>
 
         <!-- Left buttons -->
-        <div class="flex flex-1 order-first gap-2 grow">
-          <div>
-            <button
-              v-if="canGoBack"
-              class="btn btn-outline"
-              @click="$router.back()"
-            >
-              Back
-            </button>
-          </div>
+        <div class="flex order-first gap-2 navbar-start">
+          <button
+            v-if="canGoBack"
+            class="btn btn-outline"
+            @click="$router.back()"
+          >
+            Back
+          </button>
+
           <a
             href="https://forms.gle/8LsDP9BTpcNFk9nZ9"
             target="_blank"
-            class="hidden md:block"
+            class="hidden gap-2 md:flex btn btn-info"
           >
-            <button class="gap-2 btn">
-              Feedback Form
-              <span>📝</span>
-            </button></a
-          >
+            Feedback Form
+            <span>📝</span>
+          </a>
         </div>
 
         <!-- Right buttons -->
-        <div class="flex justify-end flex-1 order-last gap-2 grow">
+        <div class="flex justify-end gap-2 navbar-end">
           <button
-            class="hidden gap-2 btn btn-warning md:block"
+            class="hidden gap-2 btn btn-warning md:flex"
             @click="resetDatabase()"
           >
             Reset data
             <span>🔥</span>
           </button>
+
           <nuxt-link class="btn btn-outline" to="/settings">
             Settings
           </nuxt-link>
@@ -49,12 +48,14 @@
       </div>
 
       <div class="flex justify-center flex-1 order-last gap-2 md:hidden grow">
-        <a href="https://forms.gle/8LsDP9BTpcNFk9nZ9" target="_blank">
-          <button class="gap-2 btn">
-            Feedback Form
-            <span>📝</span>
-          </button></a
+        <a
+          href="https://forms.gle/8LsDP9BTpcNFk9nZ9"
+          target="_blank"
+          class="gap-2 btn btn-info"
         >
+          Feedback Form
+          <span>📝</span>
+        </a>
 
         <button class="gap-2 btn btn-warning" @click="resetDatabase()">
           Reset data
