@@ -18,7 +18,7 @@
 
     <!-- -->
     <div class="flex flex-col w-full mb-4 lg:flex-row">
-      <Card class="bg-white grow shrink">
+      <Card class="w-full bg-base-200 grow shrink">
         <div class="flex justify-center mb-4">
           <span class="text-xl italic">How did things go today?</span>
         </div>
