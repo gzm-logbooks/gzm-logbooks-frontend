@@ -2,11 +2,11 @@
   <div class="flex flex-col grow">
     <LayoutHeader />
 
-    <LayoutContainer max="lg" class="my-4">
+    <LayoutContainer max="lg" class="px-4 my-4">
       <DemoWarning />
     </LayoutContainer>
 
-    <Nuxt />
+    <Nuxt class="px-4" />
   </div>
 </template>
 

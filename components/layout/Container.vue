@@ -19,7 +19,7 @@ export default {
         { breakpoint: 'sm' },
         { breakpoint: 'md', width: '4xl' },
         { breakpoint: 'lg' },
-        { breakpoint: 'xl', width: '6xl' },
+        { breakpoint: 'xl', width: '7xl' },
       ],
     }
   },
