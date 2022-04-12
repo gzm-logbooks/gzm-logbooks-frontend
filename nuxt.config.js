@@ -1,10 +1,17 @@
 import { name, version } from './package.json'
 
 //
-const { BRANCH: branch, COMMIT_REF: shaRef } = process.env
+const {
+  SITE_TITLE: siteTitle = 'Growth Zone Model Logbooks',
+  BRANCH: branch = 'branch',
+  COMMIT_REF: shaRef = 'commit',
+} = process.env
 
-const siteTitle = 'GZM Logbooks'
-const buildName = [branch, shaRef ?? 'dev'].join('.')
+//
+const buildName = [branch, shaRef]
+  .filter((part) => typeof part === 'string')
+  .map((part) => part.slice(0, 6))
+  .join('.')
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -16,12 +23,12 @@ export default {
   // https://nuxtjs.org/guide/runtime-config
   publicRuntimeConfig: {
     siteTitle,
-    buildName,
+    appInfo: { name, version, branch, shaRef, buildName },
+
     services: {
       dropboxAppKey: process.env.DROPBOX_APP_KEY,
       googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID,
     },
-    appInfo: { name, version, branch, shaRef },
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -56,7 +63,7 @@ export default {
     '@nuxtjs/color-mode',
 
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
 
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
@@ -90,7 +97,10 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-    manifest: {
+    meta: {
+      name: siteTitle,
+      description: `Track your learning with the growth zone model. Build ${buildName}`,
+      theme_color: '#f4a261',
       lang: 'en',
     },
   },

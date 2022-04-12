@@ -5,10 +5,12 @@
 
       <div class="navbar">
         <!-- Title -->
-        <div class="text-center text-base-content navbar-center">
-          <nuxt-link to="/" class="text-lg font-bold md:text-xl">
+        <div class="flex flex-col text-center text-base-content navbar-center">
+          <nuxt-link to="/" class="text-lg font-bold md:text-">
             {{ title }}
           </nuxt-link>
+
+          <span class="text-sm">{{ buildName }}</span>
         </div>
 
         <!-- Left buttons -->
@@ -70,16 +72,22 @@
 import { resetDatabase } from '~/data/database'
 
 export default {
-  computed: {
-    title() {
-      const { siteTitle, buildName } = this.$config
+  data() {
+    const { siteTitle: title, appInfo } = this.$config
+    const { buildName } = appInfo
 
-      return `${siteTitle} (${buildName.slice(0, 18)})`
-    },
+    return {
+      title,
+      buildName,
+    }
+  },
+
+  computed: {
     canGoBack() {
       return window.history?.length > 2
     },
   },
+
   methods: {
     async resetDatabase() {
       try {
