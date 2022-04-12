@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@nuxtjs/color-mode": "^2.0.10",
-    "@nuxtjs/composition-api": "^0.24.5",
+    "@nuxtjs/color-mode": "^3.0.2",
+    "@nuxtjs/composition-api": "^0.32.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/tailwindcss": "^5.0.2",
     "@tailwindcss/forms": "^0.5.0",
@@ -34,14 +34,14 @@
     "vue-rx": "^6.2.0"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^6.0.1",
+    "@nuxtjs/eslint-config": "^9.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.29.0",
+    "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-vue": "^7.12.1",
+    "eslint-plugin-nuxt": "^3.2.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.6.0",
     "postcss": "^8.3.5",
     "prettier": "^2.3.2"
   }
