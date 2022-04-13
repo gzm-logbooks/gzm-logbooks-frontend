@@ -57,6 +57,8 @@
           Feedback Form
           <span>📝</span>
         </a>
+        </div>
+        <div class="md:hidden">
 
         <button class="gap-2 btn btn-warning" @click="resetDatabase()">
           Reset data
