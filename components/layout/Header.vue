@@ -47,7 +47,8 @@
         </div>
       </div>
 
-      <div class="flex justify-center flex-1 order-last gap-2 md:hidden grow">
+      <div class="flex justify-center flex-1 order-last gap-2 grow">
+      <div class="md:hidden">
         <a
           href="https://forms.gle/8LsDP9BTpcNFk9nZ9"
           target="_blank"
@@ -61,6 +62,17 @@
           Reset data
           <span>🔥</span>
         </button>
+      </div>
+      
+      <a
+          href="https://github.com/kauhat/gzm-logbooks-frontend/issues/new/choose"
+          target="_blank"
+          class="gap-2 btn btn-info"
+        >
+          Issue / Feature suggestion (Requires Github)
+          <span>📝</span>
+        </a>
+      
       </div>
     </LayoutContainer>
   </div>
