@@ -12,8 +12,6 @@ export default {
         getDaisyUiInputClass(context.classification),
       ])
 
-      // console.log(_classes, context)
-
       return _classes
     },
     label: 'label label-text',
