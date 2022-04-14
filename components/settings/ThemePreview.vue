@@ -1,21 +1,21 @@
 <template>
   <div :data-theme="themeName">
-    <svg width="100" viewBox="0 0 20 34" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100" viewBox="0 0 20 40" xmlns="http://www.w3.org/2000/svg">
       <rect
         x="0"
-        y="0"
+        y="8"
         width="20"
-        height="34"
+        height="32"
         rx="2"
         ry="2"
         class="fill-base-100"
       />
-      <circle cx="10" cy="10" r="9" :fill="comfort" />
-      <circle cx="10" cy="10" r="6" :fill="growth" />
-      <circle cx="10" cy="10" r="3" :fill="anxiety" />
+      <circle cx="10" cy="18" r="9" :fill="anxiety" />
+      <circle cx="10" cy="18" r="6" :fill="growth" />
+      <circle cx="10" cy="18" r="3" :fill="comfort" />
       <rect
         x="1"
-        y="20"
+        y="28"
         width="18"
         height="3"
         rx="2"
@@ -24,7 +24,7 @@
       />
       <rect
         x="1"
-        y="24"
+        y="32"
         width="18"
         height="3"
         rx="2"
@@ -33,7 +33,7 @@
       />
       <rect
         x="1"
-        y="28"
+        y="36"
         width="18"
         height="3"
         rx="2"

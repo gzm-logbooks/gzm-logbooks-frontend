@@ -1,13 +1,18 @@
 import { defineNuxtConfig } from '@nuxt/bridge'
 import { name, version } from './package.json'
 
-// import globals from '@rollup/plugin-node-resolve'
+//
+const {
+  SITE_TITLE: siteTitle = 'Growth Zone Model Logbooks',
+  BRANCH: branch = 'branch',
+  COMMIT_REF: shaRef = 'commit',
+} = process.env
 
-// //
-// const globalsPlugin = globals();
-// globalsPlugin.name = 'globals'; // required, see https://github.com/vitejs/vite/issues/728
-
-const title = process.env.appName ?? name
+//
+const buildName = [branch, shaRef]
+  .filter((part) => typeof part === 'string')
+  .map((part) => part.slice(0, 6))
+  .join('.')
 
 export default defineNuxtConfig({
   bridge: {
@@ -15,7 +20,7 @@ export default defineNuxtConfig({
     vite: true,
 
     // Enable Nuxt 3 compatible useHead
-    // meta: true,
+    meta: true,
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -24,9 +29,20 @@ export default defineNuxtConfig({
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  // https://nuxtjs.org/guide/runtime-config
+  publicRuntimeConfig: {
+    siteTitle,
+    appInfo: { name, version, branch, shaRef, buildName },
+
+    services: {
+      dropboxAppKey: process.env.DROPBOX_APP_KEY,
+      googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID,
+    },
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title,
+    titleTemplate: `%s - ${siteTitle} (${buildName})`,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -57,7 +73,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
 
     // https://go.nuxtjs.dev/eslint
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
 
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
@@ -71,11 +87,6 @@ export default defineNuxtConfig({
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
   ],
-
-  // https://nuxtjs.org/guide/runtime-config
-  publicRuntimeConfig: {
-    buildInfo: { name, version },
-  },
 
   //
   generate: {
@@ -93,14 +104,23 @@ export default defineNuxtConfig({
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-    manifest: {
+    meta: {
+      name: siteTitle,
+      description: `Track your learning with the growth zone model. Build ${buildName}`,
+      theme_color: '#f4a261',
       lang: 'en',
     },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    // transpile: ['remotestorage-widget', 'pouchdb-core']
+    transpile: [
+      // './data/config.ts',
+      'remotestorage-widget',
+      'pouchdb-core',
+      '@nuxt/bridge',
+      '@nuxt/bridge-edge',
+    ]
   },
 
   // vite: {

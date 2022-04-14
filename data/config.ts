@@ -1,18 +1,5 @@
 import { clamp, defaults } from 'lodash-es'
 
-/**
- *
- */
-export function getAppTitle(fallback: string): string {
-  const { appName } = import.meta.env ?? false
-
-  const title = (typeof appName === 'string')
-    ? appName
-    : fallback
-
-  return title;
-}
-
 export const growthInputDefaults = {
   padding: 0.05,
   minRadius: 0.1,
