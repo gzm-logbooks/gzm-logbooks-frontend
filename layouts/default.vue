@@ -1,13 +1,17 @@
 <template>
-  <div class="flex flex-col grow">
-    <LayoutHeader />
+  <ClientOnly>
+    <div class="flex flex-col grow">
+      <LayoutHeader />
 
-    <LayoutContainer max="lg" class="my-4">
-      <DemoWarning />
-    </LayoutContainer>
+      <LayoutContainer max="lg" class="my-4">
+        <DemoWarning />
+      </LayoutContainer>
 
-    <Nuxt />
-  </div>
+      <NuxtErrorBoundary @error="(error) => console.error(error)">
+        <Nuxt />
+      </NuxtErrorBoundary>
+    </div>
+  </ClientOnly>
 </template>
 
 <script>
