@@ -1,4 +1,14 @@
-# growth-app
+# Growth Zone Model Logbooks PWA
+
+## Feature progress
+- [x] User created "personal" logbooks
+- [ ] Teacher created "managed" logbooks
+  - [ ] Fetch recent lessons from RSS* feed
+  - [ ] "Add feedback" notifications
+  - [ ] Submission of student results
+- [ ] Backup and sync with [remoteStorage,js](https://remotestorage.io/#developer-library)
+
+[See project boards for recent progress](https://github.com/kauhat/gzm-logbooks-frontend/projects).
 
 ## Build Setup
 
@@ -17,4 +27,4 @@ $ yarn start
 $ yarn generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+For a detailed explanation of the project structure and building, check out the [Nuxt.js docs](https://nuxtjs.org).
