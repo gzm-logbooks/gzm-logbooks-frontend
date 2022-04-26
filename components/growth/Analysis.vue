@@ -110,15 +110,12 @@ export default {
 
   data() {
     const {
-      'light-comfort': comfortCol,
-      'light-growth': growthCol,
-      'light-anxiety': anxietyCol,
+      'comfort': comfort,
+      'growth': growth,
+      'anxiety': anxiety,
     } = tailwindConfig.theme.colors
 
-    const comfort = comfortCol + 'FF'
-    const growth = growthCol + 'FF'
-    const anxiety = anxietyCol + 'FF'
-    const growthOpacity = growthCol + '00'
+    const growthOpacity = growth + '00'
 
     return {
       comfort,

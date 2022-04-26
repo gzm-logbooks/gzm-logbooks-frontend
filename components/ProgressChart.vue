@@ -143,9 +143,9 @@ export default defineComponent({
 
         // NEED TO FIND CURRENT THEME FOR BELOW
         const {
-          'light-comfort': comfort,
-          'light-growth': growth,
-          'light-anxiety': anxiety,
+          'comfort': comfort,
+          'growth': growth,
+          'anxiety': anxiety,
         } = tailwindConfig.theme.colors
 
         return {

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col grow">
+  <div class="flex flex-col grow" :data-theme="themeName">
     <LayoutHeader />
 
     <LayoutContainer max="lg" class="px-4 my-4">
@@ -15,6 +15,12 @@ export default {
   mounted() {
     // Print routes for debug.
     // console.log('Routes...', this.$nuxt.context.app.router.getRoutes())
+  },
+
+  computed: {
+    themeName() {
+      return localStorage.currentTheme
+    },
   },
 }
 </script>
