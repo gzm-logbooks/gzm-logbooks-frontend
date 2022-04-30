@@ -1,4 +1,4 @@
-import { addRxPlugin } from 'rxdb/plugins/core'
+import { addRxPlugin } from 'rxdb'
 import { addPouchPlugin } from 'rxdb/plugins/pouchdb'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'

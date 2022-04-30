@@ -1,4 +1,4 @@
-import { createRxDatabase, removeRxDatabase } from 'rxdb/plugins/core'
+import { createRxDatabase, removeRxDatabase } from 'rxdb'
 import { useNuxtApp } from '#app'
 
 // Load schemas.
