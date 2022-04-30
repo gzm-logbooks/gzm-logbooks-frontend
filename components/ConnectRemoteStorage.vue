@@ -1,12 +1,12 @@
 <template>
-  <div id="remoteStorageWidget" ref="remoteStorageWidget"></div>
+  <div id="remoteStorageWidget" ref="widgetContainer"></div>
 </template>
 
 <script>
 export default {
   async mounted() {
     const { $remoteStorage: storage } = this
-    const { remoteStorageWidget: element } = this.$refs
+    const { widgetContainer: element } = this.$refs
 
     console.log({ storage, element })
 

@@ -5,27 +5,36 @@ import { defineNuxtPlugin } from '#app'
 /**
  * Register the plugin...
  */
-export default defineNuxtPlugin((nuxtApp) => {
-  const { buildInfo } = useRuntimeConfig()
-
-  const remoteStorage = setupRemoteStorage(buildInfo.name)
+export default function ({ app, $config }, inject) {
+  const { appInfo, services } = $config
 
   // Add $remoteStorage field to app context.
-  return {
-    provide: {
-      remoteStorage,
-    },
-  }
-})
+  inject(
+    'remoteStorage',
+    setupRemoteStorage({
+      rootPath: appInfo.name,
+      ...services,
+    })
+  )
+}
 
 /**
  * Get an instance of the remote storage service.
  */
-export function setupRemoteStorage(rootPath) {
+export function setupRemoteStorage({
+  rootPath,
+  googleDriveClientId,
+  dropboxAppKey,
+}) {
   const remoteStorage = new RemoteStorage({ logging: true })
 
   remoteStorage.access.claim(rootPath, 'rw')
   remoteStorage.caching.enable(`/${rootPath}/`)
+
+  remoteStorage.setApiKeys({
+    dropbox: dropboxAppKey,
+    googledrive: googleDriveClientId,
+  })
 
   return remoteStorage
 }

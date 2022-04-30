@@ -18,30 +18,34 @@
     </Card> -->
 
     <!-- Remote storage -->
-    <Card class="mb-6 bg-white">
+    <Card class="mb-6 bg-base-200">
       <template #title>
         <h2>Backup and sync</h2>
       </template>
 
-      <div class="flex grow">
-        <ClientOnly>
-          <ConnectRemoteStorage />
-        </ClientOnly>
+      <div class="flex flex-col grow">
+        <PlaceholderNote class="mb-4" />
+
+        <ConnectRemoteStorage />
       </div>
     </Card>
 
     <!-- Theme -->
-    <Card class="mb-6 bg-white">
+    <Card class="mb-6 bg-base-200">
       <template #title>
         <h2>Theme</h2>
       </template>
 
-      <div class="flex space-x-3">
-        <SettingsThemePreview
-          v-for="(themeName, index) in themeNames"
-          :key="index"
-          :theme-name="themeName"
-        />
+      <div class="flex flex-col">
+        <PlaceholderNote class="mb-4" />
+
+        <div class="grid grid-cols-4 gap-2">
+          <SettingsThemePreview
+            v-for="(themeName, index) in themeNames"
+            :key="index"
+            :theme-name="themeName"
+          />
+        </div>
       </div>
     </Card>
   </LayoutPage>
@@ -62,16 +66,27 @@ export default {
       const { themes } = tailwindConfig.daisyui
 
       // Get a theme name string from each config item.
-      return themes
-        .map(function (theme) {
+      return Object.entries(themes)
+        .map(function ([key, value]) {
+          if (typeof key === 'string') {
+            const theme = key.match(/\[data-theme=(.*)\]/)
+              console.log({ key, value, theme})
+
+            if (theme) {
+              return theme[1];
+            }
+
+            return key
+          }
+
           // Simple string keys.
-          if (typeof theme === 'string') {
-            return theme
+          if (typeof value === 'string') {
+            return value
           }
 
           // User defined theme objects.
-          if (theme instanceof Object) {
-            const keys = Object.keys(theme)
+          if (key instanceof Object) {
+            const keys = Object.keys(key)
             return keys[0]
             // return theme
           }

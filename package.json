@@ -1,6 +1,6 @@
 {
-  "name": "growth-app",
-  "version": "1.0.0",
+  "name": "gzm-logbooks-pwa",
+  "version": "0.7.0",
   "private": true,
   "scripts": {
     "dev": "nuxi dev",

@@ -39,9 +39,9 @@ export default {
   },
   data() {
     const {
-      'light-comfort': comfort,
-      'light-growth': growth,
-      'light-anxiety': anxiety,
+     comfort,
+     growth,
+     anxiety,
     } = tailwindConfig.theme.colors
     return {
       anxiety,

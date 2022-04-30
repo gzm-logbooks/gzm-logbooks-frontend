@@ -1,5 +1,5 @@
 <template>
-  <div class="raginput" :class="{ active }" >
+  <div class="raginput" :class="{ active }">
     <div class="raginput__inner">
       <svg
         :viewBox="`0 0 ${viewbox.outer} ${viewbox.outer}`"
@@ -37,7 +37,7 @@
             :cy="viewbox.center"
             r="50"
             :transform="`scale(${model.red})`"
-            class="raginput__circle"
+            class="raginput__circle text-anxiety"
             :fill="anxiety"
           />
           <circle
@@ -45,7 +45,7 @@
             :cy="viewbox.center"
             r="50"
             :transform="`scale(${model.amber})`"
-            class="raginput__circle"
+            class="raginput__circle text-growth"
             :fill="growth"
           />
           <circle
@@ -53,7 +53,7 @@
             :cy="viewbox.center"
             r="50"
             :transform="`scale(${model.green})`"
-            class="raginput__circle"
+            class="raginput__circle text-comfort"
             :fill="comfort"
           />
         </g>
@@ -96,9 +96,9 @@ export default {
   },
   data() {
     const {
-      'light-comfort': comfort,
-      'light-growth': growth,
-      'light-anxiety': anxiety,
+     comfort,
+     growth,
+     anxiety,
     } = tailwindConfig.theme.colors
     return {
       state: {},
@@ -282,7 +282,7 @@ export default {
 
 .raginput__background,
 .raginput__circle {
-  @apply border;
+  @apply border fill-current;
 }
 
 .raginput__circle {

@@ -6,7 +6,7 @@ export default {
   },
   classes: {
     outer: 'mb-4',
-    wrapper: 'form-control',
+    element: 'form-control',
     input(context, classes) {
       const _classes = classes.concat([
         getDaisyUiInputClass(context.classification),

@@ -7,7 +7,7 @@ pkgs.mkShell {
     pkgs.yarn
 
     # Deploy tools
-    # pkgs.netlify-cli (broken)
+    pkgs.netlify-cli # (broken) (edit: maybe not broken?)
 
     # keep this line if you use bash
     # pkgs.bashInteractive
