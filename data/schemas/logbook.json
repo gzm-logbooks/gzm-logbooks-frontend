@@ -1,12 +1,19 @@
 {
-	"title": "logbook",
-	"version": 1,
-	"properties": {
-		"name": {
-			"type": "string",
-			"minLength": 1
-		}
-	},
-	"required": ["name"],
-	"indexes": ["name"]
+  "title": "logbook",
+  "type": "object",
+  "version": 2,
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    }
+  },
+  "primaryKey": "name",
+  "required": [
+    "name"
+  ],
+  "indexes": [
+    "name"
+  ]
 }

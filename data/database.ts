@@ -1,9 +1,18 @@
-import { createRxDatabase, removeRxDatabase } from 'rxdb'
+import {
+  createRxDatabase, removeRxDatabase,
+  toTypedRxJsonSchema,
+  ExtractDocumentTypeFromTypedRxJsonSchema,
+  RxJsonSchema
+} from 'rxdb'
+import { getRxStoragePouch } from 'rxdb/plugins/pouchdb';
 import { useNuxtApp } from '#app'
+import { compile, compileFromFile } from 'json-schema-to-typescript'
+
 
 // Load schemas.
-import entrySchema from '~/data/schemas/entry.json'
-import logbookSchema from '~/data/schemas/logbook.json'
+import entrySchemaLiteral from '~/data/schemas/entry.json'
+import logbookSchemaLiteral from '~/data/schemas/logbook.json'
+
 
 export function useDatabase() {
   return useNuxtApp().$db
@@ -16,13 +25,23 @@ export function useDatabase() {
 export async function createDatabase() {
   const db = await createRxDatabase({
     name: 'logbooks',
-    adapter: 'indexeddb',
+    storage: getRxStoragePouch('indexeddb')
   })
 
   await db.addCollections({
     //
     logbooks: {
-      schema: logbookSchema,
+      schema: (() => {
+        const logbookSchemaTyped = toTypedRxJsonSchema(logbookSchemaLiteral);
+
+        // aggregate the document type from the schema
+        type LogbookDocType = ExtractDocumentTypeFromTypedRxJsonSchema<typeof logbookSchemaTyped>;
+
+        // RxJsonSchema<LogbookDocType>
+
+        // create the typed RxJsonSchema from the literal typed object.
+        return logbookSchemaLiteral;
+      })(),
 
       migrationStrategies: {
         1() {
@@ -65,7 +84,7 @@ export async function createDatabase() {
 
     //
     entries: {
-      schema: entrySchema,
+      schema: entrySchemaLiteral,
 
       migrationStrategies: {
         1() {
@@ -112,7 +131,7 @@ export async function resetDatabase() {
   //
   console.warn('Deleting database...')
 
-  await removeRxDatabase('logbooks', 'indexeddb')
+  await removeRxDatabase('logbooks', getRxStoragePouch('indexeddb'))
 
   //
   await this.$nuxt.refresh()
