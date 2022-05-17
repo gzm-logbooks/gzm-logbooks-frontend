@@ -28,7 +28,7 @@
     "proxymise": "^1.0.2",
     "remotestorage-widget": "^1.5.4",
     "remotestoragejs": "^2.0.0-beta.3",
-    "rxdb": "^11.6.0",
+    "rxdb": "^12.0.1",
     "rxjs": "^7.0",
     "vue-demi": "^0.12.5",
     "vue-rx": "^6.2.0"

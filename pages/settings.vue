@@ -66,16 +66,27 @@ export default {
       const { themes } = tailwindConfig.daisyui
 
       // Get a theme name string from each config item.
-      return themes
-        .map(function (theme) {
+      return Object.entries(themes)
+        .map(function ([key, value]) {
+          if (typeof key === 'string') {
+            const theme = key.match(/\[data-theme=(.*)\]/)
+              console.log({ key, value, theme})
+
+            if (theme) {
+              return theme[1];
+            }
+
+            return key
+          }
+
           // Simple string keys.
-          if (typeof theme === 'string') {
-            return theme
+          if (typeof value === 'string') {
+            return value
           }
 
           // User defined theme objects.
-          if (theme instanceof Object) {
-            const keys = Object.keys(theme)
+          if (key instanceof Object) {
+            const keys = Object.keys(key)
             return keys[0]
             // return theme
           }

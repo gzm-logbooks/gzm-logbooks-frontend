@@ -126,7 +126,7 @@ export default defineNuxtConfig({
   // vite: {
   //   /* options for vite */
   //   // optimizeDeps: {
-  //   //   include: ['rxdb/plugins/core'], // try to limit scope of optimized module
+  //   //   include: ['rxdb'], // try to limit scope of optimized module
   //   //   exclude: ['rxdb'],
   //   // },
 
