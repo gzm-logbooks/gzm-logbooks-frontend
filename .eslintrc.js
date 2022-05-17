@@ -5,10 +5,10 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    parser: 'babel-eslint',
+    // parser: 'babel-eslint',
   },
   extends: [
-    '@nuxtjs',
+    '@nuxtjs/eslint-config-typescript',
     'plugin:prettier/recommended',
     'plugin:nuxt/recommended',
   ],

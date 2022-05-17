@@ -1,33 +1,39 @@
 {
-    "title": "Entry",
-    "version": 1,
-    "properties": {
-        "timestamp": {
-            "type": "string"
-        },
-        "logbook": {
-            "type": "string",
-            "ref": "logbooks"
-        },
-        "amountRed": {
-            "type": "number"
-        },
-        "amountAmber": {
-            "type": "number"
-        },
-        "amountGreen": {
-            "type": "number"
-        },
-        "comment": {
-            "type": "string"
-        }
+  "title": "Entry",
+  "type": "object",
+  "version": 2,
+  "properties": {
+    "timestamp": {
+      "type": "date-time",
+      "minLength": 12,
+      "maxLength": 100
     },
-    "indexes": [
-        "timestamp",
-        "logbook"
-    ],
-    "required": [
-        "timestamp",
-        "logbook"
-    ]
+    "logbook": {
+      "type": "string",
+      "ref": "logbooks",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "amountRed": {
+      "type": "number"
+    },
+    "amountAmber": {
+      "type": "number"
+    },
+    "amountGreen": {
+      "type": "number"
+    },
+    "comment": {
+      "type": "string"
+    }
+  },
+  "primaryKey": "timestamp",
+  "indexes": [
+    "timestamp",
+    "logbook"
+  ],
+  "required": [
+    "timestamp",
+    "logbook"
+  ]
 }
