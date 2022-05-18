@@ -51,7 +51,7 @@
   </LayoutPage>
 </template>
 
-<script>
+<script lang="ts">
 import tailwindConfig from '#tailwind-config'
 
 export default {
@@ -70,10 +70,10 @@ export default {
         .map(function ([key, value]) {
           if (typeof key === 'string') {
             const theme = key.match(/\[data-theme=(.*)\]/)
-              console.log({ key, value, theme})
+            console.log({ key, value, theme })
 
             if (theme) {
-              return theme[1];
+              return theme[1]
             }
 
             return key

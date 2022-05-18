@@ -14,17 +14,16 @@
   </ClientOnly>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  mounted() {
-    // Print routes for debug.
-    // console.log('Routes...', this.$nuxt.context.app.router.getRoutes())
-  },
-
   computed: {
     themeName() {
       return localStorage.currentTheme
     },
+  },
+  mounted() {
+    // Print routes for debug.
+    // console.log('Routes...', this.$nuxt.context.app.router.getRoutes())
   },
 }
 </script>

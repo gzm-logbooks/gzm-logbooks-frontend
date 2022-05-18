@@ -169,10 +169,10 @@
   </LayoutPage>
 </template>
 
-<script>
+<script lang="ts">
+import { format } from 'date-fns'
 import { useDatabase } from '~/data/database'
 import { scaledMoodInput } from '~/data/config'
-import { format } from 'date-fns'
 
 export default {
   data() {
@@ -275,7 +275,6 @@ export default {
     },
 
     downloadLogbook() {
-
       const data = this.entries.map((entry) => {
         const { timestamp, comment, amountRed, amountAmber, amountGreen } =
           entry

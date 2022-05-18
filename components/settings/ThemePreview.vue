@@ -45,12 +45,14 @@
         />
       </svg>
 
-      <button class="shadow-sm btn btn-primary" @click="switchTheme(themeName)">Beep boop</button>
+      <button class="shadow-sm btn btn-primary" @click="switchTheme(themeName)">
+        Beep boop
+      </button>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // import tailwindConfig from '#tailwind-config'
 export default {
   props: {

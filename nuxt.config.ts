@@ -61,7 +61,7 @@ export default defineNuxtConfig({
   plugins: [
     '~/plugins/globals',
     '~/plugins/database.client',
-    '~/plugins/storage.client'
+    '~/plugins/storage.client',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -120,7 +120,7 @@ export default defineNuxtConfig({
       'pouchdb-core',
       '@nuxt/bridge',
       '@nuxt/bridge-edge',
-    ]
+    ],
   },
 
   // vite: {

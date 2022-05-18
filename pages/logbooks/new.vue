@@ -18,7 +18,7 @@
   </LayoutPage>
 </template>
 
-<script>
+<script lang="ts">
 import { useDatabase } from '~/data/database'
 
 export default {

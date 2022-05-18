@@ -2,7 +2,7 @@
   <div id="remoteStorageWidget" ref="widgetContainer"></div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   async mounted() {
     const { $remoteStorage: storage } = this

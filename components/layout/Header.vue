@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { resetDatabase } from '~/data/database'
 
 export default {
@@ -111,7 +111,7 @@ export default {
       // const router = useRouter()
       const { $router } = this
 
-      console.log({$router})
+      console.log({ $router })
 
       // FIXME: Get history from router.
       // return window?.history?.length > 2

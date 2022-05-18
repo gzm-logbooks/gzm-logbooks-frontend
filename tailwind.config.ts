@@ -23,9 +23,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        'comfort': withOpacityValue('--color-comfort-hsl'),
-        'growth': withOpacityValue('--color-growth-hsl'),
-        'anxiety': withOpacityValue('--color-anxiety-hsl'),
+        comfort: withOpacityValue('--color-comfort-hsl'),
+        growth: withOpacityValue('--color-growth-hsl'),
+        anxiety: withOpacityValue('--color-anxiety-hsl'),
       },
       backgroundImage: (theme) => ({
         texture:
@@ -77,8 +77,5 @@ export default {
     pluginDaisy,
   ],
 
-  content: [
-    'formulate.config.*',
-    'nuxt.config.*'
-  ],
+  content: ['formulate.config.*', 'nuxt.config.*'],
 }

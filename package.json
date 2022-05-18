@@ -2,6 +2,7 @@
   "name": "gzm-logbooks-pwa",
   "version": "0.8.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi generate",
@@ -24,11 +25,11 @@
     "lodash-es": "^4.17.21",
     "nuxt-edge": "latest",
     "pouchdb-adapter-indexeddb": "^7.3.0",
-    "proxymise": "^1.0.2",
     "remotestorage-widget": "^1.5.4",
     "remotestoragejs": "^2.0.0-beta.3",
     "rxdb": "^12.0.1",
     "rxjs": "^7.0",
+    "typescript": "^4.6.4",
     "vue-demi": "^0.12.5",
     "vue-rx": "^6.2.0"
   },

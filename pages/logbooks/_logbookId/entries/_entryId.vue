@@ -51,7 +51,7 @@
   </LayoutPage>
 </template>
 
-<script>
+<script lang="ts">
 import { format, formatDistance } from 'date-fns'
 import { useDatabase } from '~/data/database'
 

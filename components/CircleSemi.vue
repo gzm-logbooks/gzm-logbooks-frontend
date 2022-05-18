@@ -21,7 +21,7 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
 import tailwindConfig from '#tailwind-config'
 
 export default {
@@ -38,11 +38,7 @@ export default {
     },
   },
   data() {
-    const {
-     comfort,
-     growth,
-     anxiety,
-    } = tailwindConfig.theme.colors
+    const { comfort, growth, anxiety } = tailwindConfig.theme.colors
     return {
       anxiety,
       growth,

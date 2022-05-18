@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Chart } from 'chart.js'
 import tailwindConfig from '#tailwind-config'
 // import { defaultsDeep } from 'lodash-es'
@@ -133,11 +133,7 @@ export default defineComponent({
         )
 
         // NEED TO FIND CURRENT THEME FOR BELOW
-        const {
-          'comfort': comfort,
-          'growth': growth,
-          'anxiety': anxiety,
-        } = tailwindConfig.theme.colors
+        const { comfort, growth, anxiety } = tailwindConfig.theme.colors
 
         return {
           datasets: [

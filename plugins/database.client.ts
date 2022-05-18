@@ -17,9 +17,9 @@ addRxPlugin(RxDBMigrationPlugin)
 addPouchPlugin(IndexeddbAdaptor)
 
 // Add the dev plugins.
-if (import.meta.env.DEV) {
-  addRxPlugin(RxDBDevModePlugin)
-}
+// if (import.meta.env.DEV) {
+addRxPlugin(RxDBDevModePlugin)
+// }
 
 /**
  * Register the plugin...
@@ -28,7 +28,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   // Initialize the database.
   const db = await createDatabase()
 
-  console.log({db})
+  console.log({ db })
 
   return {
     // Add $db and $seed fields to app context.
