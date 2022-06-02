@@ -62,7 +62,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { clamp, defaults } from 'lodash-es'
 import { growthInputDefaults } from '~/data/config'
 import tailwindConfig from '#tailwind-config'
@@ -95,11 +95,7 @@ export default {
     },
   },
   data() {
-    const {
-     comfort,
-     growth,
-     anxiety,
-    } = tailwindConfig.theme.colors
+    const { comfort, growth, anxiety } = tailwindConfig.theme.colors
     return {
       state: {},
       defaultState: {

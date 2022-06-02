@@ -44,7 +44,8 @@
   </LayoutPage>
 </template>
 
-<script lang="javascript">
+<script lang="ts">
+
 export default {
   data() {
     return {

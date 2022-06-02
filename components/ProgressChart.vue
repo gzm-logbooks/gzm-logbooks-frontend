@@ -4,17 +4,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Chart } from 'chart.js'
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  onMounted,
-  readonly,
-} from '@nuxtjs/composition-api'
 import tailwindConfig from '#tailwind-config'
 // import { defaultsDeep } from 'lodash-es'
 
@@ -142,11 +133,7 @@ export default defineComponent({
         )
 
         // NEED TO FIND CURRENT THEME FOR BELOW
-        const {
-          'comfort': comfort,
-          'growth': growth,
-          'anxiety': anxiety,
-        } = tailwindConfig.theme.colors
+        const { comfort, growth, anxiety } = tailwindConfig.theme.colors
 
         return {
           datasets: [

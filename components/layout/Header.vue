@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { resetDatabase } from '~/data/database'
 
 export default {
@@ -108,16 +108,19 @@ export default {
 
   computed: {
     canGoBack() {
-      return window.history?.length > 2
+      const { $router } = this
+
     },
   },
 
   methods: {
     async resetDatabase() {
+      const { $router } = this
+
       try {
         await resetDatabase()
       } finally {
-        window.location.reload(true)
+        $router.go('/')
       }
     },
   },

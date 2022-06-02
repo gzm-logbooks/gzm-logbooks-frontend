@@ -41,7 +41,7 @@
   </LayoutPage>
 </template>
 
-<script>
+<script lang="ts">
 import { format } from 'date-fns'
 
 export default {
@@ -63,6 +63,7 @@ export default {
       return this.$router.push({ name: 'logbooks' })
     }
   },
+
   methods: {
     async save(fields) {
       const { logbook } = this

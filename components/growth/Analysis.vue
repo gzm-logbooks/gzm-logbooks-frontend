@@ -100,7 +100,7 @@
   </Card>
 </template>
 
-<script>
+<script lang="ts">
 import { scaledMoodInput, getTriangleSection } from '~/data/config'
 import tailwindConfig from '#tailwind-config'
 export default {
@@ -109,11 +109,7 @@ export default {
   },
 
   data() {
-    const {
-      'comfort': comfort,
-      'growth': growth,
-      'anxiety': anxiety,
-    } = tailwindConfig.theme.colors
+    const { comfort, growth, anxiety } = tailwindConfig.theme.colors
 
     const growthOpacity = growth + '00'
 

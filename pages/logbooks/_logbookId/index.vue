@@ -169,9 +169,10 @@
   </LayoutPage>
 </template>
 
-<script>
+<script lang="ts">
 import { format } from 'date-fns'
 import { scaledMoodInput } from '~/data/config'
+
 export default {
   data() {
     return {
@@ -273,7 +274,6 @@ export default {
     },
 
     downloadLogbook() {
-
       const data = this.entries.map((entry) => {
         const { timestamp, comment, amountRed, amountAmber, amountGreen } =
           entry

@@ -5,7 +5,7 @@
   </LayoutPage>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   layout: 'error',
   props: ['error'],

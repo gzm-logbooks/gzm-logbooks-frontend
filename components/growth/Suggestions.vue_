@@ -21,11 +21,11 @@
       thinking brain.
     </p>
 
-    
+
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { scaledModeInput } from '~/data/config'
 
 export default {

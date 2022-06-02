@@ -2,9 +2,7 @@
   <div id="remoteStorageWidget" ref="widgetContainer"></div>
 </template>
 
-<script>
-import Widget from 'remotestorage-widget'
-
+<script lang="ts">
 export default {
   async mounted() {
     const { $remoteStorage: storage } = this
@@ -16,6 +14,7 @@ export default {
       throw new Error('Could not set up remote storage widget.')
     }
 
+    //
     await storage.on('ready', () => {
       const widget = new Widget(storage)
 
