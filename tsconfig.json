@@ -2,8 +2,6 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "target": "ES6",
-    // "moduleResolution": "NodeNext",
-    // "module": "NodeNext",
-    "resolveJsonModule": true,
+    "module": "Node16"
   }
 }

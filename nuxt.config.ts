@@ -93,6 +93,8 @@ export default defineNuxtConfig({
     // fallback: true,
   },
 
+  devServerHandlers: [],
+
   colorMode: {
     classSuffix: '',
   },
