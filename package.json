@@ -1,6 +1,6 @@
 {
-  "name": "gzm-logbooks-pwa",
-  "version": "0.8.0",
+  "name": "gzm-logbooks-frontend",
+  "version": "0.8",
   "private": true,
   "type": "module",
   "scripts": {
@@ -20,11 +20,14 @@
     "@vueuse/head": "^0.7.6",
     "chart.js": "^3.8.0",
     "chartjs-adapter-date-fns": "^2.0.0",
+    "core-js": "^3.21.1",
     "daisyui": "^2.15.2",
     "date-fns": "^2.22.1",
     "lodash-es": "^4.17.21",
     "nuxt-edge": "latest",
+    "nuxt": "^2.15.8",
     "pouchdb-adapter-indexeddb": "^7.3.0",
+    "proxymise": "^1.0.2",
     "remotestorage-widget": "^1.5.4",
     "remotestoragejs": "^2.0.0-beta.3",
     "rxdb": "^12.4.3",
@@ -34,15 +37,22 @@
     "vue-rx": "^6.2.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
     "@nuxt/bridge": "npm:@nuxt/bridge-edge",
+    "@nuxt/types": "^2.15.8",
+    "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^10.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
-    "eslint": "^8.16.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-nuxt": "^3.2.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^9.1.0",
+    "eslint": "^8.16.0",
     "postcss": "^8.3.5",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "vue-rx": "^6.2.0",
+    "vue-server-renderer": "^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "vue": "^2.6.14"
   }
 }
