@@ -3,8 +3,9 @@
 pkgs.mkShell {
   buildInputs = [
     # JS lang and dev tools
-    pkgs.nodejs-17_x
+    pkgs.nodejs
     pkgs.yarn
+    pkgs.bun
 
     # Deploy tools
     pkgs.netlify-cli # (broken) (edit: maybe not broken?)
