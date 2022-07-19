@@ -120,8 +120,8 @@ export default defineNuxtConfig({
       // './data/config.ts',
       'remotestorage-widget',
       'pouchdb-core',
-      '@nuxt/bridge',
-      '@nuxt/bridge-edge',
+      // '@nuxt/bridge',
+      // '@nuxt/bridge-edge',
     ],
   },
 
