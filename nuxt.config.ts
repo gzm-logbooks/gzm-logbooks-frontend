@@ -69,6 +69,9 @@ export default defineNuxtConfig({
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    // https://pinia.vuejs.org/ssr/nuxt.html
+    '@pinia/nuxt',
+
     // https://github.com/nuxt-community/color-mode-module
     '@nuxtjs/color-mode',
 
@@ -119,18 +122,22 @@ export default defineNuxtConfig({
     transpile: [
       // './data/config.ts',
       'remotestorage-widget',
-      'pouchdb-core',
+      'lokijs',
+      // 'pouchdb-utils',
       // '@nuxt/bridge',
       // '@nuxt/bridge-edge',
     ],
   },
 
-  // vite: {
-  //   /* options for vite */
-  //   // optimizeDeps: {
-  //   //   include: ['rxdb'], // try to limit scope of optimized module
-  //   //   exclude: ['rxdb'],
-  //   // },
+  vite: {
+    /* options for vite */
+    optimizeDeps: {
+      // include: ['rxdb'], // try to limit scope of optimized module
+      exclude: [
+        // 'rxdb',
+       'pouchdb-utils'
+      ],
+    },
 
   //   build: {
   //     rollupOptions: {
@@ -139,5 +146,5 @@ export default defineNuxtConfig({
   //       },
   //     },
   //   },
-  // },
+  },
 })

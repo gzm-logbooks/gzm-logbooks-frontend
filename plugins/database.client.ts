@@ -1,10 +1,10 @@
 import { addRxPlugin } from 'rxdb'
-import { addPouchPlugin } from 'rxdb/plugins/pouchdb'
+// import { addPouchPlugin,  } from 'rxdb/plugins/lokijs'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
-import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
+// import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 import { defineNuxtPlugin } from '#app'
 
 import { seedFakeLogbook } from '~/data/seeder'
@@ -14,7 +14,7 @@ import { createDatabase } from '~/data/database'
 addRxPlugin(RxDBValidatePlugin)
 addRxPlugin(RxDBQueryBuilderPlugin)
 addRxPlugin(RxDBMigrationPlugin)
-addPouchPlugin(IndexeddbAdaptor)
+// addPouchPlugin(IndexeddbAdaptor)
 
 // Add the dev plugins.
 // if (import.meta.env.DEV) {

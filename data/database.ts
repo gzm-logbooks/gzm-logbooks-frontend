@@ -5,7 +5,8 @@ import {
   ExtractDocumentTypeFromTypedRxJsonSchema,
   RxJsonSchema,
 } from 'rxdb'
-import { getRxStoragePouch } from 'rxdb/plugins/pouchdb'
+import { getRxStorageLoki } from 'rxdb/plugins/lokijs'
+import LokiIncrementalIndexedDBAdapter from 'lokijs/src/incremental-indexeddb-adapter'
 import { useNuxtApp } from '#app'
 import { compile, compileFromFile } from 'json-schema-to-typescript'
 
@@ -24,7 +25,7 @@ export function useDatabase() {
 export async function createDatabase() {
   const db = await createRxDatabase({
     name: 'logbooks',
-    storage: getRxStoragePouch('indexeddb'),
+    storage: getRxStorageLoki({adapter: LokiIncrementalIndexedDBAdapter}),
   })
 
   await db.addCollections({
@@ -132,7 +133,7 @@ export async function resetDatabase() {
   //
   console.warn('Deleting database...')
 
-  await removeRxDatabase('logbooks', getRxStoragePouch('indexeddb'))
+  await removeRxDatabase('logbooks', getRxStorageLoki('indexeddb'))
 
   //
   await this.$nuxt.refresh()
