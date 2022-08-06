@@ -8,7 +8,7 @@
       </LayoutContainer>
 
       <NuxtErrorBoundary @error="(error) => console.error(error)">
-        <Nuxt class="px-4" />
+        <slot class="px-4" />
       </NuxtErrorBoundary>
     </div>
   </ClientOnly>

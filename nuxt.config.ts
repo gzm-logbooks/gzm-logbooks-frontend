@@ -24,10 +24,10 @@ export default defineNuxtConfig({
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  // target: 'static',
 
   // https://nuxtjs.org/guide/runtime-config
   publicRuntimeConfig: {
@@ -76,7 +76,9 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
 
     // https://go.nuxtjs.dev/eslint
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
+
+    // '@nuxtjs/eslint-config-typescript',
 
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
@@ -121,7 +123,7 @@ export default defineNuxtConfig({
   build: {
     transpile: [
       // './data/config.ts',
-      'remotestorage-widget',
+      // 'remotestorage-widget',
       // 'lokijs',
       // 'pouchdb-utils',
       // 'nuxt',
@@ -136,7 +138,8 @@ export default defineNuxtConfig({
       exclude: [
         // 'rxdb',
         'pouchdb',
-        // 'pouchdb-utils',
+        'pouchdb-utils',
+        'pouchdb-errors',
       ],
     },
 

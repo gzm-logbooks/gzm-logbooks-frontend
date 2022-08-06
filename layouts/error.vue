@@ -6,8 +6,10 @@
 </template>
 
 <script lang="ts">
+definePageMeta({ layout: 'error' })
+
 export default {
-  layout: 'error',
+  // layout: 'error',
   props: ['error'],
 }
 </script>
