@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi generate",
-    "start": "nuxi preview",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "yarn upgrade",
     "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
   },
@@ -26,8 +28,6 @@
     "date-fns": "^2.29.1",
     "lodash-es": "^4.17.21",
     "lokijs": "^1.5.12",
-    "nuxt": "^2.15.8",
-    "nuxt-edge": "2.16.0-27616340.013f051b",
     "pinia": "^2.0.17",
     "proxymise": "^1.0.2",
     "remotestorage-widget": "^1.5.4",
@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",
-    "@nuxt/bridge": "npm:@nuxt/bridge-edge",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^10.0.0",
@@ -49,11 +48,7 @@
     "eslint-plugin-nuxt": "^3.2.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.3.0",
-    "postcss": "^8.3.5",
-    "prettier": "^2.7.1",
-    "vue": "^2.7",
-    "vue-rx": "^6.2.0",
-    "vue-server-renderer": "^2.7.8",
-    "vue-template-compiler": "^2.7.8"
+    "nuxt": "3.0.0-rc.6",
+    "prettier": "^2.7.1"
   }
 }

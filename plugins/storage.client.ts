@@ -1,5 +1,4 @@
 import RemoteStorage from 'remotestoragejs'
-import { defineNuxtPlugin } from '#app'
 
 /**
  * Register the plugin...

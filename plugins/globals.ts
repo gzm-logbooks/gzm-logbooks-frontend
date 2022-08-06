@@ -25,16 +25,15 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
-import Vue from 'vue'
-import VueRx from 'vue-rx'
+// import { Vue } from '#app'
+// import VueRx from 'vue-rx'
 import 'chartjs-adapter-date-fns'
-import { defineNuxtPlugin } from '#app'
 
 //
-Vue.use(VueRx)
+// Vue.use(VueRx)
 
 //
-Vue.prototype.$get = get
+// Vue.prototype.$get = get
 
 Chart.register(
   //   ArcElement,

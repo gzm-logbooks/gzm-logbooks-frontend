@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from '@nuxt/bridge'
+import { defineNuxtConfig } from 'nuxt'
 import { name, version } from './package.json'
 
 //
@@ -82,13 +82,13 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
 
     // https://vueformulate.com/guide
-    '@braid/vue-formulate/nuxt',
+    // '@braid/vue-formulate/nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
   ],
 
   //
@@ -122,9 +122,9 @@ export default defineNuxtConfig({
     transpile: [
       // './data/config.ts',
       'remotestorage-widget',
-      'lokijs',
+      // 'lokijs',
       // 'pouchdb-utils',
-      // '@nuxt/bridge',
+      // 'nuxt',
       // '@nuxt/bridge-edge',
     ],
   },
@@ -135,16 +135,17 @@ export default defineNuxtConfig({
       // include: ['rxdb'], // try to limit scope of optimized module
       exclude: [
         // 'rxdb',
-       'pouchdb-utils'
+        'pouchdb',
+        // 'pouchdb-utils',
       ],
     },
 
-  //   build: {
-  //     rollupOptions: {
-  //       plugins: {
-  //         globalsPlugin,
-  //       },
-  //     },
-  //   },
+    //   build: {
+    //     rollupOptions: {
+    //       plugins: {
+    //         globalsPlugin,
+    //       },
+    //     },
+    //   },
   },
 })

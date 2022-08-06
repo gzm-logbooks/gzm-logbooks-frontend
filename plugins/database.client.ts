@@ -5,7 +5,6 @@ import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 // import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
-import { defineNuxtPlugin } from '#app'
 
 import { seedFakeLogbook } from '~/data/seeder'
 import { createDatabase } from '~/data/database'
