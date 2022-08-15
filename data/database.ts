@@ -4,6 +4,7 @@ import {
   toTypedRxJsonSchema,
   ExtractDocumentTypeFromTypedRxJsonSchema,
   RxJsonSchema,
+  RxStorage,
 } from 'rxdb'
 import { getRxStorageLoki } from 'rxdb/plugins/lokijs'
 import LokiIncrementalIndexedDBAdapter from 'lokijs/src/incremental-indexeddb-adapter'
@@ -14,9 +15,6 @@ import { compile, compileFromFile } from 'json-schema-to-typescript'
 import entrySchemaLiteral from '~/data/schemas/entry.json'
 import logbookSchemaLiteral from '~/data/schemas/logbook.json'
 
-export function useDatabase() {
-  return useNuxtApp().$db
-}
 
 /**
  *
@@ -25,7 +23,10 @@ export function useDatabase() {
 export async function createDatabase() {
   const db = await createRxDatabase({
     name: 'logbooks',
-    storage: getRxStorageLoki({adapter: LokiIncrementalIndexedDBAdapter}),
+    storage: getRxStorageLoki({
+      adapter: new LokiIncrementalIndexedDBAdapter(),
+      //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
+      }),
   })
 
   await db.addCollections({
@@ -125,7 +126,7 @@ export async function createDatabase() {
 /**
  *
  */
-export async function resetDatabase() {
+export async function resetDatabase(storage: RxStorage<any, any>) {
   if (confirm('This will delete all of your data!') !== true) {
     return
   }
@@ -133,7 +134,7 @@ export async function resetDatabase() {
   //
   console.warn('Deleting database...')
 
-  await removeRxDatabase('logbooks', getRxStorageLoki('indexeddb'))
+  await removeRxDatabase('logbooks', storage)
 
   //
   await this.$nuxt.refresh()

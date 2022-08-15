@@ -122,6 +122,7 @@ export default {
 
   methods: {
     async resetDatabase() {
+      // TODO: Get storage..
       // const router = useRouter()
       const { $router } = this
 

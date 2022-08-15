@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { format, formatDistance } from 'date-fns'
-import { useDatabase } from '~/data/database'
+import { useDatabase } from '~/store/database'
 
 export default {
   data() {
@@ -64,7 +64,7 @@ export default {
     }
   },
 
-  async fetch() {
+  async setup() {
     const { logbookId, entryId } = this.$route.params
     const db = useDatabase()
 

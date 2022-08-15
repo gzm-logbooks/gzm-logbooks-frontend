@@ -77,5 +77,5 @@ export default {
     pluginDaisy,
   ],
 
-  content: ['formulate.config.*', 'nuxt.config.*'],
+  // content: ['formulate.config.*', 'nuxt.config.*', 'layouts/', 'components/**/*' ],
 }

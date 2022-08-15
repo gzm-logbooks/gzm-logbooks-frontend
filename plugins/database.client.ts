@@ -7,7 +7,7 @@ import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 // import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
 
 import { seedFakeLogbook } from '~/data/seeder'
-import { createDatabase } from '~/data/database'
+import { useDatabase } from '~/store/database'
 
 // Add plugins.
 addRxPlugin(RxDBValidatePlugin)
@@ -17,24 +17,21 @@ addRxPlugin(RxDBMigrationPlugin)
 
 // Add the dev plugins.
 // if (import.meta.env.DEV) {
-addRxPlugin(RxDBDevModePlugin)
+// addRxPlugin(RxDBDevModePlugin)
 // }
 
 /**
  * Register the plugin...
  */
 export default defineNuxtPlugin(async (nuxtApp) => {
-  // Initialize the database.
-  const db = await createDatabase()
-
-  console.log({ db })
+  const db = useDatabase()
 
   return {
     // Add $db and $seed fields to app context.
     provide: {
       db,
       seed: async () => {
-        seedFakeLogbook(await db, 200)
+        seedFakeLogbook(db.rxdb, 200)
       },
     },
   }

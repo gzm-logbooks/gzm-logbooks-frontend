@@ -44,7 +44,7 @@
 <script lang="ts">
 // import { useRoute } from '#app'
 import { format } from 'date-fns'
-import { useDatabase } from '~/data/database'
+import { useDatabase } from '~/store/database'
 
 export default {
   data() {
@@ -55,12 +55,12 @@ export default {
       logbook: {},
     }
   },
-  async fetch() {
+  async setup() {
     const { logbookId } = this.$route.params
     const db = useDatabase()
 
     // Get logbook record from database.
-    this.logbook = await db.logbooks.findOne(logbookId).exec()
+    this.logbook = await db.rxdb.logbooks.findOne(logbookId).exec()
     // Redirect if logbook is missing.
     if (!this.logbook) {
       return this.$router.push({ name: 'logbooks' })

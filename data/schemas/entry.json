@@ -4,7 +4,7 @@
   "version": 2,
   "properties": {
     "timestamp": {
-      "type": "date-time",
+      "type": "string",
       "minLength": 12,
       "maxLength": 100
     },

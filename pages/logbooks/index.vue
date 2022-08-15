@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage v-if="!$fetchState.pending">
+  <LayoutPage>
     <LayoutPageHeader>
       <template #title>
         <h1>Logbooks</h1>
@@ -44,22 +44,19 @@
   </LayoutPage>
 </template>
 
-<script lang="ts">
-import { useDatabase } from '~/data/database'
+<script setup lang="ts">
+import { useDatabase } from '~/store/database'
+import { useSubscription } from '@vueuse/rxjs'
 
-export default {
-  data() {
-    return {
-      logbooks: [],
-    }
-  },
+const { logbooks } = useAsyncData(() => {
+  const db = useDatabase()
+  const logbooks = ref([])
+  const logbooksQuery = db.rxdb.logbooks.find()
 
-  async fetch() {
-    const db = useDatabase()
+  useSubscription(
+    logbooksQuery.$.subscribe((logbooks) => (logbooks = logbooks))
+  )
 
-    const logbooksQuery = db.logbooks.find()
-
-    this.$subscribeTo(logbooksQuery.$, (logbooks) => (this.logbooks = logbooks))
-  },
-}
+  return { logbooks }
+})
 </script>

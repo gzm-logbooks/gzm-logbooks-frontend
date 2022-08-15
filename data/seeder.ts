@@ -1,3 +1,4 @@
+import { RxDatabase } from 'rxdb'
 import { growthInputDefaults, validateMoodInput } from '~/data/config'
 
 const hour = 1000 * 60 * 60
@@ -52,7 +53,9 @@ const entryFactory = (
  *
  * @param {*} db
  */
-export const seedFakeLogbook = async function (db, delay = 200) {
+export const seedFakeLogbook = async function (db: RxDatabase, delay = 200) {
+  console.log(db.logbooks)
+
   const logbook = await db.logbooks.insert({
     name: 'Example Logbook',
   })

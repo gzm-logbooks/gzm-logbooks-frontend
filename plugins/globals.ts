@@ -66,4 +66,10 @@ Chart.register(
  */
 export default defineNuxtPlugin((nuxtApp) => {
   // Default export required.
+
+  return {
+    provide: {
+      poopies: true
+    }
+  }
 })

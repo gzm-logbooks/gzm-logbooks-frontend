@@ -13,8 +13,28 @@
   </nuxt-link>
 </template>
 
+<script lang="ts" setup>
+import { useDatabase } from '~/store/database'
+
+const { logbookQuery, entriesQuery } = await useAsyncData(async () => {
+  const db = useDatabase()
+  const logbookId = this.primary
+
+  // Get logbook record from database.
+  const logbookQuery = db.rxdb.logbooks.findOne(logbookId)
+
+  //
+
+
+  return {
+    logbookQuery,
+    entriesQuery,
+  }
+})
+</script>
+
 <script lang="ts">
-import { useDatabase } from '~/data/database'
+// import { useDatabase } from '~/store/database'
 
 export default {
   props: {
@@ -26,19 +46,7 @@ export default {
       entries: [],
     }
   },
-  async fetch() {
-    const db = useDatabase()
-    const logbookId = this.primary
-
-    // Get logbook record from database.
-    const logbookQuery = db.logbooks.findOne(logbookId)
-
-    //
-    const entriesQuery = db.entries
-      .find()
-      .where({ logbook: this.primary })
-      .sort('timestamp')
-
+  mounted() {
     this.$subscribeTo(logbookQuery.$, (logbook) => (this.logbook = logbook))
     this.$subscribeTo(entriesQuery.$, (entries) => (this.entries = entries))
   },

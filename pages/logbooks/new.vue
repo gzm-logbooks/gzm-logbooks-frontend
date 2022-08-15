@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { useDatabase } from '~/data/database'
+import { useDatabase } from '~/store/database'
 
 export default {
   methods: {
@@ -27,7 +27,7 @@ export default {
       const db = useDatabase()
 
       // Create document in db.
-      const doc = await db.logbooks.insert(fields)
+      const doc = await db.rxdb.logbooks.insert(fields)
       // .catch(error) => console.log(error))
 
       if (doc) {

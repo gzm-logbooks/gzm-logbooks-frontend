@@ -7,24 +7,31 @@
         <DemoWarning />
       </LayoutContainer>
 
-      <NuxtErrorBoundary @error="(error) => console.error(error)">
-        <slot class="px-4" />
+      <NuxtErrorBoundary @error="logError">
+        <slot class="px-4" v-if="db" />
       </NuxtErrorBoundary>
     </div>
   </ClientOnly>
 </template>
 
 <script lang="ts">
+import { useDatabase } from '@/store/database';
+
+
 export default {
   computed: {
     themeName() {
       return localStorage.currentTheme
     },
+    db:() => useDatabase().rxdb
   },
   mounted() {
     // Print routes for debug.
     // console.log('Routes...', this.$nuxt.context.app.router.getRoutes())
   },
+  methods: {
+    logError: (error) => console.error(error)
+  }
 }
 </script>
 

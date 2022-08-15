@@ -171,7 +171,7 @@
 
 <script lang="ts">
 import { format } from 'date-fns'
-import { useDatabase } from '~/data/database'
+import { useDatabase } from '~/store/database'
 import { scaledMoodInput } from '~/data/config'
 
 export default {
@@ -183,12 +183,12 @@ export default {
     }
   },
 
-  async fetch() {
+  async setup() {
     const { logbookId } = this.$route.params
     const db = useDatabase()
 
     // Get logbook record from database.
-    this.logbook = await db.logbooks.findOne(logbookId).exec()
+    this.logbook = await db.rxdb.logbooks.findOne(logbookId).exec()
 
     // Get all entries.
     this.entries = await db.entries

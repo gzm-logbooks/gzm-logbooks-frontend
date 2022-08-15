@@ -3,6 +3,8 @@
 </template>
 
 <script lang="ts">
+import Widget from 'remotestorage-widget'
+
 export default {
   async mounted() {
     const { $remoteStorage: storage } = this
@@ -15,11 +17,13 @@ export default {
     }
 
     //
-    await storage.on('ready', () => {
-      const Widget = import('remotestorage-widget')
-      const widget = new Widget(storage)
-
-      widget.attach(element.id)
+    await storage.on('ready', async () => {
+      console.log({Widget})
+      // const Widget = await import('remotestorage-widget')
+      const widget = Widget
+      // .then(
+      //   (widget) => widget.attach(element.id)
+      // )
     })
   },
 }

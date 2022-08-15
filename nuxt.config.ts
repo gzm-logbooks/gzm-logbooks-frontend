@@ -1,12 +1,14 @@
 import { defineNuxtConfig } from 'nuxt'
 import { name, version } from './package.json'
+import EnvCompatPlugin from 'vite-plugin-env-compatible'
+import { nodeResolve as NodeResolvePlugin } from "@rollup/plugin-node-resolve";
 
 //
 const {
   SITE_TITLE: siteTitle = 'Growth Zone Model Logbooks',
   BRANCH: branch = 'branch',
   COMMIT_REF: shaRef = 'commit',
-} = process.env
+} = {}
 
 //
 const buildName = [branch, shaRef]
@@ -15,19 +17,19 @@ const buildName = [branch, shaRef]
   .join('.')
 
 export default defineNuxtConfig({
-  bridge: {
-    // Use Vite as the bundler instead of webpack 4
-    vite: true,
+  // bridge: {
+  //   // Use Vite as the bundler instead of webpack 4
+  //   vite: true,
 
-    // Enable Nuxt 3 compatible useHead
-    meta: true,
-  },
+  //   // Enable Nuxt 3 compatible useHead
+  //   meta: true,
+  // },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  // ssr: false,
+  ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  // target: 'static',
+  target: 'static',
 
   // https://nuxtjs.org/guide/runtime-config
   publicRuntimeConfig: {
@@ -59,9 +61,9 @@ export default defineNuxtConfig({
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/globals',
-    '~/plugins/database.client',
-    '~/plugins/storage.client',
+    // '~/plugins/globals',
+    // '~/plugins/database.client',
+    // '~/plugins/storage.client',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -90,7 +92,7 @@ export default defineNuxtConfig({
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    // '@nuxtjs/pwa',
+    '@nuxtjs/pwa',
   ],
 
   //
@@ -125,30 +127,31 @@ export default defineNuxtConfig({
       // './data/config.ts',
       // 'remotestorage-widget',
       // 'lokijs',
+      // 'rxdb',
+      // 'spark-md5',
       // 'pouchdb-utils',
+      // 'pouchdb-errors',
       // 'nuxt',
       // '@nuxt/bridge-edge',
+      // 'immediate'
     ],
+    // aggressiveCodeRemoval: true,
   },
 
   vite: {
-    /* options for vite */
-    optimizeDeps: {
-      // include: ['rxdb'], // try to limit scope of optimized module
-      exclude: [
-        // 'rxdb',
-        'pouchdb',
-        'pouchdb-utils',
-        'pouchdb-errors',
-      ],
+    plugins:[
+      NodeResolvePlugin(),
+      EnvCompatPlugin()
+    ],
+
+    build: {
+
     },
 
-    //   build: {
-    //     rollupOptions: {
-    //       plugins: {
-    //         globalsPlugin,
-    //       },
-    //     },
-    //   },
+    /* options for vite */
+    optimizeDeps: {
+      allowNodeBuiltins: ["pouchdb-browser", "pouchdb-utils"],
+      esbuildOptions: {},
+    },
   },
 })
