@@ -16,7 +16,7 @@
           Create blank logbook
         </nuxt-link>
 
-        <button class="btn btn-info animate-bounce" @click="$seed">
+        <button class="btn btn-info animate-bounce" @click="seed">
           Generate demo logbook
         </button>
       </template>
@@ -48,10 +48,10 @@
 import { useDatabase } from '~/store/database'
 import { useSubscription } from '@vueuse/rxjs'
 
+  const { rxdb, seed } = useDatabase()
 const { logbooks } = useAsyncData(() => {
-  const db = useDatabase()
   const logbooks = ref([])
-  const logbooksQuery = db.rxdb.logbooks.find()
+  const logbooksQuery = rxdb.logbooks.find()
 
   useSubscription(
     logbooksQuery.$.subscribe((logbooks) => (logbooks = logbooks))

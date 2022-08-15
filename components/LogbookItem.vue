@@ -17,11 +17,11 @@
 import { useDatabase } from '~/store/database'
 
 const { logbookQuery, entriesQuery } = await useAsyncData(async () => {
-  const db = useDatabase()
+  const { rxdb } = useDatabase()
   const logbookId = this.primary
 
   // Get logbook record from database.
-  const logbookQuery = db.rxdb.logbooks.findOne(logbookId)
+  const logbookQuery = rxdb.logbooks.findOne(logbookId)
 
   //
 

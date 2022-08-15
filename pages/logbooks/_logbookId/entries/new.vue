@@ -23,9 +23,9 @@
           <span class="text-xl italic">How did things go today?</span>
         </div>
 
-        <FormulateForm v-model="fields" name="entry" @submit="save">
+        <FormKit type="form" v-model="fields" name="entry" @submit="save">
           <FormEntryFields />
-        </FormulateForm>
+        </FormKit>
 
         <div class="flex justify-end">
           <button class="btn btn-primary" @click="$formulate.submit('entry')">
@@ -57,20 +57,20 @@ export default {
   },
   async setup() {
     const { logbookId } = this.$route.params
-    const db = useDatabase()
+    const { rxdb } = useDatabase()
 
     // Get logbook record from database.
-    this.logbook = await db.rxdb.logbooks.findOne(logbookId).exec()
+    this.logbook = await rxdb.logbooks.findOne(logbookId).exec()
     // Redirect if logbook is missing.
     if (!this.logbook) {
-      return this.$router.push({ name: 'logbooks' })
+      return navigateTo({ name: 'logbooks' })
     }
   },
 
   methods: {
     async save(fields) {
       const { logbook } = this
-      const db = useDatabase()
+      const { rxdb } = useDatabase()
       const { comment, mood } = fields
       // Build document data.
       const data = {
@@ -84,7 +84,7 @@ export default {
       // .catch((error) => console.log(error))
       if (doc) {
         // Back to logbook.
-        return this.$router.push(this.logbook.getRoute())
+        return navigateTo(this.logbook.getRoute())
       }
     },
   },

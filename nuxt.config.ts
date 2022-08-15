@@ -87,6 +87,8 @@ export default defineNuxtConfig({
 
     // https://vueformulate.com/guide
     // '@braid/vue-formulate/nuxt',
+
+    '@formkit/nuxt'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

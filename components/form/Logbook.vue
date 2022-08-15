@@ -1,5 +1,5 @@
 <template>
-  <FormulateForm name="logbook" v-bind="$attrs" v-on="$listeners">
+  <FormKit type="form" name="logbook" v-bind="$attrs" v-on="$listeners">
     <FormLogbookFields />
-  </FormulateForm>
+  </FormKit>
 </template>

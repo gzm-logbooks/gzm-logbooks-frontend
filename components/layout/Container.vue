@@ -42,11 +42,11 @@ export default {
         if (width) {
           const prefix = breakpoint ? `${breakpoint}:` : ''
 
-          return `${prefix}max-w-${width}`
+          return [`${prefix}max-w-${width}`]
         }
 
         //
-        return null
+        return []
       })
 
       // Return array of class strings.

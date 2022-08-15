@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <FormulateInput
+    <FormKit
       type="mood-circle"
       name="mood"
       label="Mood"
@@ -9,7 +9,7 @@
       @input="updateSection"
     />
 
-    <FormulateInput
+    <FormKit
       type="date"
       name="timestamp"
       label="Date"
@@ -19,7 +19,7 @@
     />
 
     <!-- TODO: Fix width -->
-    <FormulateInput
+    <FormKit
       :label="questionPrompt"
       class="w-full"
       type="textarea"

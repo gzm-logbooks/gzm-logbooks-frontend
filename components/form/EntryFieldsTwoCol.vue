@@ -1,7 +1,7 @@
 <template>
   <div class="grid-cols-3 gap-4 sm:grid">
     <div class="col-span-2">
-      <FormulateInput
+      <FormKit
         type="mood-circle"
         name="mood"
         label="Mood"
@@ -11,7 +11,7 @@
     </div>
 
     <div class="flex flex-col space-around">
-      <FormulateInput
+      <FormKit
         type="date"
         name="timestamp"
         label="Date"
@@ -20,7 +20,7 @@
         input-class="w-full"
       />
 
-      <FormulateInput
+      <FormKit
         input-class="w-full"
         type="textarea"
         name="comment"

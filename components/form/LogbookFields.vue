@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormulateInput
+    <FormKit
       type="text"
       name="name"
       label="Logbook Name"

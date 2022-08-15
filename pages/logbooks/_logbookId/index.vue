@@ -3,14 +3,14 @@
     <LayoutPageHeader>
       <template #title>
         <div class="flex items-center gap-2">
-          <FormulateForm
+          <FormKit
             v-if="edit"
             v-model="fields"
             name="logbook"
             @submit="save"
           >
             <FormLogbookFields />
-          </FormulateForm>
+          </FormKit>
 
           <h1 v-else>
             {{ $get(logbook, 'name') }}
@@ -185,10 +185,10 @@ export default {
 
   async setup() {
     const { logbookId } = this.$route.params
-    const db = useDatabase()
+    const { rxdb } = useDatabase()
 
     // Get logbook record from database.
-    this.logbook = await db.rxdb.logbooks.findOne(logbookId).exec()
+    this.logbook = await rxdb.logbooks.findOne(logbookId).exec()
 
     // Get all entries.
     this.entries = await db.entries
@@ -199,7 +199,7 @@ export default {
 
     // Redirect if logbook is missing.
     if (!this.logbook) {
-      return this.$router.push({ name: 'logbooks' })
+      return navigateTo({ name: 'logbooks' })
     }
 
     // Set form data.
@@ -254,7 +254,7 @@ export default {
 
   methods: {
     chartClicked(timestamp) {
-      this.$router.push({
+      navigateTo({
         name: 'logbooks-logbookId-entries-entryId',
         params: {
           logbookId: this.logbook.primary,

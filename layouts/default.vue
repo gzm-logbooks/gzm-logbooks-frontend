@@ -3,7 +3,7 @@
     <div class="flex flex-col grow" :data-theme="themeName">
       <LayoutHeader />
 
-      <LayoutContainer max="lg" class="my-4">
+      <LayoutContainer max="lg" class="my-4 px-2">
         <DemoWarning />
       </LayoutContainer>
 

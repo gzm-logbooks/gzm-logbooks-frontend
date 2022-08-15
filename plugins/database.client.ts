@@ -24,14 +24,14 @@ addRxPlugin(RxDBMigrationPlugin)
  * Register the plugin...
  */
 export default defineNuxtPlugin(async (nuxtApp) => {
-  const db = useDatabase()
+  const { rxdb } = useDatabase()
 
   return {
     // Add $db and $seed fields to app context.
     provide: {
       db,
       seed: async () => {
-        seedFakeLogbook(db.rxdb, 200)
+        seedFakeLogbook(rxdb, 200)
       },
     },
   }

@@ -25,9 +25,9 @@
           <span>{{ dateRelative }}</span>
         </div>
 
-        <FormulateForm v-model="fields" name="entry" @submit="save">
+        <FormKit type="form" v-model="fields" name="entry" @submit="save">
           <FormEntryFields />
-        </FormulateForm>
+        </FormKit>
 
         <div class="flex justify-end">
           <button class="btn btn-primary" @click="$formulate.submit('entry')">
@@ -66,7 +66,7 @@ export default {
 
   async setup() {
     const { logbookId, entryId } = this.$route.params
-    const db = useDatabase()
+    const { rxdb } = useDatabase()
 
     // Get entry record from database.
     this.entry = await db.entries
@@ -80,7 +80,7 @@ export default {
 
     // Redirect if logbook is missing.
     if (!this.logbook || !this.entry) {
-      return this.$router.push({ name: 'logbooks' })
+      return navigateTo({ name: 'logbooks' })
     }
 
     // Set form data.
@@ -155,7 +155,7 @@ export default {
 
       if (doc) {
         // Back to logbook page.
-        return this.$router.push(this.logbook.getRoute())
+        return navigateTo(this.logbook.getRoute())
       }
     },
   },
