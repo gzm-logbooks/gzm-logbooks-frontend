@@ -56,6 +56,8 @@ export default defineNuxtConfig({
     },
   },
 
+
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
@@ -130,6 +132,7 @@ export default defineNuxtConfig({
       // 'remotestorage-widget',
       // 'lokijs',
       // 'rxdb',
+      // 'rxdb/plugins/dev-mode'
       // 'spark-md5',
       // 'pouchdb-utils',
       // 'pouchdb-errors',
@@ -142,9 +145,14 @@ export default defineNuxtConfig({
 
   vite: {
     plugins:[
-      NodeResolvePlugin(),
-      EnvCompatPlugin()
+      // NodeResolvePlugin(),
+      // EnvCompatPlugin()
     ],
+
+    define: {
+      global: 'window',
+      process: {env: { DEBUG: undefined }},
+    },
 
     build: {
 
@@ -152,8 +160,10 @@ export default defineNuxtConfig({
 
     /* options for vite */
     optimizeDeps: {
-      allowNodeBuiltins: ["pouchdb-browser", "pouchdb-utils"],
-      esbuildOptions: {},
+      // allowNodeBuiltins: ["pouchdb-browser", "pouchdb-utils"],
+      // esbuildOptions: {},
     },
   },
+
+  // alias: { global: 'global.ts' }
 })

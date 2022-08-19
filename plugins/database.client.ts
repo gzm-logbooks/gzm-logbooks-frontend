@@ -16,9 +16,9 @@ addRxPlugin(RxDBMigrationPlugin)
 // addPouchPlugin(IndexeddbAdaptor)
 
 // Add the dev plugins.
-// if (import.meta.env.DEV) {
-// addRxPlugin(RxDBDevModePlugin)
-// }
+if (import.meta.env.DEV) {
+addRxPlugin(RxDBDevModePlugin)
+}
 
 /**
  * Register the plugin...
@@ -29,7 +29,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   return {
     // Add $db and $seed fields to app context.
     provide: {
-      db,
       seed: async () => {
         seedFakeLogbook(rxdb, 200)
       },
