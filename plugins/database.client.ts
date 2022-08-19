@@ -29,6 +29,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   return {
     // Add $db and $seed fields to app context.
     provide: {
+      rxdb,
       seed: async () => {
         seedFakeLogbook(rxdb, 200)
       },

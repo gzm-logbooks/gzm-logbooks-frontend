@@ -12,8 +12,8 @@ import { useNuxtApp } from '#app'
 import { compile, compileFromFile } from 'json-schema-to-typescript'
 
 // Load schemas.
-import entrySchemaLiteral from '~/data/schemas/entry.json'
-import logbookSchemaLiteral from '~/data/schemas/logbook.json'
+import {entrySchemaLiteral, entrySchema} from '~/data/schemas/entry.ts'
+import { logbookSchemaLiteral, logbookSchema } from '~/data/schemas/logbook.ts'
 
 
 /**
