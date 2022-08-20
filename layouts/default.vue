@@ -12,31 +12,37 @@
       </LayoutContainer>
 
       <NuxtErrorBoundary @error="logError">
-        <slot v-if="db" class="px-4" />
+        <slot v-if="rxdb" class="px-4" />
       </NuxtErrorBoundary>
     </div>
   </ClientOnly>
 </template>
 
 <script setup lang="ts">
+
+import { useDatabase } from '~/store/database'
 </script>
 
 <script lang="ts">
-import { useDatabase } from '~/store/database'
-useHead({
-  script: [
-    {
-      body: 'window.global = window;'
-    }
-  ]
-})
+import { useConfigStore } from '~/store/config'
+
+const { rxdb } = useDatabase()
+
+// useHead({
+//   script: [
+//     {
+//       body: 'window.global = window;'
+//     }
+//   ]
+// })
 
 export default {
   computed: {
     themeName () {
-      return localStorage.currentTheme
-    },
-    db: () => useDatabase().rxdb
+      const configStore = useConfigStore()
+
+      return configStore.currentTheme
+    }
   },
   mounted () {
     // Print routes for debug.

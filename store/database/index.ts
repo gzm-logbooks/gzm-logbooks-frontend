@@ -49,7 +49,11 @@ export const useDatabase = defineStore('entriesDb', () => {
       //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
       })
     }).then((db) => {
-      db.addCollections(collections)
+      try {
+        db.addCollections(collections)
+      } catch {
+
+      }
 
       return db
     })

@@ -52,6 +52,12 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import { useConfigStore } from '~~/store/config'
+
+const { switchTheme } = useConfigStore()
+</script>
+
 <script lang="ts">
 // import tailwindConfig from '#tailwind-config'
 export default {
@@ -74,14 +80,5 @@ export default {
   //       comfort,
   //     }
   //   },
-
-  methods: {
-    switchTheme (theme) {
-      localStorage.currentTheme = theme
-
-      // Reload page to force theme.
-      window.location.reload(true)
-    }
-  }
 }
 </script>
