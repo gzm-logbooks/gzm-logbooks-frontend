@@ -9,24 +9,24 @@ export default {
   props: {
     max: {
       type: String,
-      default: 'xl',
-    },
+      default: 'xl'
+    }
   },
-  data() {
+  data () {
     return {
       sizes: [
         { width: 'xl' },
         { breakpoint: 'sm' },
         { breakpoint: 'md', width: '4xl' },
         { breakpoint: 'lg' },
-        { breakpoint: 'xl', width: '7xl' },
-      ],
+        { breakpoint: 'xl', width: '7xl' }
+      ]
     }
   },
   computed: {
-    activeSizes() {
+    activeSizes () {
       const maxIndex = this.sizes.findIndex(
-        (size) => size.breakpoint === this.max
+        size => size.breakpoint === this.max
       )
 
       if (maxIndex > 0) {
@@ -35,7 +35,7 @@ export default {
 
       return this.sizes
     },
-    classes() {
+    classes () {
       const widths = this.activeSizes.map((size) => {
         const { breakpoint, width } = size
 
@@ -51,7 +51,7 @@ export default {
 
       // Return array of class strings.
       return ['w-full', ...widths, 'mx-auto']
-    },
-  },
+    }
+  }
 }
 </script>

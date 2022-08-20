@@ -8,24 +8,24 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const remoteStorage = setupRemoteStorage({
     rootPath: appInfo.name,
-    ...services,
+    ...services
   })
 
   // Add $remoteStorage field to app context.
   return {
     provide: {
-      remoteStorage,
-    },
+      remoteStorage
+    }
   }
 })
 
 /**
  * Get an instance of the remote storage service.
  */
-export function setupRemoteStorage({
+export function setupRemoteStorage ({
   rootPath,
   googleDriveClientId,
-  dropboxAppKey,
+  dropboxAppKey
 }) {
   const remoteStorage = new RemoteStorage({ logging: true })
 
@@ -34,7 +34,7 @@ export function setupRemoteStorage({
 
   remoteStorage.setApiKeys({
     dropbox: dropboxAppKey,
-    googledrive: googleDriveClientId,
+    googledrive: googleDriveClientId
   })
 
   return remoteStorage

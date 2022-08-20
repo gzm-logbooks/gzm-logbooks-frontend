@@ -9,7 +9,7 @@ import daisyThemes from 'daisyui/src/colors/themes'
  ** Docs: https://tailwindcss.com/docs/configuration
  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
  */
-function withOpacityValue(variable) {
+function withOpacityValue (variable) {
   return ({ opacityValue }) => {
     if (opacityValue === undefined) {
       return `hsla(var(${variable}))`
@@ -25,19 +25,19 @@ export default {
       colors: {
         comfort: withOpacityValue('--color-comfort-hsl'),
         growth: withOpacityValue('--color-growth-hsl'),
-        anxiety: withOpacityValue('--color-anxiety-hsl'),
+        anxiety: withOpacityValue('--color-anxiety-hsl')
       },
-      backgroundImage: (theme) => ({
+      backgroundImage: theme => ({
         texture:
           'url("https://source.unsplash.com/collection/5019395/1600x900")',
         paper: 'url("https://pagecdn.io/lib/subtlepatterns/lined-paper-2.png")',
-        doodles: 'url("https://pagecdn.io/lib/subtlepatterns/doodles.png")',
-      }),
-    },
+        doodles: 'url("https://pagecdn.io/lib/subtlepatterns/doodles.png")'
+      })
+    }
   },
 
   daisyui: {
-    themes: daisyThemes,
+    themes: daisyThemes
     // themes: ['light', 'cupcake', 'bumblebee'],
     // themes: [
     //   {
@@ -74,8 +74,8 @@ export default {
   plugins: [
     // pluginForms,
     pluginTypography,
-    pluginDaisy,
-  ],
+    pluginDaisy
+  ]
 
   // content: ['formulate.config.*', 'nuxt.config.*', 'layouts/', 'components/**/*' ],
 }

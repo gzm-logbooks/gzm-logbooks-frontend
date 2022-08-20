@@ -33,33 +33,33 @@ export default {
   props: {
     state: {
       type: Object,
-      default() {
+      default () {
         return {
           red: 3 / 3,
           amber: 2 / 3,
-          green: 1 / 3,
+          green: 1 / 3
         }
-      },
-    },
+      }
+    }
   },
-  data() {
+  data () {
     const { comfort, growth, anxiety } = tailwindConfig.theme.colors
     return {
       anxiety,
       growth,
-      comfort,
+      comfort
     }
   },
   computed: {
-    scaleRed() {
+    scaleRed () {
       return `scale(${this.state.red},1)`
     },
-    scaleAmber() {
+    scaleAmber () {
       return `scale(${this.state.amber},1)`
     },
-    scaleGreen() {
+    scaleGreen () {
       return `scale(${this.state.green},1)`
-    },
-  },
+    }
+  }
 }
 </script>

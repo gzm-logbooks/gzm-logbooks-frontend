@@ -5,7 +5,7 @@
         <h1>Logbooks</h1>
       </template>
 
-      <template #inline-actions></template>
+      <template #inline-actions />
 
       <template #main-actions>
         <button type="button" class="cursor-not-allowed btn" disabled>
@@ -22,10 +22,10 @@
       </template>
     </LayoutPageHeader>
 
-    <div class="flex justify-end gap-2 mb-4"></div>
+    <div class="flex justify-end gap-2 mb-4" />
 
     <Card class="mb-4 bg-base-200">
-      <template #title> </template>
+      <template #title />
 
       <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <LogbookItem
@@ -45,16 +45,16 @@
 </template>
 
 <script setup lang="ts">
-import { useDatabase } from '~/store/database'
 import { useSubscription } from '@vueuse/rxjs'
+import { useDatabase } from '~/store/database'
 
-  const { rxdb, seed } = useDatabase()
+const { rxdb, seed } = useDatabase()
 const { logbooks } = useAsyncData(() => {
   const logbooks = ref([])
   const logbooksQuery = rxdb.logbooks.find()
 
   useSubscription(
-    logbooksQuery.$.subscribe((logbooks) => (logbooks = logbooks))
+    logbooksQuery.$.subscribe(logbooks => (logbooks = logbooks))
   )
 
   return { logbooks }

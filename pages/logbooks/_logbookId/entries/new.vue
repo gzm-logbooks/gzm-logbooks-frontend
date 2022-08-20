@@ -23,7 +23,7 @@
           <span class="text-xl italic">How did things go today?</span>
         </div>
 
-        <FormKit type="form" v-model="fields" name="entry" @submit="save">
+        <FormKit v-model="fields" type="form" name="entry" @submit="save">
           <FormEntryFields />
         </FormKit>
 
@@ -34,7 +34,7 @@
         </div>
       </Card>
 
-      <div class="divider lg:divider-horizontal"></div>
+      <div class="divider lg:divider-horizontal" />
 
       <GrowthAnalysis :mood="fields.mood" class="w-full max-w-sm" />
     </div>
@@ -47,15 +47,7 @@ import { format } from 'date-fns'
 import { useDatabase } from '~/store/database'
 
 export default {
-  data() {
-    return {
-      fields: {
-        timestamp: format(new Date(), 'yyyy-MM-dd'),
-      },
-      logbook: {},
-    }
-  },
-  async setup() {
+  async setup () {
     const { logbookId } = this.$route.params
     const { rxdb } = useDatabase()
 
@@ -66,9 +58,17 @@ export default {
       return navigateTo({ name: 'logbooks' })
     }
   },
+  data () {
+    return {
+      fields: {
+        timestamp: format(new Date(), 'yyyy-MM-dd')
+      },
+      logbook: {}
+    }
+  },
 
   methods: {
-    async save(fields) {
+    async save (fields) {
       const { logbook } = this
       const { rxdb } = useDatabase()
       const { comment, mood } = fields
@@ -77,7 +77,7 @@ export default {
         ...mood,
         comment,
         timestamp: new Date(fields.timestamp).toISOString(),
-        logbook: logbook.primary,
+        logbook: logbook.primary
       }
       // Create document in db.
       const doc = await db.entries.insert(data)
@@ -86,7 +86,7 @@ export default {
         // Back to logbook.
         return navigateTo(this.logbook.getRoute())
       }
-    },
-  },
+    }
+  }
 }
 </script>

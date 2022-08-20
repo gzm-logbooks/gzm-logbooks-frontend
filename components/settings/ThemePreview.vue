@@ -56,7 +56,7 @@
 // import tailwindConfig from '#tailwind-config'
 export default {
   props: {
-    themeName: { type: String, required: true },
+    themeName: { type: String, required: true }
   },
 
   //   data() {
@@ -76,12 +76,12 @@ export default {
   //   },
 
   methods: {
-    switchTheme(theme) {
+    switchTheme (theme) {
       localStorage.currentTheme = theme
 
       // Reload page to force theme.
       window.location.reload(true)
-    },
-  },
+    }
+  }
 }
 </script>

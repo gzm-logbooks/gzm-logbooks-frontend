@@ -10,28 +10,28 @@
 <script lang="ts">
 import {
   circleInputModelToEntryAmounts,
-  entryAmountsToCircleInputModel,
+  entryAmountsToCircleInputModel
 } from '~/data/utils'
 
 export default {
   props: {
     context: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     value: {
-      get() {
+      get () {
         return entryAmountsToCircleInputModel(this.context.model)
       },
-      set(newValue) {
+      set (newValue) {
         const amounts = circleInputModelToEntryAmounts(newValue)
 
         // Update formulate context.
         this.$set(this.context, 'model', amounts)
-      },
-    },
-  },
+      }
+    }
+  }
 }
 </script>

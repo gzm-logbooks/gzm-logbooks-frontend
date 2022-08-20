@@ -96,18 +96,18 @@
 import { resetDatabase } from '~/data/database'
 
 export default {
-  data() {
+  data () {
     const { siteTitle: title, appInfo } = this.$config
     const { buildName } = appInfo
 
     return {
       title,
-      buildName,
+      buildName
     }
   },
 
   computed: {
-    canGoBack() {
+    canGoBack () {
       // const router = useRouter()
       const { $router } = this
 
@@ -117,11 +117,11 @@ export default {
       // return window?.history?.length > 2
 
       return false
-    },
+    }
   },
 
   methods: {
-    async resetDatabase() {
+    async resetDatabase () {
       // TODO: Get storage..
       // const router = useRouter()
       const { $router } = this
@@ -131,7 +131,7 @@ export default {
       } finally {
         $router.go('/')
       }
-    },
-  },
+    }
+  }
 }
 </script>

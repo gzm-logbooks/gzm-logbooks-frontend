@@ -1,23 +1,23 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { RxDatabase } from 'rxdb';
-import { createDatabase } from '~~/data/database';
-import { seedFakeLogbook } from '~~/data/seeder';
+import { RxDatabase } from 'rxdb'
+import { createDatabase } from '~~/data/database'
+import { seedFakeLogbook } from '~~/data/seeder'
 
 export const useDatabase = defineStore('entriesDb', () => {
   const db = ref<RxDatabase>()
 
   // Initialize the database.
-  createDatabase().then((rxdb: RxDatabase) => {db.value = rxdb})
+  createDatabase().then((rxdb: RxDatabase) => { db.value = rxdb })
 
-  function getLogbooksQuery() {
+  function getLogbooksQuery () {
     // rxdb.logbooks.findOne(logbookId)
   }
 
-  function getLogbookEntriesQuery(logbook: string) {
+  function getLogbookEntriesQuery (logbook: string) {
     return db.value.entries
-    .find()
-    .where({ logbook: logbook })
-    .sort('timestamp')
+      .find()
+      .where({ logbook })
+      .sort('timestamp')
   }
 
   return {
@@ -27,7 +27,7 @@ export const useDatabase = defineStore('entriesDb', () => {
     getLogbookEntriesQuery,
     // fetchState: db,
     // entries:  computed(() => db.value.entries),
-    seed: () => {seedFakeLogbook(db.value)}
+    seed: () => { seedFakeLogbook(db.value) }
   }
 })
 

@@ -13,7 +13,7 @@ const entryFactory = (
   spread = week
 ) => {
   //
-  function getSpread() {
+  function getSpread () {
     return parseInt(Math.random() * spread)
   }
 
@@ -24,7 +24,7 @@ const entryFactory = (
   //   )
   // }
 
-  function getAmounts() {
+  function getAmounts () {
     return fakeMoodInputValues()
   }
 
@@ -41,7 +41,7 @@ const entryFactory = (
     entries.push({
       timestamp: next.toISOString(),
       logbook: logbookId,
-      ...getAmounts(),
+      ...getAmounts()
     })
   }
 
@@ -57,7 +57,7 @@ export const seedFakeLogbook = async function (db: RxDatabase, delay = 200) {
   console.log(db.logbooks)
 
   const logbook = await db.logbooks.insert({
-    name: 'Example Logbook',
+    name: 'Example Logbook'
   })
 
   let counter = 0
@@ -75,7 +75,7 @@ export const seedFakeLogbook = async function (db: RxDatabase, delay = 200) {
  *
  * @returns
  */
-export function fakeMoodInputValues() {
+export function fakeMoodInputValues () {
   const { padding, minRadius } = growthInputDefaults
 
   // const max = { red: 0.05, amber: 0.33 }
@@ -90,6 +90,6 @@ export function fakeMoodInputValues() {
   return validateMoodInput({
     amountGreen,
     amountAmber,
-    amountRed: 1,
+    amountRed: 1
   })
 }

@@ -23,7 +23,7 @@ import {
   Filler,
   Legend,
   Title,
-  Tooltip,
+  Tooltip
 } from 'chart.js'
 // import { Vue } from '#app'
 // import VueRx from 'vue-rx'

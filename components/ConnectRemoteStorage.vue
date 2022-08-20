@@ -1,12 +1,12 @@
 <template>
-  <div id="remoteStorageWidget" ref="widgetContainer"></div>
+  <div id="remoteStorageWidget" ref="widgetContainer" />
 </template>
 
 <script lang="ts">
 import Widget from 'remotestorage-widget'
 
 export default {
-  async mounted() {
+  async mounted () {
     const { $remoteStorage: storage } = this
     const { widgetContainer: element } = this.$refs
 
@@ -18,13 +18,13 @@ export default {
 
     //
     await storage.on('ready', async () => {
-      console.log({Widget})
+      console.log({ Widget })
       // const Widget = await import('remotestorage-widget')
       const widget = Widget
       // .then(
       //   (widget) => widget.attach(element.id)
       // )
     })
-  },
+  }
 }
 </script>

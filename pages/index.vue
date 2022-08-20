@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  await navigateTo('/logbooks')
+await navigateTo('/logbooks')
 // definePageMeta({
 //   middleware: function() {
 //     console.log(123123)

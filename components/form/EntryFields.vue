@@ -32,21 +32,21 @@
 import {
   scaledMoodInput,
   getTriangleSection,
-  analysisSectionPrompts,
+  analysisSectionPrompts
 } from '~/data/config'
 
 export default {
-  data() {
+  data () {
     return {
       questions: analysisSectionPrompts,
 
       // question: 'Zone not found',
-      section: null,
+      section: null
     }
   },
 
   computed: {
-    questionPrompt() {
+    questionPrompt () {
       const { section, questions } = this
 
       if (section) {
@@ -55,15 +55,15 @@ export default {
 
       //
       return null
-    },
+    }
   },
 
   methods: {
-    updateSection(moodInputData) {
+    updateSection (moodInputData) {
       const scaled = scaledMoodInput(moodInputData)
 
       this.section = getTriangleSection(scaled)
-    },
-  },
+    }
+  }
 }
 </script>

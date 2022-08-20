@@ -7,21 +7,27 @@
     <!-- Stats -->
     <div class="grid grid-cols-3 mb-4">
       <div class="stat">
-        <div class="stat-title">Growth</div>
+        <div class="stat-title">
+          Growth
+        </div>
         <div v-if="scaled" class="stat-value">
           {{ scaled.amountAmber.toFixed(2) }}
         </div>
       </div>
 
       <div class="stat">
-        <div class="stat-title">Anxiety</div>
+        <div class="stat-title">
+          Anxiety
+        </div>
         <div v-if="scaled" class="stat-value">
           {{ scaled.amountRed.toFixed(2) }}
         </div>
       </div>
 
       <div class="stat">
-        <div class="stat-title">Comfort</div>
+        <div class="stat-title">
+          Comfort
+        </div>
         <div v-if="scaled" class="stat-value">
           {{ scaled.amountGreen.toFixed(2) }}
         </div>
@@ -105,10 +111,10 @@ import { scaledMoodInput, getTriangleSection } from '~/data/config'
 import tailwindConfig from '#tailwind-config'
 export default {
   props: {
-    mood: { type: Object, default: null },
+    mood: { type: Object, default: null }
   },
 
-  data() {
+  data () {
     const { comfort, growth, anxiety } = tailwindConfig.theme.colors
 
     const growthOpacity = growth + '00'
@@ -125,22 +131,22 @@ export default {
         'zone 3',
         'zone 4',
         'zone 5',
-        'zone 6',
-      ],
+        'zone 6'
+      ]
     }
   },
 
   computed: {
-    scaled() {
+    scaled () {
       if (this.mood) {
         return scaledMoodInput(this.mood)
       }
 
       return null
     },
-    triangleTransform() {
+    triangleTransform () {
       if (!this.mood) {
-        return ``
+        return ''
       }
 
       //
@@ -155,15 +161,15 @@ export default {
           ${(scaled?.amountGreen ?? 0) * scaler}
         )`
     },
-    section() {
+    section () {
       if (!this.mood) {
-        return ``
+        return ''
       }
 
       const scaled = scaledMoodInput(this.mood)
 
       return getTriangleSection(scaled)
-    },
-  },
+    }
+  }
 }
 </script>

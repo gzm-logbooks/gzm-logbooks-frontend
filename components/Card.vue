@@ -25,8 +25,8 @@ export default {
   props: {
     contentClass: {
       type: [String, Object, Array],
-      default: '',
-    },
-  },
+      default: ''
+    }
+  }
 }
 </script>

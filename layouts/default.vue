@@ -1,5 +1,9 @@
 <template>
   <ClientOnly>
+    <Head>
+      <Script type="text/css" children="body { background-color: green; }" />
+    </Head>
+
     <div class="flex flex-col grow" :data-theme="themeName">
       <LayoutHeader />
 
@@ -8,29 +12,38 @@
       </LayoutContainer>
 
       <NuxtErrorBoundary @error="logError">
-        <slot class="px-4" v-if="db" />
+        <slot v-if="db" class="px-4" />
       </NuxtErrorBoundary>
     </div>
   </ClientOnly>
 </template>
 
-<script lang="ts">
-import { useDatabase } from '@/store/database';
+<script setup lang="ts">
+</script>
 
+<script lang="ts">
+import { useDatabase } from '@/store/database'
+useHead({
+  script: [
+    {
+      body: 'window.global = window;'
+    }
+  ]
+})
 
 export default {
   computed: {
-    themeName() {
+    themeName () {
       return localStorage.currentTheme
     },
-    db:() => useDatabase().rxdb
+    db: () => useDatabase().rxdb
   },
-  mounted() {
+  mounted () {
     // Print routes for debug.
     // console.log('Routes...', this.$nuxt.context.app.router.getRoutes())
   },
   methods: {
-    logError: (error) => console.error(error)
+    logError: error => console.error(error)
   }
 }
 </script>

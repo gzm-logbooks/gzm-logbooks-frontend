@@ -67,14 +67,14 @@ import { clamp, defaults } from 'lodash-es'
 import { growthInputDefaults } from '~/data/config'
 import tailwindConfig from '#tailwind-config'
 
-function getTouchEventCoords(params) {
+function getTouchEventCoords (params) {
   // Get viewpoint coords.
   const { clientX: x, clientY: y } = event.changedTouches[0]
 
   return { x, y }
 }
 
-function getMouseEventCoords(event) {
+function getMouseEventCoords (event) {
   const { clientX: x, clientY: y } = event
 
   return { x, y }
@@ -85,34 +85,34 @@ export default {
   props: {
     value: {
       type: Object,
-      default() {
+      default () {
         return {}
-      },
+      }
     },
     offset: {
       type: Number,
-      default: 14,
-    },
+      default: 14
+    }
   },
-  data() {
+  data () {
     const { comfort, growth, anxiety } = tailwindConfig.theme.colors
     return {
       state: {},
       defaultState: {
         red: 3 / 3,
         amber: 2 / 3,
-        green: 1 / 3,
+        green: 1 / 3
       },
       dragDiff: 0,
       circleSize: 100,
       currentCircle: null,
       anxiety,
       growth,
-      comfort,
+      comfort
     }
   },
   computed: {
-    viewbox() {
+    viewbox () {
       const { circleSize, offset } = this
       const padding = offset * 2
       const center = offset + circleSize / 2
@@ -121,23 +121,23 @@ export default {
         inner: circleSize,
         outer: circleSize + padding,
         offset,
-        center,
+        center
       }
     },
-    active() {
+    active () {
       return !!this.currentCircle
     },
     model: {
-      get() {
+      get () {
         return defaults({}, this.state, this.value, this.defaultState)
       },
-      set(newValue) {
+      set (newValue) {
         this.state = newValue
-      },
-    },
+      }
+    }
   },
   methods: {
-    handleTouchStart(event) {
+    handleTouchStart (event) {
       // Prevent firing of mouse events.
       event.preventDefault()
 
@@ -145,20 +145,20 @@ export default {
       this.startDrag(getTouchEventCoords(event))
     },
 
-    handleTouchMove(event) {
+    handleTouchMove (event) {
       this.update(getTouchEventCoords(event))
     },
 
-    handleMouseDown(event) {
+    handleMouseDown (event) {
       this.startDrag(getMouseEventCoords(event))
     },
 
-    handleMouseMove(event) {
+    handleMouseMove (event) {
       this.update(getMouseEventCoords(event))
     },
 
     //
-    startDrag(viewportCoords) {
+    startDrag (viewportCoords) {
       const { scale } = this.getRelativeCoords(viewportCoords)
 
       this.currentCircle = this.getCirclePicked(scale)
@@ -170,7 +170,7 @@ export default {
       }
     },
 
-    endDrag(event) {
+    endDrag (event) {
       const { currentCircle } = this
 
       // Exit if not grabbing.
@@ -184,7 +184,7 @@ export default {
       this.$emit('input', { ...this.model })
     },
 
-    update(viewportCoords) {
+    update (viewportCoords) {
       const { currentCircle } = this
 
       // Exit if not grabbing.
@@ -198,7 +198,7 @@ export default {
     },
 
     //
-    getRelativeCoords(viewportCoords) {
+    getRelativeCoords (viewportCoords) {
       // https://vuejs.org/v2/api/#el
       const container = this.$refs.background
 
@@ -216,7 +216,7 @@ export default {
     },
 
     //
-    getCirclePicked(scale) {
+    getCirclePicked (scale) {
       // Pick which circle is effected.
       const thresh = (this.model.amber + this.model.green) / 2
 
@@ -227,7 +227,7 @@ export default {
       }
     },
 
-    updateCircleScale(circle, scale) {
+    updateCircleScale (circle, scale) {
       const { padding, minRadius } = growthInputDefaults
 
       if (circle === 'amber') {
@@ -255,8 +255,8 @@ export default {
           this.$set(this.state, 'amber', this.model.green + padding)
         }
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

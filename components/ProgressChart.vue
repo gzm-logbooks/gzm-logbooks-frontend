@@ -13,23 +13,23 @@ export default defineComponent({
   props: {
     options: {
       type: Object,
-      default() {
+      default () {
         return {}
-      },
+      }
     },
     entries: {
       type: [Object, Array],
-      default() {
+      default () {
         return {}
-      },
+      }
     },
     full: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   emits: ['selected'],
-  setup(props, { emit, refs }) {
+  setup (props, { emit, refs }) {
     const chart = ref(null)
 
     //
@@ -40,19 +40,19 @@ export default defineComponent({
       responsive: true,
       plugins: {
         legend: {
-          display: false,
-        },
+          display: false
+        }
       },
       elements: {
         point: {
           pointStyle: 'circle',
-          radius: 0,
+          radius: 0
         },
         line: {
           showLine: false,
           borderWidth: 0,
-          tension: 1 / 4,
-        },
+          tension: 1 / 4
+        }
       },
       // layout: {
       //   padding: props.full ? 80 : 0,
@@ -62,7 +62,7 @@ export default defineComponent({
           display: props.full,
           type: 'timeseries',
           time: {
-            unit: 'day',
+            unit: 'day'
           },
           ticks: {
             auto: true,
@@ -71,21 +71,21 @@ export default defineComponent({
             // showLabelBackdrop: true,
             source: 'data',
             // maxTicksLimit: 12,
-            minRotation: 0,
+            minRotation: 0
           },
           grid: {
-            display: true,
-          },
+            display: true
+          }
           // max: new Date(),
           // suggestedMax: new Date(),
         },
         y: {
           display: false,
           min: 0,
-          max: props.full ? 1.03 : 1,
-        },
+          max: props.full ? 1.03 : 1
+        }
       },
-      onClick(event, elements = [], legend) {
+      onClick (event, elements = [], legend) {
         const first = elements[0]
 
         if (first && first.element) {
@@ -95,31 +95,31 @@ export default defineComponent({
 
           emit('selected', primary)
         }
-      },
+      }
     })
 
     const chartOptions = reactive(props.options || {})
     Object.assign(chartOptions, defaultOptions)
 
     const chartData = computed({
-      get() {
+      get () {
         //
         const datasets = props.entries.reduce(
           (accumulator, entry) => {
             accumulator.red.push({
               primary: entry.primary,
               x: entry.timestamp,
-              y: entry.amountRed ?? 0,
+              y: entry.amountRed ?? 0
             })
             accumulator.amber.push({
               primary: entry.primary,
               x: entry.timestamp,
-              y: entry.amountAmber ?? 0,
+              y: entry.amountAmber ?? 0
             })
             accumulator.green.push({
               primary: entry.primary,
               x: entry.timestamp,
-              y: entry.amountGreen ?? 0,
+              y: entry.amountGreen ?? 0
             })
             return accumulator
           },
@@ -128,7 +128,7 @@ export default defineComponent({
           {
             red: [],
             amber: [],
-            green: [],
+            green: []
           }
         )
 
@@ -140,30 +140,30 @@ export default defineComponent({
             {
               fill: {
                 target: 'origin',
-                above: comfort,
+                above: comfort
               },
               data: datasets.green,
-              stepped: props.full ? false : 'before',
+              stepped: props.full ? false : 'before'
             },
             {
               fill: {
                 target: 'origin',
-                above: growth,
+                above: growth
               },
               data: datasets.amber,
-              stepped: props.full ? false : 'before',
+              stepped: props.full ? false : 'before'
             },
             {
               fill: {
                 target: 'origin',
-                above: anxiety,
+                above: anxiety
               },
               data: datasets.red,
-              stepped: props.full ? false : 'before',
-            },
-          ],
+              stepped: props.full ? false : 'before'
+            }
+          ]
         }
-      },
+      }
     })
 
     onMounted(() => {
@@ -173,8 +173,8 @@ export default defineComponent({
         type: 'line',
         options: chartOptions,
         data: {
-          datasets: chartData.value.datasets,
-        },
+          datasets: chartData.value.datasets
+        }
       })
 
       chart.value.update()
@@ -186,12 +186,12 @@ export default defineComponent({
         return
       }
 
-      console.log(`Updating chart...`)
+      console.log('Updating chart...')
       chart.value.data.datasets = value.datasets
       chart.value?.update()
     })
 
     return { canvas, chart, chartOptions, chartData }
-  },
+  }
 })
 </script>

@@ -22,7 +22,9 @@
         <!-- Rename -->
         <template>
           <template v-if="edit">
-            <button class="gap-2 btn btn-warning" @click="reset">Cancel</button>
+            <button class="gap-2 btn btn-warning" @click="reset">
+              Cancel
+            </button>
 
             <button
               class="gap-2 btn btn-success"
@@ -80,7 +82,9 @@
 
       <Card class="mb-6 bg-base-200">
         <div class="flex mb-2 space-x-4">
-          <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
+          <h2 class="self-end mr-auto text-lg font-medium">
+            Recent entries
+          </h2>
           <nuxt-link class="btn btn-primary" :to="logbook.getNewEntryRoute()">
             Add entry
           </nuxt-link>
@@ -162,7 +166,9 @@
     <!-- -->
     <template v-if="!$fetchState.pending" #debug>
       <Card>
-        <template #title>Saved data</template>
+        <template #title>
+          Saved data
+        </template>
         <pre>{{ JSON.stringify(logbook, null, 2) }}</pre>
       </Card>
     </template>
@@ -175,15 +181,8 @@ import { useDatabase } from '~/store/database'
 import { scaledMoodInput } from '~/data/config'
 
 export default {
-  data() {
-    return {
-      logbook: null,
-      edit: false,
-      fields: {},
-    }
-  },
 
-  async setup() {
+  async setup () {
     const { logbookId } = this.$route.params
     const { rxdb } = useDatabase()
 
@@ -205,34 +204,41 @@ export default {
     // Set form data.
     this.reset()
   },
+  data () {
+    return {
+      logbook: null,
+      edit: false,
+      fields: {}
+    }
+  },
 
   computed: {
-    logbookId() {
+    logbookId () {
       return this.logbook?.primary
     },
 
     // Slices of logbook entries...
-    lastEntry() {
+    lastEntry () {
       // Get last logbook entry.
       return this.entries[0]
     },
 
-    lastWeekEntries() {
+    lastWeekEntries () {
       // Get last weeks records.
       return this.entries
         .slice(1)
         .filter(
-          (entry) =>
+          entry =>
             Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp)
         )
     },
 
-    olderEntries() {
+    olderEntries () {
       // Get other records.
       return this.entries
         .slice(1)
         .filter(
-          (entry) =>
+          entry =>
             Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp)
         )
     },
@@ -242,30 +248,30 @@ export default {
       new Intl.DateTimeFormat('default', {
         weekday: 'long',
         month: '2-digit',
-        day: '2-digit',
+        day: '2-digit'
       }),
 
     olderDateFormatter: () =>
       new Intl.DateTimeFormat('default', {
         month: '2-digit',
-        day: '2-digit',
-      }),
+        day: '2-digit'
+      })
   },
 
   methods: {
-    chartClicked(timestamp) {
+    chartClicked (timestamp) {
       navigateTo({
         name: 'logbooks-logbookId-entries-entryId',
         params: {
           logbookId: this.logbook.primary,
-          entryId: timestamp,
-        },
+          entryId: timestamp
+        }
       })
     },
 
-    async save(fields) {
+    async save (fields) {
       const data = {
-        name: fields.name,
+        name: fields.name
       }
 
       await this.logbook.atomicPatch(data)
@@ -274,7 +280,7 @@ export default {
       this.$fetch()
     },
 
-    downloadLogbook() {
+    downloadLogbook () {
       const data = this.entries.map((entry) => {
         const { timestamp, comment, amountRed, amountAmber, amountGreen } =
           entry
@@ -282,7 +288,7 @@ export default {
         const mood = scaledMoodInput({
           amountRed,
           amountAmber,
-          amountGreen,
+          amountGreen
         })
 
         return [
@@ -290,7 +296,7 @@ export default {
           comment,
           mood.amountRed.toFixed(4),
           mood.amountAmber.toFixed(4),
-          mood.amountGreen.toFixed(4),
+          mood.amountGreen.toFixed(4)
         ]
       })
 
@@ -306,18 +312,18 @@ export default {
       hiddenElement.download = this.logbook.name + '.csv'
       hiddenElement.click()
     },
-    reset() {
+    reset () {
       const { name } = this.logbook
       console.log(this.logbook)
 
       this.fields = {
-        name: this.logbook.name,
+        name: this.logbook.name
       }
       this.$fetch() // Dirty
       //
       this.edit = false
-    },
-  },
+    }
+  }
 }
 </script>
 

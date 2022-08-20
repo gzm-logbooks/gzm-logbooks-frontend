@@ -1,19 +1,19 @@
 import { defineNuxtConfig } from 'nuxt'
-import { name, version } from './package.json'
 import EnvCompatPlugin from 'vite-plugin-env-compatible'
-import { nodeResolve as NodeResolvePlugin } from "@rollup/plugin-node-resolve";
+import { nodeResolve as NodeResolvePlugin } from '@rollup/plugin-node-resolve'
+import { name, version } from './package.json'
 
 //
 const {
   SITE_TITLE: siteTitle = 'Growth Zone Model Logbooks',
   BRANCH: branch = 'branch',
-  COMMIT_REF: shaRef = 'commit',
+  COMMIT_REF: shaRef = 'commit'
 } = {}
 
 //
 const buildName = [branch, shaRef]
-  .filter((part) => typeof part === 'string')
-  .map((part) => part.slice(0, 6))
+  .filter(part => typeof part === 'string')
+  .map(part => part.slice(0, 6))
   .join('.')
 
 export default defineNuxtConfig({
@@ -38,8 +38,8 @@ export default defineNuxtConfig({
 
     services: {
       dropboxAppKey: process.env.DROPBOX_APP_KEY,
-      googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID,
-    },
+      googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID
+    }
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -48,15 +48,13 @@ export default defineNuxtConfig({
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: '' }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     bodyAttrs: {
-      class: '',
-    },
+      class: ''
+    }
   },
-
-
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
@@ -96,7 +94,7 @@ export default defineNuxtConfig({
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    '@nuxtjs/pwa'
   ],
 
   //
@@ -107,12 +105,12 @@ export default defineNuxtConfig({
   devServerHandlers: [],
 
   colorMode: {
-    classSuffix: '',
+    classSuffix: ''
   },
 
   tailwindcss: {
     // add '#tailwind-config` alias
-    exposeConfig: true,
+    exposeConfig: true
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -121,8 +119,8 @@ export default defineNuxtConfig({
       name: siteTitle,
       description: `Track your learning with the growth zone model. Build ${buildName}`,
       theme_color: '#f4a261',
-      lang: 'en',
-    },
+      lang: 'en'
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -139,19 +137,19 @@ export default defineNuxtConfig({
       // 'nuxt',
       // '@nuxt/bridge-edge',
       // 'immediate'
-    ],
+    ]
     // aggressiveCodeRemoval: true,
   },
 
   vite: {
-    plugins:[
+    plugins: [
       // NodeResolvePlugin(),
       // EnvCompatPlugin()
     ],
 
     define: {
       global: 'window',
-      process: {env: { DEBUG: undefined }},
+      process: { env: { DEBUG: undefined } }
     },
 
     build: {
@@ -162,8 +160,8 @@ export default defineNuxtConfig({
     optimizeDeps: {
       // allowNodeBuiltins: ["pouchdb-browser", "pouchdb-utils"],
       // esbuildOptions: {},
-    },
-  },
+    }
+  }
 
   // alias: { global: 'global.ts' }
 })

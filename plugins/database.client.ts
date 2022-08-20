@@ -17,7 +17,7 @@ addRxPlugin(RxDBMigrationPlugin)
 
 // Add the dev plugins.
 if (import.meta.env.DEV) {
-addRxPlugin(RxDBDevModePlugin)
+  addRxPlugin(RxDBDevModePlugin)
 }
 
 /**
@@ -32,7 +32,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       rxdb,
       seed: async () => {
         seedFakeLogbook(rxdb, 200)
-      },
-    },
+      }
+    }
   }
 })
