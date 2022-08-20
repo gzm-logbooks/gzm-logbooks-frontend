@@ -1,4 +1,4 @@
-import { RxDatabase } from 'rxdb'
+import { RxDatabase, RxDocument } from 'rxdb'
 import { growthInputDefaults, validateMoodInput } from '~/data/config'
 
 const hour = 1000 * 60 * 60
@@ -50,13 +50,11 @@ const entryFactory = (
 
 /**
  * Create a demo logbook and fill it with fake data.
- *
- * @param {*} db
  */
-export const seedFakeLogbook = async function (db: RxDatabase, delay = 200) {
+export const seedFakeLogbook = async function (db: RxDatabase, delay = 200): RxDocument {
   console.log(db.logbooks)
 
-  const logbook = await db.logbooks.insert({
+  const logbook: RxDocument = await db.logbooks.insert({
     name: 'Example Logbook'
   })
 
@@ -65,10 +63,12 @@ export const seedFakeLogbook = async function (db: RxDatabase, delay = 200) {
     await db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1))
 
     counter++
-    if (counter >= 40) {
+    if (counter >= 420) {
       clearInterval(timer)
     }
   }, delay)
+
+  return logbook
 }
 
 /**

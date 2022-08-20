@@ -1,142 +1,92 @@
-import {
-  createRxDatabase,
-  removeRxDatabase,
-  toTypedRxJsonSchema,
-  ExtractDocumentTypeFromTypedRxJsonSchema,
-  RxJsonSchema,
-  RxStorage
-} from 'rxdb'
-import { getRxStorageLoki } from 'rxdb/plugins/lokijs'
-import LokiIncrementalIndexedDBAdapter from 'lokijs/src/incremental-indexeddb-adapter'
-import { useNuxtApp } from '#app'
-import { compile, compileFromFile } from 'json-schema-to-typescript'
-
 // Load schemas.
 import { entrySchemaLiteral, entrySchema } from '~/data/schemas/entry.ts'
 import { logbookSchemaLiteral, logbookSchema } from '~/data/schemas/logbook.ts'
 
-/**
- *
- * @returns
- */
-export async function createDatabase () {
-  const db = await createRxDatabase({
-    name: 'logbooks',
-    storage: getRxStorageLoki({
-      adapter: new LokiIncrementalIndexedDBAdapter()
-      //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
-    })
-  })
+export const schemas = {
+  entrySchema,
+  logbookSchema
+}
 
-  await db.addCollections({
-    //
-    logbooks: {
-      schema: logbookSchema,
+export const collections = {
+  //
+  logbooks: {
+    schema: logbookSchema,
 
-      migrationStrategies: {
-        // TODO: Add migrations for previous versions.
-        0 (oldDoc) {
+    // migrationStrategies: {
+    //   // TODO: Add migrations for previous versions.
+
+    //   1: function (oldDoc) {
+    //     return null
+    //   },
+    //   2: function (oldDoc) {
+    //     return null
+    //   }
+    // },
+
+    methods: {
+      getRoute () {
+        const { primary } = this
+
+        if (!primary) {
           return null
-        },
-        1 (oldDoc) {
-          return null
-        },
-        2 (oldDoc) {
-          return null
+        }
+
+        return {
+          name: 'logbooks-logbookId',
+          params: {
+            logbookId: primary
+          }
         }
       },
 
-      methods: {
-        getRoute () {
-          const { primary } = this
+      getNewEntryRoute () {
+        const { primary } = this
 
-          if (!primary) {
-            return null
-          }
-
-          return {
-            name: 'logbooks-logbookId',
-            params: {
-              logbookId: primary
-            }
-          }
-        },
-
-        getNewEntryRoute () {
-          const { primary } = this
-
-          if (!primary) {
-            return null
-          }
-
-          return {
-            name: 'logbooks-logbookId-entries-new',
-            params: {
-              logbookId: primary
-            }
-          }
-        }
-      }
-    },
-
-    //
-    entries: {
-      schema: entrySchemaLiteral,
-
-      migrationStrategies: {
-        // TODO: Add migrations for previous versions.
-        0 (oldDoc) {
-          return null
-        },
-        1 (oldDoc) {
-          return null
-        },
-        2 (oldDoc) {
+        if (!primary) {
           return null
         }
-      },
 
-      methods: {
-        getRoute () {
-          const { primary, logbook } = this
-
-          if (!primary || !logbook) {
-            return null
-          }
-
-          return {
-            name: 'logbooks-logbookId-entries-entryId',
-            params: {
-              logbookId: logbook,
-              entryId: primary
-            }
+        return {
+          name: 'logbooks-logbookId-entries-new',
+          params: {
+            logbookId: primary
           }
         }
       }
     }
-  })
+  },
 
-  // Delay for testing 😈
-  // // await new Promise((resolve) => {
-  // //   setTimeout(resolve, 6666)
-  // // })
+  //
+  entries: {
+    schema: entrySchema,
 
-  return db
-}
+    // migrationStrategies: {
+    //   // TODO: Add migrations for previous versions.
 
-/**
- *
- */
-export async function resetDatabase (storage: RxStorage<any, any>) {
-  if (confirm('This will delete all of your data!') !== true) {
-    return
+    //   1: function (oldDoc) {
+    //     return null
+    //   },
+    //   2: function (oldDoc) {
+    //     return null
+    //   }
+    // },
+
+    methods: {
+      getRoute () {
+        const { primary, logbook } = this
+
+        if (!primary || !logbook) {
+          return null
+        }
+
+        return {
+          name: 'logbooks-logbookId-entries-entryId',
+          params: {
+            logbookId: logbook,
+            entryId: primary
+          }
+        }
+      }
+    }
   }
-
-  //
-  console.warn('Deleting database...')
-
-  await removeRxDatabase('logbooks', storage)
-
-  //
-  await this.$nuxt.refresh()
 }

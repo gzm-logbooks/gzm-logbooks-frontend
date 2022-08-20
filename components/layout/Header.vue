@@ -93,7 +93,7 @@
 </template>
 
 <script lang="ts">
-import { resetDatabase } from '~/data/database'
+import { useDatabase } from '~/store/database'
 
 export default {
   data () {
@@ -127,9 +127,13 @@ export default {
       const { $router } = this
 
       try {
-        await resetDatabase()
+        useDatabase().resetDatabase()
       } finally {
-        $router.go('/')
+        // $router.go('/')
+        useNuxtApp()
+
+        // TODO: Doesn't work.
+        await this.$nuxt.refresh()
       }
     }
   }
