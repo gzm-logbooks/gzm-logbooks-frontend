@@ -3,7 +3,7 @@
     "@nuxtjs/eslint-config-typescript",
   ],
   "rules": {
-    "prettier/prettier": "warn",
+    // "prettier/prettier": "warn",
     "no-unused-vars": "warn",
     "spaced-comment": "warn",
   }
