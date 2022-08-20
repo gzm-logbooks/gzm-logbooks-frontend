@@ -4,7 +4,7 @@ import {
   toTypedRxJsonSchema,
   ExtractDocumentTypeFromTypedRxJsonSchema,
   RxJsonSchema,
-  RxStorage,
+  RxStorage
 } from 'rxdb'
 import { getRxStorageLoki } from 'rxdb/plugins/lokijs'
 import LokiIncrementalIndexedDBAdapter from 'lokijs/src/incremental-indexeddb-adapter'
@@ -12,48 +12,42 @@ import { useNuxtApp } from '#app'
 import { compile, compileFromFile } from 'json-schema-to-typescript'
 
 // Load schemas.
-import {entrySchemaLiteral, entrySchema} from '~/data/schemas/entry.ts'
+import { entrySchemaLiteral, entrySchema } from '~/data/schemas/entry.ts'
 import { logbookSchemaLiteral, logbookSchema } from '~/data/schemas/logbook.ts'
-
 
 /**
  *
  * @returns
  */
-export async function createDatabase() {
+export async function createDatabase () {
   const db = await createRxDatabase({
     name: 'logbooks',
     storage: getRxStorageLoki({
-      adapter: new LokiIncrementalIndexedDBAdapter(),
+      adapter: new LokiIncrementalIndexedDBAdapter()
       //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
-      }),
+    })
   })
 
   await db.addCollections({
     //
     logbooks: {
-      schema: (() => {
-        const logbookSchemaTyped = toTypedRxJsonSchema(logbookSchemaLiteral)
-
-        // aggregate the document type from the schema
-        type LogbookDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
-          typeof logbookSchemaTyped
-        >
-
-        // RxJsonSchema<LogbookDocType>
-
-        // create the typed RxJsonSchema from the literal typed object.
-        return logbookSchemaLiteral
-      })(),
+      schema: logbookSchema,
 
       migrationStrategies: {
-        1() {
+        // TODO: Add migrations for previous versions.
+        0 (oldDoc) {
           return null
         },
+        1 (oldDoc) {
+          return null
+        },
+        2 (oldDoc) {
+          return null
+        }
       },
 
       methods: {
-        getRoute() {
+        getRoute () {
           const { primary } = this
 
           if (!primary) {
@@ -63,12 +57,12 @@ export async function createDatabase() {
           return {
             name: 'logbooks-logbookId',
             params: {
-              logbookId: primary,
-            },
+              logbookId: primary
+            }
           }
         },
 
-        getNewEntryRoute() {
+        getNewEntryRoute () {
           const { primary } = this
 
           if (!primary) {
@@ -78,11 +72,11 @@ export async function createDatabase() {
           return {
             name: 'logbooks-logbookId-entries-new',
             params: {
-              logbookId: primary,
-            },
+              logbookId: primary
+            }
           }
-        },
-      },
+        }
+      }
     },
 
     //
@@ -90,13 +84,20 @@ export async function createDatabase() {
       schema: entrySchemaLiteral,
 
       migrationStrategies: {
-        1() {
+        // TODO: Add migrations for previous versions.
+        0 (oldDoc) {
           return null
         },
+        1 (oldDoc) {
+          return null
+        },
+        2 (oldDoc) {
+          return null
+        }
       },
 
       methods: {
-        getRoute() {
+        getRoute () {
           const { primary, logbook } = this
 
           if (!primary || !logbook) {
@@ -107,12 +108,12 @@ export async function createDatabase() {
             name: 'logbooks-logbookId-entries-entryId',
             params: {
               logbookId: logbook,
-              entryId: primary,
-            },
+              entryId: primary
+            }
           }
-        },
-      },
-    },
+        }
+      }
+    }
   })
 
   // Delay for testing 😈
@@ -126,7 +127,7 @@ export async function createDatabase() {
 /**
  *
  */
-export async function resetDatabase(storage: RxStorage<any, any>) {
+export async function resetDatabase (storage: RxStorage<any, any>) {
   if (confirm('This will delete all of your data!') !== true) {
     return
   }
