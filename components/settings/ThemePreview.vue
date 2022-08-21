@@ -63,7 +63,7 @@ const { switchTheme } = useConfigStore()
 export default {
   props: {
     themeName: { type: String, required: true }
-  },
+  }
 
   //   data() {
   //     const themeComfort = `${this.themeName}-comfort`

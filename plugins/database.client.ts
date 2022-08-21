@@ -1,9 +1,10 @@
+import { NuxtApp } from '#app'
 import { useDatabase } from '~/store/database'
 
 /**
  * Register the plugin...
  */
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
   const { rxdb, createDatabase } = useDatabase()
 
   createDatabase()

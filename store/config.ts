@@ -1,15 +1,15 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import {useLocalStorage} from '@vueuse/core'
+import { useLocalStorage } from '@vueuse/core'
 
 export const useConfigStore = defineStore('config', {
-  state: () => ({ currentTheme: useLocalStorage('config/currentTheme', null), }),
+  state: () => ({ currentTheme: useLocalStorage('config/currentTheme', null) }),
   getters: {
   },
   actions: {
-    switchTheme(newTheme: string) {
+    switchTheme (newTheme: string) {
       this.currentTheme = newTheme
-    },
-  },
+    }
+  }
 })
 
 if (import.meta.hot) {

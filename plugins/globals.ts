@@ -28,6 +28,7 @@ import {
 // import { Vue } from '#app'
 // import VueRx from 'vue-rx'
 import 'chartjs-adapter-date-fns'
+import { NuxtApp } from '#app'
 
 //
 // Vue.use(VueRx)
@@ -64,7 +65,7 @@ Chart.register(
 /**
  * Register the plugin...
  */
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
   // Default export required.
 
   return {
