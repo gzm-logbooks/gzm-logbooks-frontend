@@ -39,11 +39,12 @@
       <div class="flex flex-col">
         <PlaceholderNote class="mb-4" />
 
-        <div class="grid grid-cols-4 gap-2">
+        <div class="grid grid-cols-4 lg:grid-cols-6 gap-4">
           <SettingsThemePreview
             v-for="(themeName, index) in themeNames"
             :key="index"
             :theme-name="themeName"
+            class="rounded"
           />
         </div>
       </div>

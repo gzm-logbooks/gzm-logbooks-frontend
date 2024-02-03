@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-    <LayoutContainer max="lg" class="my-6">
+    <LayoutContainer max="lg" class="my-4 px-2">
       <div v-if="$slots.title" class="mb-4 text-xl text-base-content">
         <slot name="title" />
       </div>

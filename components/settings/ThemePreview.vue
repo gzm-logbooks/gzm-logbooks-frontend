@@ -1,14 +1,12 @@
 <template>
   <div :data-theme="themeName">
-    <div class="gap-3 p-3 shadow-xl bg-base-100 card">
+    <div class="p-3 shadow bg-base-100 card rounded-none">
       <svg width="100" viewBox="0 0 20 40" xmlns="http://www.w3.org/2000/svg">
         <rect
           x="0"
           y="8"
           width="20"
           height="32"
-          rx="2"
-          ry="2"
           class="fill-current text-base-100"
         />
 

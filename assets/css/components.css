@@ -55,7 +55,7 @@
   /*  */
   .card {
     @apply flex flex-col overflow-hidden;
-    @apply shadow-sm sm:rounded;
+    @apply shadow-sm  ;
     @apply divide-y;
     /* @apply border-gray-600; */
   }

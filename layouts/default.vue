@@ -60,10 +60,10 @@ body,
 #__nuxt,
 #__layout {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 #__layout {
-  display: flex;
-  flex-direction: column;
 }
 </style>
