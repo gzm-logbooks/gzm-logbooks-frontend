@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from 'nuxt/config'
 import EnvCompatPlugin from 'vite-plugin-env-compatible'
 import { nodeResolve as NodeResolvePlugin } from '@rollup/plugin-node-resolve'
 import { name, version } from './package.json'
@@ -30,15 +30,16 @@ export default defineNuxtConfig({
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-
   // https://nuxtjs.org/guide/runtime-config
-  publicRuntimeConfig: {
-    siteTitle,
-    appInfo: { name, version, branch, shaRef, buildName },
+  runtimeConfig: {
+    public: {
+      siteTitle,
+      appInfo: { name, version, branch, shaRef, buildName },
 
-    services: {
-      dropboxAppKey: process.env.DROPBOX_APP_KEY,
-      googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID
+      services: {
+        dropboxAppKey: process.env.DROPBOX_APP_KEY,
+        googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID
+      }
     }
   },
 
@@ -71,9 +72,6 @@ export default defineNuxtConfig({
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://pinia.vuejs.org/ssr/nuxt.html
-    '@pinia/nuxt',
-
     // https://github.com/nuxt-community/color-mode-module
     '@nuxtjs/color-mode',
 
@@ -81,9 +79,6 @@ export default defineNuxtConfig({
     '@nuxtjs/eslint-module',
 
     // '@nuxtjs/eslint-config-typescript',
-
-    // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
 
     // https://vueformulate.com/guide
     // '@braid/vue-formulate/nuxt',
@@ -93,8 +88,14 @@ export default defineNuxtConfig({
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    // https://pinia.vuejs.org/ssr/nuxt.html
+    '@pinia/nuxt',
+
+    // https://go.nuxtjs.dev/tailwindcss
+    '@nuxtjs/tailwindcss',
+
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    // '@nuxtjs/pwa'
   ],
 
   //

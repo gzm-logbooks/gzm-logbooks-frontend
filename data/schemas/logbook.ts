@@ -4,7 +4,8 @@ import {
   RxJsonSchema
 } from 'rxdb'
 
-export const logbookSchemaLiteral = {
+export const logbookSchemaLiteral =
+{
   title: 'logbook',
   type: 'object',
   version: 3,

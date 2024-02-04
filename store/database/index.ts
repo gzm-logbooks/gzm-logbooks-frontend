@@ -9,17 +9,16 @@ import {
 // import { addPouchPlugin,  } from 'rxdb/plugins/lokijs'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
-import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
-import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
-// import * as IndexeddbAdaptor from 'pouchdb-adapter-indexeddb'
+import { RxDBMigrationPlugin } from 'rxdb/plugins/migration-schema'
+// import * as IndexeddbAdaptor from 'pouchdb-adapter-idb'
+// import { getRxStoragePouch, addPouchPlugin } from 'rxdb/plugins/pouchdb'
 
-import { getRxStorageLoki } from 'rxdb/plugins/lokijs'
+import { getRxStorageLoki } from 'rxdb/plugins/storage-lokijs'
 import LokiIncrementalIndexedDBAdapter from 'lokijs/src/incremental-indexeddb-adapter'
 import { schemas, collections } from '~/data/database'
 import { seedFakeLogbook } from '~/store/database/seeder'
 
 // Add plugins.
-addRxPlugin(RxDBValidatePlugin)
 addRxPlugin(RxDBQueryBuilderPlugin)
 addRxPlugin(RxDBMigrationPlugin)
 // addPouchPlugin(IndexeddbAdaptor)
@@ -28,6 +27,8 @@ addRxPlugin(RxDBMigrationPlugin)
 if (import.meta.env.DEV) {
   addRxPlugin(RxDBDevModePlugin)
 }
+
+// addPouchPlugin(IndexeddbAdaptor)
 
 export const useDatabase = defineStore('entriesDb', () => {
   const storage = ref<RxStorage<any, any>>()
@@ -42,29 +43,38 @@ export const useDatabase = defineStore('entriesDb', () => {
     //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
     })
 
+    // storage.value = getRxStoragePouch(
+    //   'idb',
+    //   {
+    //     /**
+    //      * other pouchdb specific options
+    //      * @link https://pouchdb.com/api.html#create_database
+    //      */
+    //   }
+    // )
+
     db.value = await createRxDatabase({
       name: 'logbooks',
-      storage: getRxStorageLoki({
-        adapter: new LokiIncrementalIndexedDBAdapter()
-      //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
-      })
+      storage: storage.value
     }).then((db) => {
+      // // Delay for testing 😈
+      // await new Promise((resolve) => {
+      //   setTimeout(resolve, 6666)
+      // })
+
       try {
         db.addCollections(collections)
-      } catch {
+      } catch (e) {
 
       }
 
       return db
     })
 
-    // Delay for testing 😈
-    // // await new Promise((resolve) => {
-    // //   setTimeout(resolve, 6666)
-    // // })
-
     return db
   }
+
+  createDatabase()
 
   /**
    *
@@ -105,9 +115,6 @@ export const useDatabase = defineStore('entriesDb', () => {
     seed: () => { seedFakeLogbook(db.value) }
   }
 })
-
-// Initialize the database.
-// useDatabase().createDatabase()
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useDatabase, import.meta.hot))

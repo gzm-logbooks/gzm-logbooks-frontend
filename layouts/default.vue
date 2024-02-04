@@ -12,7 +12,7 @@
       </LayoutContainer>
 
       <NuxtErrorBoundary @error="logError">
-        <slot v-if="rxdb" class="px-4" />
+        <slot v-if="db" class="px-4" />
       </NuxtErrorBoundary>
     </div>
   </ClientOnly>
@@ -21,12 +21,16 @@
 <script setup lang="ts">
 
 import { useDatabase } from '~/store/database'
+
+const db = useDatabase()
+
+console.log(db)
 </script>
 
 <script lang="ts">
 import { useConfigStore } from '~/store/config'
 
-const { rxdb } = useDatabase()
+// const { rxdb } = useDatabase()
 
 // useHead({
 //   script: [
