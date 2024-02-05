@@ -7,22 +7,24 @@ export const schemas = {
   logbookSchema
 }
 
+console.log(entrySchema, logbookSchema)
+
 export const collections = {
   //
   logbooks: {
     schema: logbookSchema,
 
+    autoMigrate: false,
     migrationStrategies: {
-      // TODO: Add migrations for previous versions.
-      0: function (oldDoc) {
-        return oldDoc
-      },
       1: function (oldDoc) {
         return oldDoc
       },
       2: function (oldDoc) {
         return oldDoc
-      }
+      },
+      3: function (oldDoc) {
+        return oldDoc
+      },
     },
 
     methods: {
@@ -62,17 +64,17 @@ export const collections = {
   entries: {
     schema: entrySchema,
 
+    autoMigrate: false,
     migrationStrategies: {
-      // TODO: Add migrations for previous versions.
-      0: function (oldDoc) {
-        return oldDoc
-      },
       1: function (oldDoc) {
         return oldDoc
       },
-      2: function (oldDoc) {
+      2: function(oldDoc) {
         return oldDoc
-      }
+      },
+      3: function (oldDoc) {
+        return oldDoc
+      },
     },
 
     methods: {

@@ -37,8 +37,9 @@ export default {
   },
 
   daisyui: {
-    themes: daisyThemes
-    // themes: ['light', 'cupcake', 'bumblebee'],
+    // themes: daisyThemes,
+    themes: ['light', 'cupcake', 'bumblebee'],
+
     // themes: [
     //   {
     //       light: {

@@ -6,21 +6,22 @@ import {
   RxStorage
 } from 'rxdb'
 
-// import { addPouchPlugin,  } from 'rxdb/plugins/lokijs'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration-schema'
-// import * as IndexeddbAdaptor from 'pouchdb-adapter-idb'
-// import { getRxStoragePouch, addPouchPlugin } from 'rxdb/plugins/pouchdb'
-
 import { getRxStorageLoki } from 'rxdb/plugins/storage-lokijs'
 import LokiIncrementalIndexedDBAdapter from 'lokijs/src/incremental-indexeddb-adapter'
 import { schemas, collections } from '~/data/database'
 import { seedFakeLogbook } from '~/store/database/seeder'
+import { addRxPlugin } from 'rxdb';
+
+// import { addPouchPlugin,  } from 'rxdb/plugins/lokijs'
+// import * as IndexeddbAdaptor from 'pouchdb-adapter-idb'
+// import { getRxStoragePouch, addPouchPlugin } from 'rxdb/plugins/pouchdb'
 
 // Add plugins.
-addRxPlugin(RxDBQueryBuilderPlugin)
-addRxPlugin(RxDBMigrationPlugin)
+// addRxPlugin(RxDBQueryBuilderPlugin)
+// addRxPlugin(RxDBMigrationPlugin)
 // addPouchPlugin(IndexeddbAdaptor)
 
 // Add the dev plugins.
@@ -37,10 +38,10 @@ export const useDatabase = defineStore('entriesDb', () => {
   /**
    *
    */
-  async function createDatabase () {
+  async function createDatabase() {
     storage.value = getRxStorageLoki({
       adapter: new LokiIncrementalIndexedDBAdapter()
-    //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
+      //  autosave: true, autosaveInterval: 5000, autoload: true, persistenceMethod: 'memory'
     })
 
     // storage.value = getRxStoragePouch(
@@ -74,12 +75,10 @@ export const useDatabase = defineStore('entriesDb', () => {
     return db
   }
 
-  createDatabase()
-
   /**
    *
    */
-  async function resetDatabase () {
+  async function resetDatabase() {
     if (confirm('This will delete all of your data!') !== true) {
       return
     }
@@ -90,16 +89,19 @@ export const useDatabase = defineStore('entriesDb', () => {
     await removeRxDatabase('logbooks', storage.value)
   }
 
-  function getLogbooksQuery () {
+  function getLogbooksQuery() {
     // rxdb.logbooks.findOne(logbookId)
   }
 
-  function getLogbookEntriesQuery (logbook: string) {
+  function getLogbookEntriesQuery(logbook: string) {
     return db.value.entries
       .find()
       .where({ logbook })
       .sort('timestamp')
   }
+
+  //
+  createDatabase()
 
   return {
     db,
