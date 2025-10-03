@@ -8,7 +8,6 @@
       "request": "launch",
       "name": "client: chrome",
       "url": "http://localhost:3000",
-      "runtimeExecutable": "/var/lib/flatpak/exports/bin/org.chromium.Chromium",
       "webRoot": "${workspaceFolder}",
     },
     {
@@ -16,7 +15,6 @@
       "request": "launch",
       "name": "client: firefox",
       "url": "http://localhost:3000",
-      "firefoxExecutable": "/var/lib/flatpak/exports/bin/org.mozilla.firefox",
       "webRoot": "${workspaceFolder}",
     },
     {
