@@ -28,7 +28,9 @@ const { document } = defineProps({
 
 const { getUserDatabase, getLogbookEntriesQuery, getLogbooksQuery } = useDatabase()
 
-const entries = useObservable(document.getEntriesQuery(await getUserDatabase()).$)
+const db = await getUserDatabase()
+
+const entries = useObservable(document.getEntriesQuery(db).$)
 
 
 watchEffect(() => {

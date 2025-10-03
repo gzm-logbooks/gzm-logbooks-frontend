@@ -48,14 +48,22 @@ import { useDatabase } from '~/store/database'
 
 export default {
   async setup() {
-    const { logbookId } = this.$route.params
+    const { params } = useRoute()
+    const { logbookId } = params as { logbookId: string };
+
     const { userData } = storeToRefs(useDatabase())
 
     // Get logbook record from database.
-    this.logbook = userData.logbooks.findOne(logbookId).exec()
+    const logbook = userData.value.logbooks.findOne(logbookId).exec()
+
     // Redirect if logbook is missing.
-    if (!this.logbook) {
+    if (!logbook) {
       return navigateTo({ name: 'logbooks' })
+    }
+
+    return {
+      logbook,
+      logbookId
     }
   },
   data() {

@@ -12,7 +12,7 @@
       </LayoutContainer>
 
       <!-- <NuxtErrorBoundary @error="logError"> -->
-        <slot class="px-4" />
+      <slot class="px-4" />
       <!-- </NuxtErrorBoundary> -->
     </div>
   </ClientOnly>
@@ -37,7 +37,7 @@ function logError(error) {
 
   console.error({ message, stack })
 
-  return error
+  throw error
 }
 
 const { getUserDatabase } = useDatabase()

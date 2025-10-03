@@ -1,5 +1,5 @@
 <template>
-  <LayoutPage v-if="!$fetchState.pending">
+  <LayoutPage v-if="status !== 'pending'">
     <LayoutPageHeader>
       <template #title>
         <div class="flex items-center gap-2">
@@ -8,7 +8,7 @@
           </FormKit>
 
           <h1 v-else>
-            {{ logbook.value.name }}
+            {{ logbook.name }}
           </h1>
         </div>
       </template>
@@ -53,7 +53,7 @@
       </template>
     </LayoutPageHeader>
 
-    <template v-if="entries.length === 0">
+    <template v-if="entries?.length === 0">
       <p>There are no entries in this logbook.</p>
     </template>
 
@@ -65,7 +65,7 @@
 
         <div class="min-h-48">
           <ProgressChart
-            v-if="entries.length > 1"
+            v-if="entries?.length > 1"
             :entries="entries"
             full
             @selected="chartClicked"
@@ -155,7 +155,7 @@
     </template>
 
     <!-- -->
-    <template v-if="!$fetchState.pending" #debug>
+    <template v-if="status !== 'pending'" #debug>
       <Card>
         <template #title> Saved data </template>
         <pre>{{ JSON.stringify(logbook, null, 2) }}</pre>
@@ -164,86 +164,97 @@
   </LayoutPage>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { format } from 'date-fns'
 import { useDatabase } from '~/store/database'
 import { scaledMoodInput } from '~/data/config'
+import { useObservable } from '@vueuse/rxjs';
 
-export default {
-  async setup() {
-    const { logbookId } = this.$route.params
-    const { getUserDatabase } = useDatabase()
+const { params } = useRoute()
+const { logbookId } = params as { logbookId: string };
 
-    // Get logbook record from database.
-    this.logbook = (await getUserDatabase())?.logbooks.findOne(logbookId).exec()
+const { getUserDatabase } = useDatabase()
 
-    // Get all entries.
-    this.entries = await db.entries
+const db = await getUserDatabase()
+
+const { data, error, status } = await useAsyncData(async () => {
+  return {
+    logbook: db.logbooks.findOne(logbookId).exec(),
+    entries: db.entries
       .find()
       .where({ logbook: logbookId })
       .sort({ timestamp: 'desc' })
-      .exec()
+      .exec(),
+  }
+})
 
-    // Redirect if logbook is missing.
-    if (!this.logbook) {
-      return navigateTo({ name: 'logbooks' })
-    }
+// const { logbook: logbook2 } = data.value
 
-    // Set form data.
-    this.reset()
-  },
+console.log({ data: data.value, error, status })
+
+// Get logbook record from database.
+const logbook = await db.logbooks.findOne(logbookId).exec()
+
+// Redirect if logbook is missing.
+if (!logbook) {
+  await navigateTo({ name: 'logbooks' })
+}
+
+// Get all entries.
+// const entries = await db.entries
+//   .find()
+//   .where({ logbook: logbookId })
+//   .sort({ timestamp: 'desc' })
+//   .exec()
+const entries = useObservable(logbook.getEntriesQuery(db).$)
+
+
+const lastEntry = computed(() => entries.value && entries.value[0])
+
+const lastWeekEntries = computed(() =>
+  (entries.value ?? []).slice(1)
+    .filter((entry) =>
+      Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp),
+    ),
+)
+const olderEntries = computed(() =>
+  (entries.value ?? []).slice(1)
+    .filter((entry) =>
+      Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp),
+    ),
+)
+
+const recentDateFormatter = () =>
+  new Intl.DateTimeFormat('default', {
+    weekday: 'long',
+    month: '2-digit',
+    day: '2-digit',
+  })
+
+const olderDateFormatter = () =>
+  new Intl.DateTimeFormat('default', {
+    month: '2-digit',
+    day: '2-digit',
+  })
+
+</script>
+
+<script lang="ts">
+// import { format } from 'date-fns'
+// import { useDatabase } from '~/store/database'
+// import { scaledMoodInput } from '~/data/config'
+
+export default {
   data() {
     return {
-      logbook: null,
       edit: false,
       fields: {},
     }
   },
 
-  computed: {
-    logbookId() {
-      return this.logbook?.primary
-    },
-
-    // Slices of logbook entries...
-    lastEntry() {
-      // Get last logbook entry.
-      return this.entries[0]
-    },
-
-    lastWeekEntries() {
-      // Get last weeks records.
-      return this.entries
-        .slice(1)
-        .filter(
-          (entry) =>
-            Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp),
-        )
-    },
-
-    olderEntries() {
-      // Get other records.
-      return this.entries
-        .slice(1)
-        .filter(
-          (entry) =>
-            Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp),
-        )
-    },
-
-    // Setup date formatters...
-    recentDateFormatter: () =>
-      new Intl.DateTimeFormat('default', {
-        weekday: 'long',
-        month: '2-digit',
-        day: '2-digit',
-      }),
-
-    olderDateFormatter: () =>
-      new Intl.DateTimeFormat('default', {
-        month: '2-digit',
-        day: '2-digit',
-      }),
+  async mounted() {
+    // Set form data.
+    this.reset()
   },
 
   methods: {
@@ -301,6 +312,9 @@ export default {
       hiddenElement.click()
     },
     reset() {
+      console.log(this.logbook)
+      return
+
       const { name } = this.logbook
       console.log(this.logbook)
 

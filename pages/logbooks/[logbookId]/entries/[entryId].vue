@@ -59,26 +59,29 @@ import { useDatabase } from '~/store/database'
 
 export default {
   async setup() {
-    const { logbookId, entryId } = this.$route.params
+    const { params } = useRoute()
+    const { logbookId, entryId } = params as { logbookId: string, entryId:string };
+
     const { userData } = storeToRefs(useDatabase())
 
     // Get entry record from database.
-    this.entry = await db.entries
+    const entry = await userData.value.entries
       .findOne({
         selector: { logbook: logbookId, _id: entryId },
       })
       .exec()
 
     // Get logbook record from database.
-    this.logbook = await this.entry.populate('logbook')
+    const logbook = await entry.populate('logbook')
 
     // Redirect if logbook is missing.
-    if (!this.logbook || !this.entry) {
+    if (!logbook || !entry) {
       return navigateTo({ name: 'logbooks' })
     }
 
-    // Set form data.
-    this.reset()
+    return {
+      logbook, entry
+    }
   },
   data() {
     return {
@@ -112,6 +115,11 @@ export default {
 
       return ''
     },
+  },
+
+  beforeMount() {
+    // Set form data.
+    this.reset()
   },
 
   methods: {
