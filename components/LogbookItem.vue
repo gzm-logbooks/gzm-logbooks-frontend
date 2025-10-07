@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="document.getRoute()">
+  <nuxt-link :to="getLogbookRoute(document.getRouteParams())">
     <Card content-class="p-2 bg-base-300">
       <span class="card-title">{{ document.name }}</span>
       <p class="mb-1 text-sm text-gray-600">
@@ -25,6 +25,8 @@ const { document } = defineProps({
 })
 
 // console.log({document})
+
+const { getLogbookRoute } = useAppRoutes()
 
 const { getUserDatabase, getLogbookEntriesQuery, getLogbooksQuery } = useDatabase()
 

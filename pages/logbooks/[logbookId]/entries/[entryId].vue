@@ -9,7 +9,7 @@
         <nuxt-link
           v-if="logbook"
           class="btn btn-outline"
-          :to="logbook.getRoute()"
+          :to="getLogbookRoute(logbook.getRouteParams())"
         >
           Back to logbook "{{ logbook.value.name }}"
         </nuxt-link>
@@ -56,11 +56,14 @@
 <script lang="ts">
 import { format, formatDistance } from 'date-fns'
 import { useDatabase } from '~/store/database'
+import { useAppRoutes } from '../../../../composables/useAppRoutes';
 
 export default {
   async setup() {
     const { params } = useRoute()
     const { logbookId, entryId } = params as { logbookId: string, entryId:string };
+
+    const { getLogbookRoute }= useAppRoutes()
 
     const { userData } = storeToRefs(useDatabase())
 
@@ -164,7 +167,7 @@ export default {
 
       if (doc) {
         // Back to logbook page.
-        return navigateTo(this.logbook.getRoute())
+        return navigateTo(getLogbookRoute(this.logbook.getRouteParams()))
       }
     },
   },

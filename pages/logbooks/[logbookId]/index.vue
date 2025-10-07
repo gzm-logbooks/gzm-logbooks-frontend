@@ -38,7 +38,7 @@
       </template>
 
       <template #main-actions>
-        <nuxt-link class="btn btn-primary" :to="logbook.getNewEntryRoute()">
+        <nuxt-link class="btn btn-primary" :to="getLogbookCreateEntryRoute(logbook.getRouteParams())">
           Add entry
         </nuxt-link>
 
@@ -76,7 +76,7 @@
       <Card class="mb-6 bg-base-200">
         <div class="flex mb-2 space-x-4">
           <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
-          <nuxt-link class="btn btn-primary" :to="logbook.getNewEntryRoute()">
+          <nuxt-link class="btn btn-primary" :to="getLogbookCreateEntryRoute(logbook.getRouteParams())">
             Add entry
           </nuxt-link>
         </div>
@@ -88,7 +88,7 @@
           <!-- Most recent entry -->
           <nuxt-link
             v-if="lastEntry"
-            :to="lastEntry.getRoute()"
+            :to="getLogbookEntryRoute(lastentry.getRouteParams())"
             class="grid items-end grid-cols-3 entries__entry"
           >
             <span class="mr-auto text-lg font-medium">
@@ -109,7 +109,7 @@
           <nuxt-link
             v-for="entry in lastWeekEntries"
             :key="entry.primary"
-            :to="entry.getRoute()"
+            :to="getLogbookEntryRoute(entry.getRouteParams())"
             class="grid items-end content-end grid-cols-3 entries__entry"
           >
             <span>
@@ -133,7 +133,7 @@
           <nuxt-link
             v-for="entry in olderEntries"
             :key="entry.primary"
-            :to="entry.getRoute()"
+            :to="getLogbookEntryRoute(entry.getRouteParams())"
             class="grid items-center grid-cols-3 entries__entry"
           >
             <span>
@@ -174,6 +174,8 @@ const { params } = useRoute()
 const { logbookId } = params as { logbookId: string };
 
 const { getUserDatabase } = useDatabase()
+
+const {getLogbookRoute,getLogbookEntryRoute, getLogbookCreateEntryRoute } = useAppRoutes()
 
 const db = await getUserDatabase()
 

@@ -49,7 +49,7 @@ export type LogbookEntryDocumentType = ExtractDocumentTypeFromTypedRxJsonSchema<
 >
 
 export type LogbookEntryDocumentMethods = {
-  getRoute: () => RouteLocationRaw
+  getRouteParams: () => object
 }
 
 // we declare one static ORM-method for the collection
@@ -73,7 +73,7 @@ export const logbookEntrySchema: RxJsonSchema<LogbookEntryDocumentType> =
   logbookEntrySchemaLiteral
 
 export const logbookEntryDocumentMethods: LogbookEntryDocumentMethods = {
-  getRoute() {
+  getRouteParams() {
     const { primary, logbook } = this
 
     if (!primary || !logbook) {
@@ -81,11 +81,8 @@ export const logbookEntryDocumentMethods: LogbookEntryDocumentMethods = {
     }
 
     return {
-      name: 'logbooks-logbookId-entries-entryId',
-      params: {
-        logbookId: logbook,
-        entryId: primary,
-      },
+      logbookId: logbook,
+      entryId: primary,
     }
   },
 }
