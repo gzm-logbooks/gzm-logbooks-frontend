@@ -1,7 +1,10 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import type { RxDatabase, RxStorage } from 'rxdb'
 import { addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb'
+import type { UserDatabase } from '~/data/database'
 import { seedFakeLogbook } from '~/data/seeder'
+
+type DatabaseStatus = 'pending' | 'ready' | 'error'
 
 /**
  * Utility to reset and reload the application.
@@ -20,14 +23,34 @@ async function resetDatabase(database: RxDatabase) {
 }
 
 export const useDatabase = defineStore('userDatabase', () => {
-   const { $rxdb: userData } = useNuxtApp()
+
+  // STATE
+  const status = ref<DatabaseStatus>('pending')
+  const database = ref<UserDatabase | null>(null)
+
+  // CONVENIENCE COMPUTED PROPERTIES (for backward compatibility and readability)
+  const isReady = computed(() => status.value === 'ready')
+  const isLoading = computed(() => status.value === 'pending')
+
+
+  const { $rxdb: rxdbPromise } = useNuxtApp()
+
+  rxdbPromise
+      .then((db: UserDatabase) => {
+        database.value = db
+        status.value = 'ready'
+      })
+      .catch((error: any) => {
+        console.error('Failed to initialize RxDB:', error)
+        status.value = 'error'
+      })
 
   async function getUserDatabase() {
-    return userData
+    return await rxdbPromise
   }
 
   async function resetUserDatabase() {
-    await resetDatabase(userData)
+    await resetDatabase(database.value)
 
     window.location.reload()
   }
@@ -35,19 +58,22 @@ export const useDatabase = defineStore('userDatabase', () => {
   async function seedUserLogbook() {
     console.info('Seeding user logbook(s)')
 
-    return Promise.all([seedFakeLogbook(userData)])
+    return Promise.all([seedFakeLogbook(database.value)])
   }
 
   function getLogbooksQuery() {
-    return userData.logbooks.find()
+    return database.value.logbooks.find()
   }
 
   function getLogbookEntriesQuery(id: string) {
-    return userData.entries.find().where({ id }).sort('timestamp')
+    return database.value.entries.find().where({ id }).sort('timestamp')
   }
 
   return {
-    userData,
+    status,
+    database,
+    isReady,
+    isLoading,
 
     getLogbooksQuery,
     getLogbookEntriesQuery,
@@ -55,8 +81,6 @@ export const useDatabase = defineStore('userDatabase', () => {
     getUserDatabase,
     resetUserDatabase,
     seedUserLogbook,
-
-    logbooks: computed(() => userData.logbooks),
   }
 })
 

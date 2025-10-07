@@ -52,14 +52,11 @@ async function initDatabase(): Promise<UserDatabase> {
  * Register the plugin...
  */
 export default defineNuxtPlugin(async (nuxtApp) => {
-  // Wait for the database to be fully initialized and ready
-  const db = await initDatabase()
-
   // Inject the database and utilities into the Nuxt app context
   return {
     provide: {
       // $rxdb is the fully initialized RxDatabase instance (used by Pinia feature stores)
-      rxdb: db,
+      rxdb: initDatabase(),
 
       // You can still provide the raw storage if a custom feature needs it
       rxdbStorage: storage,
