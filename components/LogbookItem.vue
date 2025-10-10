@@ -1,7 +1,7 @@
 <template>
-  <nuxt-link :to="getLogbookRoute(document.getRouteParams())">
+  <nuxt-link :to="logbook.getRoute()">
     <Card content-class="p-2 bg-base-300">
-      <span class="card-title">{{ document.name }}</span>
+      <span class="card-title">{{ logbook.name }}</span>
       <p class="mb-1 text-sm text-gray-600">
         {{ countEntries }} entries
       </p>
@@ -16,29 +16,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useObservable } from '@vueuse/rxjs';
-import { useDatabase } from '~/store/database'
-import type { LogbookDocument } from '~/data/schemas'
+import type { LogbookItem } from '~/store/logbooks';
 
-const { document } = defineProps({
-  document: { type: Object as PropType<LogbookDocument> , required: true }
+const { logbook } = defineProps({
+  logbook: { type: Object as PropType<LogbookItem> , required: true }
 })
-
-// console.log({document})
 
 const { getLogbookRoute } = useAppRoutes()
 
-const { getUserDatabase, getLogbookEntriesQuery, getLogbooksQuery } = useDatabase()
-
-const db = await getUserDatabase()
-
-const entries = useObservable(document.getEntriesQuery(db).$)
-
-
-watchEffect(() => {
-  //   console.log('Changed', logbooks.value)
-  // console.log(entries.value)
-})
+const entries = ref([])
 
 const countEntries = computed(() => entries.value?.length)
 </script>

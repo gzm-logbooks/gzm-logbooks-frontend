@@ -31,7 +31,7 @@
         <LogbookItem
           v-for="logbook in logbooks"
           :key="logbook?.id"
-          :document="logbook"
+          :logbook="logbook"
         />
 
         <Card>
@@ -45,21 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSubscription, useObservable } from '@vueuse/rxjs'
-import { useDatabase } from '~/store/database'
+import { useLogbookStore } from '~/store/logbooks'
 
-const { getUserDatabase, seedUserLogbook, getLogbooksQuery } = useDatabase()
-
-const db = await getUserDatabase()
-// await db.waitForLeadership()
-
-const logbooks = useObservable(db.logbooks.find({}).$)
-
-// onMounted(() => {
-//   console.log('Mounted', { ...logbooks.value })
-// })
-
-// watchEffect(() => {
-//   console.log('Changed', logbooks.value)
-// })
+const { logbooks, status } = storeToRefs(useLogbookStore())
 </script>
