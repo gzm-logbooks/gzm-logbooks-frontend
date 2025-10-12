@@ -23,7 +23,6 @@ async function resetDatabase(database: RxDatabase) {
 }
 
 export const useDatabase = defineStore('userDatabase', () => {
-
   // STATE
   const status = ref<DatabaseStatus>('pending')
   const database = ref<UserDatabase | null>(null)
@@ -32,18 +31,17 @@ export const useDatabase = defineStore('userDatabase', () => {
   const isReady = computed(() => status.value === 'ready')
   const isLoading = computed(() => status.value === 'pending')
 
-
   const { $rxdb: rxdbPromise } = useNuxtApp()
 
   rxdbPromise
-      .then((db: UserDatabase) => {
-        database.value = db
-        status.value = 'ready'
-      })
-      .catch((error: any) => {
-        console.error('Failed to initialize RxDB:', error)
-        status.value = 'error'
-      })
+    .then((db: UserDatabase) => {
+      database.value = db
+      status.value = 'ready'
+    })
+    .catch((error: any) => {
+      console.error('Failed to initialize RxDB:', error)
+      status.value = 'error'
+    })
 
   async function getUserDatabase() {
     return await rxdbPromise

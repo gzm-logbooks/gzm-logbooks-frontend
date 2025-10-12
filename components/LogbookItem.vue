@@ -1,7 +1,7 @@
 <template>
   <nuxt-link :to="logbook.getRoute()">
     <Card content-class="p-2 bg-base-300">
-      <span class="card-title">{{ logbook.name }}</span>
+      <span class="card-title">{{ logbook.data.name }}</span>
       <p class="mb-1 text-sm text-gray-600">
         {{ countEntries }} entries
       </p>

@@ -56,14 +56,17 @@
 <script lang="ts">
 import { format, formatDistance } from 'date-fns'
 import { useDatabase } from '~/store/database'
-import { useAppRoutes } from '../../../../composables/useAppRoutes';
+import { useAppRoutes } from '../../../../composables/useAppRoutes'
 
 export default {
   async setup() {
     const { params } = useRoute()
-    const { logbookId, entryId } = params as { logbookId: string, entryId:string };
+    const { logbookId, entryId } = params as {
+      logbookId: string
+      entryId: string
+    }
 
-    const { getLogbookRoute }= useAppRoutes()
+    const { getLogbookRoute } = useAppRoutes()
 
     const { userData } = storeToRefs(useDatabase())
 
@@ -83,7 +86,8 @@ export default {
     }
 
     return {
-      logbook, entry
+      logbook,
+      entry,
     }
   },
   data() {

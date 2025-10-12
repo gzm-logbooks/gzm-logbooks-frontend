@@ -49,7 +49,7 @@ import { useDatabase } from '~/store/database'
 export default {
   async setup() {
     const { params } = useRoute()
-    const { logbookId } = params as { logbookId: string };
+    const { logbookId } = params as { logbookId: string }
 
     const { userData } = storeToRefs(useDatabase())
 
@@ -63,7 +63,7 @@ export default {
 
     return {
       logbook,
-      logbookId
+      logbookId,
     }
   },
   data() {

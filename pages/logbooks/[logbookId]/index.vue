@@ -38,7 +38,10 @@
       </template>
 
       <template #main-actions>
-        <nuxt-link class="btn btn-primary" :to="getLogbookCreateEntryRoute(logbook.getRouteParams())">
+        <nuxt-link
+          class="btn btn-primary"
+          :to="getLogbookCreateEntryRoute(logbook.getRouteParams())"
+        >
           Add entry
         </nuxt-link>
 
@@ -76,7 +79,10 @@
       <Card class="mb-6 bg-base-200">
         <div class="flex mb-2 space-x-4">
           <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
-          <nuxt-link class="btn btn-primary" :to="getLogbookCreateEntryRoute(logbook.getRouteParams())">
+          <nuxt-link
+            class="btn btn-primary"
+            :to="getLogbookCreateEntryRoute(logbook.getRouteParams())"
+          >
             Add entry
           </nuxt-link>
         </div>
@@ -168,14 +174,15 @@
 import { format } from 'date-fns'
 import { useDatabase } from '~/store/database'
 import { scaledMoodInput } from '~/data/config'
-import { useObservable } from '@vueuse/rxjs';
+import { useObservable } from '@vueuse/rxjs'
 
 const { params } = useRoute()
-const { logbookId } = params as { logbookId: string };
+const { logbookId } = params as { logbookId: string }
 
 const { getUserDatabase } = useDatabase()
 
-const {getLogbookRoute,getLogbookEntryRoute, getLogbookCreateEntryRoute } = useAppRoutes()
+const { getLogbookRoute, getLogbookEntryRoute, getLogbookCreateEntryRoute } =
+  useAppRoutes()
 
 const db = await getUserDatabase()
 
@@ -210,19 +217,22 @@ if (!logbook) {
 //   .exec()
 const entries = useObservable(logbook.getEntriesQuery(db).$)
 
-
 const lastEntry = computed(() => entries.value && entries.value[0])
 
 const lastWeekEntries = computed(() =>
-  (entries.value ?? []).slice(1)
-    .filter((entry) =>
-      Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp),
+  (entries.value ?? [])
+    .slice(1)
+    .filter(
+      (entry) =>
+        Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp),
     ),
 )
 const olderEntries = computed(() =>
-  (entries.value ?? []).slice(1)
-    .filter((entry) =>
-      Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp),
+  (entries.value ?? [])
+    .slice(1)
+    .filter(
+      (entry) =>
+        Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp),
     ),
 )
 
@@ -238,7 +248,6 @@ const olderDateFormatter = () =>
     month: '2-digit',
     day: '2-digit',
   })
-
 </script>
 
 <script lang="ts">

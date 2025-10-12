@@ -60,6 +60,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
       // You can still provide the raw storage if a custom feature needs it
       rxdbStorage: storage,
-    }
+    },
   }
 })
