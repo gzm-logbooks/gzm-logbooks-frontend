@@ -13,18 +13,18 @@ const props = defineProps({
     type: Object,
     default() {
       return {}
-    }
+    },
   },
   entries: {
     type: [Object, Array],
     default() {
       return {}
-    }
+    },
   },
   full: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits(['selected'])
@@ -34,26 +34,26 @@ const chartOptions = reactive({
   responsive: true,
   plugins: {
     legend: {
-      display: false
-    }
+      display: false,
+    },
   },
   elements: {
     point: {
       pointStyle: 'circle',
-      radius: 0
+      radius: 0,
     },
     line: {
       showLine: false,
       borderWidth: 0,
-      tension: 1 / 4
-    }
+      tension: 1 / 4,
+    },
   },
   scales: {
     x: {
       display: props.full,
       type: 'timeseries',
       time: {
-        unit: 'day'
+        unit: 'day',
       },
       ticks: {
         auto: true,
@@ -62,19 +62,19 @@ const chartOptions = reactive({
         // showLabelBackdrop: true,
         source: 'data',
         // maxTicksLimit: 12,
-        minRotation: 0
+        minRotation: 0,
       },
       grid: {
-        display: true
-      }
+        display: true,
+      },
       // max: new Date(),
       // suggestedMax: new Date(),
     },
     y: {
       display: false,
       min: 0,
-      max: props.full ? 1.03 : 1
-    }
+      max: props.full ? 1.03 : 1,
+    },
   },
   onClick(event, elements = [], legend) {
     const first = elements[0]
@@ -86,14 +86,14 @@ const chartOptions = reactive({
 
       emit('selected', primary)
     }
-  }
+  },
 })
 
 const canvasRef = ref()
 const chartRef = ref()
 
 function updateChart(entries) {
-  if (! chartRef.value) {
+  if (!chartRef.value) {
     return
   }
 
@@ -101,35 +101,35 @@ function updateChart(entries) {
   //   accumulator.red.push({
   //     primary: entry.primary,
   //     x: entry.timestamp,
-  //     y: entry.amountRed ?? 0
+  //     y: entry.amountAnxiety ?? 0
   //   })
   //   accumulator.amber.push({
   //     primary: entry.primary,
   //     x: entry.timestamp,
-  //     y: entry.amountAmber ?? 0
+  //     y: entry.amountGrowth ?? 0
   //   })
   //   accumulator.green.push({
   //     primary: entry.primary,
   //     x: entry.timestamp,
-  //     y: entry.amountGreen ?? 0
+  //     y: entry.amountComfort ?? 0
   //   })
   //   return accumulator
   // }, {
-  //   red: [],
-  //   amber: [],
-  //   green: []
+  //   anxiety: [],
+  //   growth: [],
+  //   comfort:  []
   // })
 
-  const { comfort, growth, anxiety } = tailwindConfig.theme.colors
+  const { green, amber, red } = tailwindConfig.theme.colors
 
   chartRef.value.data.datasets = [
-  {
+    {
       fill: {
         target: 'origin',
-        above: comfort
+        above: comfort,
       },
       data: [],
-      stepped: props.full ? false : 'before'
+      stepped: props.full ? false : 'before',
     },
     // {
     //   fill: {
@@ -169,19 +169,18 @@ onMounted(() => {
     type: 'line',
     options: Object.assign(toRaw(chartOptions), props.options),
     data: {
-      datasets: []
-    }
+      datasets: [],
+    },
   })
 
   chartRef.value = new Chart(canvasRef.value, {
     type: 'line',
     options: {}, // chartOptions, // Object.assign(toRaw(chartOptions), props.options),
     data: {
-      datasets: []
-    }
+      datasets: [],
+    },
   })
 
   // updateChart(props.entries)
 })
-
 </script>

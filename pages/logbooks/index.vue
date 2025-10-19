@@ -24,7 +24,7 @@
 
     <div class="flex justify-end gap-2 mb-4" />
 
-    <Card v-if="logbooks" class="mb-4 bg-base-200">
+    <Card v-if="status === 'ready'" class="mb-4 bg-base-200">
       <template #title />
 
       <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

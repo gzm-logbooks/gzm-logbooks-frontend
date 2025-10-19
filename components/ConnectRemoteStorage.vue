@@ -6,7 +6,7 @@
 import Widget from 'remotestorage-widget'
 
 export default {
-  async mounted () {
+  async mounted() {
     const { $remoteStorage: storage } = this
     const { widgetContainer: element } = this.$refs
 
@@ -25,6 +25,6 @@ export default {
       //   (widget) => widget.attach(element.id)
       // )
     })
-  }
+  },
 }
 </script>

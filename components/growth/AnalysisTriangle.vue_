@@ -85,8 +85,8 @@ export default {
       return `translate(200,25)
         rotate(45)
         translate(
-          ${(scaled?.amountRed ?? 0) * scaler},
-          ${(scaled?.amountGreen ?? 0) * scaler}
+          ${(scaled?.amountAnxiety ?? 0) * scaler},
+          ${(scaled?.amountComfort ?? 0) * scaler}
         )`
     },
   },

@@ -96,18 +96,18 @@
 import { useDatabase } from '~/store/database'
 
 export default {
-  data () {
+  data() {
     const { siteTitle: title, appInfo } = this.$config.public
     const { buildName } = appInfo
 
     return {
       title,
-      buildName
+      buildName,
     }
   },
 
   computed: {
-    canGoBack () {
+    canGoBack() {
       // const router = useRouter()
       const { $router } = this
 
@@ -117,11 +117,11 @@ export default {
       // return window?.history?.length > 2
 
       return false
-    }
+    },
   },
 
   methods: {
-    async resetDatabase (): Promise<void> {
+    async resetDatabase(): Promise<void> {
       // TODO: Get storage..
       // const router = useRouter()
       const { $router } = this
@@ -129,10 +129,10 @@ export default {
 
       await resetUserDatabase()
 
-      await reloadNuxtApp();
+      await reloadNuxtApp()
 
-      console.log("Reloading app...")
-    }
-  }
+      console.log('Reloading app...')
+    },
+  },
 }
 </script>

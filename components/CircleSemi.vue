@@ -4,57 +4,50 @@
       d="M0,50 a1,1 0 0,1 100,0"
       transform-origin="bottom center"
       :transform="scaleRed"
-      :fill="anxiety"
+      :fill="ratingColors.anxiety"
     />
     <path
       d="M0,50 a1,1 0 0,1 100,0"
       transform-origin="bottom center"
       :transform="scaleAmber"
-      :fill="growth"
+      :fill="ratingColors.growth"
     />
     <path
       d="M0,50 a1,1 0 0,1 100,0"
       transform-origin="bottom center"
       :transform="scaleGreen"
-      :fill="comfort"
+      :fill="ratingColors.comfort"
     />
   </svg>
 </template>
 
 <script lang="ts">
 import tailwindConfig from '#tailwind-config'
+import { useTheme } from '~/composables/useTheme'
 
 export default {
   props: {
     state: {
       type: Object,
-      default () {
-        return {
-          red: 3 / 3,
-          amber: 2 / 3,
-          green: 1 / 3
-        }
-      }
-    }
+    },
   },
-  data () {
-    const { comfort, growth, anxiety } = tailwindConfig.theme.colors
+  setup() {
+    const { ratingColors } = useTheme()
+
     return {
-      anxiety,
-      growth,
-      comfort
+      ratingColors,
     }
   },
   computed: {
-    scaleRed () {
-      return `scale(${this.state.red})`
+    scaleRed() {
+      return `scale(${this.state.anxiety})`
     },
-    scaleAmber () {
-      return `scale(${this.state.amber})`
+    scaleAmber() {
+      return `scale(${this.state.growth})`
     },
-    scaleGreen () {
-      return `scale(${this.state.green})`
-    }
-  }
+    scaleGreen() {
+      return `scale(${this.state.comfort})`
+    },
+  },
 }
 </script>

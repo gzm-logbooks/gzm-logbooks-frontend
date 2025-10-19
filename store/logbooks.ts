@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, watchEffect, watch, computed, readonly } from 'vue'
+import { ref, watchEffect, watch, computed, readonly, toRaw } from 'vue'
 import { nanoid } from 'nanoid'
 import { useDatabase } from './database'
 import { useAppRoutes } from '~/composables/useAppRoutes'
@@ -7,14 +7,15 @@ import type {
   LogbookDocumentType,
   LogbookCollection,
   LogbookDocument,
-} from '~/data/schemas/logbook'
+} from '~/store/database/rxdb/schemas/logbook'
 import type { RouteLocationRaw } from 'vue-router'
 import type {
+  LogbookEntryCollection,
   LogbookEntryDocument,
   LogbookEntryDocumentType,
-} from '~/data/schemas'
+} from '~/store/database/rxdb/schemas'
 
-import { useSubscription } from '@vueuse/rxjs'
+import { useSubscription, useObservable } from '@vueuse/rxjs'
 
 export interface LogbookItem {
   data: LogbookDocumentType
@@ -44,109 +45,85 @@ export interface LogbookEntryItem {
 
 // Define the possible states for local data loading
 // Note the added 'waiting_db' state which reflects the dependency hierarchy.
-type StoreStatus = 'waiting_db' | 'pending' | 'loaded' | 'error'
+type LogbooksReadyStatus = 'pending' | 'ready' | 'error'
 
-export const useLogbookStore = defineStore('logbook', () => {
-  const dbStore = useDatabase()
+export const useLogbookStore = defineStore('logbooks', () => {
   const router = useAppRoutes()
 
-  // State and internal vars...
-  const logbooksDocuments = ref<LogbookDocument[]>([])
-  let logbooksCollection: LogbookCollection | undefined
-  let logbooksSubscribed = false
-  let logbooksLoaded = false
-  let logbooksError = false
+  let logbooksDocuments: Ref
+  let entriesDocuments: Ref
 
-  const entriesDocuments = ref<LogbookEntryDocument[]>([])
-  let entriesCollection: LogbookCollection | undefined
-  let entriesSubscribed = false
-  let entriesLoaded = false
-  let entriesError = false
+  // State and internal vars...
+  const logbooksError = ref<any>(null)
+
+  const entriesError = ref<any>(null)
 
   // Start in the state where we are waiting for the dependency
-  const status = ref<StoreStatus>('waiting_db')
+  const status = ref<LogbooksReadyStatus>('pending')
 
   // Convenience computed properties for external use
-  const isLoading = computed(
-    () => status.value === 'pending' || status.value === 'waiting_db',
-  )
-  const isLoaded = computed(() => status.value === 'loaded')
+  const isLoading = computed(() => status.value === 'pending')
+  const isLoaded = computed(() => status.value === 'ready')
   const hasError = computed(() => status.value === 'error')
 
   /**
    * Finds the collection reference and starts the subscription.
    */
   function setupSubscriptions() {
+    const { database, status: databaseStatus } = useDatabase()
+
     // Only run if the database is actually ready
-    if (dbStore.status !== 'ready') {
+    if (databaseStatus !== 'ready' || !database) {
       return
     }
 
     status.value = 'pending' // Transition to local loading state
 
-    const db = dbStore.database
-    if (!db) return // Should not happen if status is 'ready', but safe guard
-
-    // All logbooks...
-    if (!logbooksSubscribed) {
-      logbooksCollection = db.logbooks
-      logbooksSubscribed = true
-
-      // Define the reactive RxDB query
-      const query = logbooksCollection.find().sort({ name: 'asc' })
-      // --- 1. Logbook Subscription (Parent Data) ---
-      const logbookQuery = logbooksCollection.find().sort({ name: 'asc' })
-
-      useSubscription(
-        logbookQuery.$.subscribe({
-          next: (docs) => {
-            logbooksDocuments.value = docs
-            logbooksLoaded = true
-            logbooksError = null // Clear any previous error on success
-          },
-          error: (err) => {
-            console.error('Logbook RxDB Subscription Error:', err)
-            logbooksDocuments.value = []
-            logbooksLoaded = false
-            logbooksError = err
-          },
-        }),
-      )
-    }
+    // All logbooks
+    logbooksDocuments = useObservable(
+      database.logbooks.find().sort({ name: 'asc' }).$,
+      {
+        onError: (err) => {
+          console.error('Logbook RxDB Subscription Error:', err)
+          logbooksError.value = err
+        },
+      },
+    )
 
     // All entries...
     // TODO: Do we really need to fetch all entries?
-    if (!entriesSubscribed) {
-      entriesCollection = db.entries
-      entriesSubscribed = true
+    entriesDocuments = useObservable(database.entries.find().$, {
+      onError: (err) => {
+        console.error('Logbook RxDB Subscription Error:', err)
+        entriesError.value = err
+      },
+    })
 
-      const entriesQuery = entriesCollection.find()
+    status.value = 'ready'
+  }
 
-      useSubscription(
-        entriesQuery.$.subscribe({
-          next: (docs) => {
-            entriesDocuments.value = docs
-            entriesLoaded = true
-            entriesError = null // Clear any previous error on success
-          },
-          error: (err) => {
-            console.error('Logbook Entries RxDB Subscription Error:', err)
-            entriesDocuments.value = []
-            entriesLoaded = false
-            entriesError = err
-          },
-        }),
-      )
+  async function createLogbook(name: string) {
+    const { database, status: databaseStatus } = useDatabase()
+
+    if (!database?.logbooks) {
+      throw new Error('Internal database not ready')
     }
+
+    await database.logbooks.insert({
+      id: nanoid(10),
+      name: name.trim(),
+    })
   }
 
   // Watch the database status and trigger transitions accordingly.
-  watch(
-    () => dbStore.status,
-    (dbStatus) => {
-      console.log(`Logbook Store: DB status changed to ${dbStatus}.`)
+  const databaseStore = useDatabase()
 
-      if (dbStatus === 'ready' && (!logbooksSubscribed || !entriesSubscribed)) {
+  watch(
+    () => databaseStore.status,
+    (databaseStatus) => {
+      console.log(`Logbook Store: DB status changed to ${databaseStatus}.`)
+
+      if (databaseStatus === 'ready') {
         // Database is ready, and we haven't started listening yet -> Go to PENDING (local loading)
         setupSubscriptions()
       }
@@ -154,59 +131,52 @@ export const useLogbookStore = defineStore('logbook', () => {
     { immediate: true },
   )
 
-  async function createLogbook(name: string) {
-    if (!logbooksCollection) {
-      throw new Error('Internal database not ready')
-    }
-
-    await logbooksCollection.insert({
-      id: nanoid(10),
-      name: name.trim(),
-    })
-  }
+  // TODO
+  // const logbookEntries
 
   const logbooks = computed<LogbookItem[]>(() => {
-    if (status.value === 'error' || !logbooksCollection) {
-      return []
-    }
-
     // Apply the transformation only when logbooksDocuments changes
-    return logbooksDocuments.value.map((doc: LogbookDocument): LogbookItem => {
-      // 1. Get plain data (strips RxDB persistence methods)
-      const data = doc.toJSON() as LogbookDocumentType
+    return Array.from(logbooksDocuments?.value ?? []).map(
+      (doc: LogbookDocument): LogbookItem => {
+        // 1. Get plain data (strips RxDB persistence methods)
+        const data = doc.toJSON() as LogbookDocumentType
 
-      const logbookId = data.id
+        const logbookId = data.id
 
-      // 2. Inject Presentation/Action methods
-      return {
-        data,
+        // 2. Inject Presentation/Action methods
+        return {
+          data,
 
-        // Model actions...
-        update: (fields: Partial<LogbookDocumentType>) => {
-          return doc.patch({ ...fields })
-        },
+          // Model actions...
+          update: (fields: Partial<LogbookDocumentType>) => {
+            return doc.patch({ ...fields })
+          },
 
-        delete: () => {
-          return doc.remove()
-        },
+          delete: () => {
+            return doc.remove()
+          },
 
-        addEntry: (fields: LogbookEntryDocumentType) => {
-          // TODO: Use logbookEntry store when implemented...
-        },
+          addEntry: (fields: LogbookEntryDocumentType) => {
+            // TODO: Use logbookEntry store when implemented...
+          },
 
-        // Routes...
-        getRoute: () => router.getLogbookRoute({ logbookId }),
-        getEntryRoute: (entryId: string) =>
-          router.getLogbookEntryRoute({ logbookId, entryId }),
-        getCreateEntryRoute: () =>
-          router.getLogbookCreateEntryRoute({ logbookId }),
-      }
-    })
+          // Routes...
+          getRoute: () => router.getLogbookRoute({ logbookId }),
+          getEntryRoute: (entryId: string) =>
+            router.getLogbookEntryRoute({ logbookId, entryId }),
+          getCreateEntryRoute: () =>
+            router.getLogbookCreateEntryRoute({ logbookId }),
+        }
+      },
+    )
   })
 
   return {
+    status,
+    logbooksDocuments,
+    entriesDocuments,
+
     logbooks,
-    status, // Expose the full status
     isLoading,
     isLoaded,
     hasError,

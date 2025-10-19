@@ -5,7 +5,7 @@ import { wrappedValidateAjvStorage } from 'rxdb/plugins/validate-ajv'
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
 import { RxDBMigrationSchemaPlugin } from 'rxdb/plugins/migration-schema'
-import { collections, type UserDatabase } from '~/data/database'
+import { collections, type UserDatabase } from '~/store/database/rxdb/database'
 
 // 1. Add ALL RxDB plugins here
 addRxPlugin(RxDBQueryBuilderPlugin)

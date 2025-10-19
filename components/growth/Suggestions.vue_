@@ -41,29 +41,29 @@ export default {
       //
       const scaled = scaledModeInput(this.mood)
 
-      const { amountRed, amountGreen } = scaled
+      const { amountAnxiety, amountComfort } = scaled
 
-      if (amountRed < 1 / 3 && amountGreen < 1 / 3) {
+      if (amountAnxiety < 1 / 3 && amountComfort < 1 / 3) {
         return 0
       }
 
-      if (amountRed < 1 / 3 && amountGreen < 2 / 3) {
+      if (amountAnxiety < 1 / 3 && amountComfort < 2 / 3) {
         return 1
       }
 
-      if (amountRed < 2 / 3 && amountGreen < 1 / 3) {
+      if (amountAnxiety < 2 / 3 && amountComfort < 1 / 3) {
         return 2
       }
 
-      if (amountGreen > 2 / 3) {
+      if (amountComfort > 2 / 3) {
         return 3
       }
 
-      if (amountRed > 1 / 3 && amountGreen > 1 / 3) {
+      if (amountAnxiety > 1 / 3 && amountComfort > 1 / 3) {
         return 4
       }
 
-      if (amountRed > 2 / 3) {
+      if (amountAnxiety > 2 / 3) {
         return 5
       }
 

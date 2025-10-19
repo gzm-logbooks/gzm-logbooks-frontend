@@ -7,29 +7,23 @@
     <!-- Stats -->
     <div class="grid grid-cols-3 mb-4">
       <div class="stat">
-        <div class="stat-title">
-          Growth
-        </div>
+        <div class="stat-title">Growth</div>
         <div v-if="scaled" class="stat-value">
-          {{ scaled.amountAmber.toFixed(2) }}
+          {{ scaled.amountGrowth.toFixed(2) }}
         </div>
       </div>
 
       <div class="stat">
-        <div class="stat-title">
-          Anxiety
-        </div>
+        <div class="stat-title">Anxiety</div>
         <div v-if="scaled" class="stat-value">
-          {{ scaled.amountRed.toFixed(2) }}
+          {{ scaled.amountAnxiety.toFixed(2) }}
         </div>
       </div>
 
       <div class="stat">
-        <div class="stat-title">
-          Comfort
-        </div>
+        <div class="stat-title">Comfort</div>
         <div v-if="scaled" class="stat-value">
-          {{ scaled.amountGreen.toFixed(2) }}
+          {{ scaled.amountComfort.toFixed(2) }}
         </div>
       </div>
     </div>
@@ -52,8 +46,8 @@
             y2="141.421"
             gradientTransform="matrix(0, -1, 2.82842712475, 0, 0, 0)"
           >
-            <stop offset="0" :style="`stop-color: ${comfort}`" />
-            <stop offset="1" :style="`stop-color: ${anxiety}`" />
+            <stop offset="0" :style="`stop-color: ${ratingColors.comfort}`" />
+            <stop offset="1" :style="`stop-color: ${ratingColors.anxiety}`" />
           </linearGradient>
 
           <linearGradient
@@ -65,7 +59,7 @@
             y2="141.421"
             gradientTransform="matrix(1, 0, 0, 1, 0, 0)"
           >
-            <stop offset="0" :style="`stop-color: ${growth}`" />
+            <stop offset="0" :style="`stop-color: ${ratingColors.growth}`" />
             <stop offset="1" :style="`stop-color: ${growthOpacity}`" />
           </linearGradient>
         </defs>
@@ -107,22 +101,26 @@
 </template>
 
 <script lang="ts">
-import { scaledMoodInput, getTriangleSection } from '~/data/config'
 import tailwindConfig from '#tailwind-config'
+import { useTheme } from '~/composables/useTheme'
+import { useRatingStore } from '~/store/rating'
 export default {
   props: {
-    mood: { type: Object, default: null }
+    mood: { type: Object, default: null },
   },
 
-  data () {
-    const { comfort, growth, anxiety } = tailwindConfig.theme.colors
+  setup() {
+    const { scaledMoodInput } = useRatingStore()
+    const { section } = storeToRefs(useRatingStore)
 
-    const growthOpacity = growth + '00'
+    const { ratingColors } = useTheme()
+
+    const growthOpacity = ratingColors.growth + '00'
 
     return {
-      comfort,
-      growth,
-      anxiety,
+      ratingColors,
+      scaledMoodInput,
+
       growthOpacity,
       resources: [
         'zone not found',
@@ -131,45 +129,37 @@ export default {
         'zone 3',
         'zone 4',
         'zone 5',
-        'zone 6'
-      ]
+        'zone 6',
+      ],
+      section
     }
   },
 
   computed: {
-    scaled () {
+    scaled() {
       if (this.mood) {
-        return scaledMoodInput(this.mood)
+        return this.scaledMoodInput(this.mood)
       }
 
       return null
     },
-    triangleTransform () {
+    triangleTransform() {
       if (!this.mood) {
         return ''
       }
 
       //
-      const scaled = scaledMoodInput(this.mood)
+      const scaled = this.scaledMoodInput(this.mood)
 
       const scaler = 200 * Math.sqrt(2)
 
       return `translate(200,25)
         rotate(45)
         translate(
-          ${(scaled?.amountRed ?? 0) * scaler},
-          ${(scaled?.amountGreen ?? 0) * scaler}
+          ${(scaled?.amountAnxiety ?? 0) * scaler},
+          ${(scaled?.amountComfort ?? 0) * scaler}
         )`
     },
-    section () {
-      if (!this.mood) {
-        return ''
-      }
-
-      const scaled = scaledMoodInput(this.mood)
-
-      return getTriangleSection(scaled)
-    }
-  }
+  },
 }
 </script>

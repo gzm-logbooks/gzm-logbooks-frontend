@@ -36,25 +36,25 @@
             :cx="viewbox.center"
             :cy="viewbox.center"
             r="50"
-            :transform="`scale(${model.red})`"
+            :transform="`scale(${model.anxiety})`"
             class="raginput__circle text-anxiety"
-            :fill="anxiety"
+            :fill="ratingColors.anxiety"
           />
           <circle
             :cx="viewbox.center"
             :cy="viewbox.center"
             r="50"
-            :transform="`scale(${model.amber})`"
+            :transform="`scale(${model.growth})`"
             class="raginput__circle text-growth"
-            :fill="growth"
+            :fill="ratingColors.growth"
           />
           <circle
             :cx="viewbox.center"
             :cy="viewbox.center"
             r="50"
-            :transform="`scale(${model.green})`"
+            :transform="`scale(${model.comfort})`"
             class="raginput__circle text-comfort"
-            :fill="comfort"
+            :fill="ratingColors.comfort"
           />
         </g>
       </svg>
@@ -63,9 +63,11 @@
 </template>
 
 <script lang="ts">
+import { useRatingStore } from '~/store/rating'
+
 import { clamp, defaults } from 'lodash-es'
-import { growthInputDefaults } from '~/data/config'
-import tailwindConfig from '#tailwind-config'
+import { growthInputDefaults } from '~/data/mood'
+import { useTheme } from '~/composables/useTheme'
 
 function getTouchEventCoords (params) {
   // Get viewpoint coords.
@@ -94,21 +96,18 @@ export default {
       default: 14
     }
   },
-  data () {
-    const { comfort, growth, anxiety } = tailwindConfig.theme.colors
-    return {
-      state: {},
-      defaultState: {
-        red: 3 / 3,
-        amber: 2 / 3,
-        green: 1 / 3
-      },
+  setup () {
+    const rating = useRatingStore()
+    const { ratingColors } = useTheme()
+
+
+
+  return {
+    ratingColors,
+    rating,
       dragDiff: 0,
       circleSize: 100,
       currentCircle: null,
-      anxiety,
-      growth,
-      comfort
     }
   },
   computed: {
@@ -129,10 +128,10 @@ export default {
     },
     model: {
       get () {
-        return defaults({}, this.state, this.value, this.defaultState)
+        return this.rating.
       },
       set (newValue) {
-        this.state = newValue
+        this.rating. = newValue
       }
     }
   },
@@ -164,9 +163,9 @@ export default {
       this.currentCircle = this.getCirclePicked(scale)
 
       if (this.currentCircle === 'amber') {
-        this.dragDiff = scale - this.model.amber
+        this.dragDiff = scale - this.model.growth
       } else {
-        this.dragDiff = scale - this.model.green
+        this.dragDiff = scale - this.model.comfort
       }
     },
 
@@ -194,7 +193,13 @@ export default {
 
       //
       const { scale } = this.getRelativeCoords(viewportCoords)
-      this.updateCircleScale(currentCircle, scale)
+
+      if (this.currentCircle == 'amber') {
+        return this.updateCircleScale(currentCircle, scale)
+      }
+
+
+      throw Error('Unmatched circle')
     },
 
     //
@@ -218,7 +223,7 @@ export default {
     //
     getCirclePicked (scale) {
       // Pick which circle is effected.
-      const thresh = (this.model.amber + this.model.green) / 2
+      const thresh = (this.model.growth + this.model.comfort) / 2
 
       if (scale > thresh) {
         return 'amber'
@@ -227,35 +232,6 @@ export default {
       }
     },
 
-    updateCircleScale (circle, scale) {
-      const { padding, minRadius } = growthInputDefaults
-
-      if (circle === 'amber') {
-        //
-        this.$set(
-          this.state,
-          'amber',
-          clamp(scale - this.dragDiff, minRadius + padding, 1 - padding)
-        )
-
-        if (this.model.amber - this.model.green < padding) {
-          this.$set(this.state, 'green', this.model.amber - padding)
-        }
-      }
-
-      if (circle === 'green') {
-        //
-        this.$set(
-          this.state,
-          'green',
-          clamp(scale - this.dragDiff, minRadius, 1 - padding * 2)
-        )
-
-        if (this.model.amber - this.model.green < padding) {
-          this.$set(this.state, 'amber', this.model.green + padding)
-        }
-      }
-    }
   }
 }
 </script>

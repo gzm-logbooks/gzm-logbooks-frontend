@@ -8,30 +8,42 @@
 </template>
 
 <script lang="ts">
-import {
-  circleInputModelToEntryAmounts,
-  entryAmountsToCircleInputModel
-} from '~/data/utils'
-
 export default {
   props: {
     context: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     value: {
-      get () {
-        return entryAmountsToCircleInputModel(this.context.model)
+      get() {
+        return this.entryAmountsToCircleInputModel(this.context.model)
       },
-      set (newValue) {
-        const amounts = circleInputModelToEntryAmounts(newValue)
+      set(newValue) {
+        const amounts = this.circleInputModelToEntryAmounts(newValue)
 
         // Update formulate context.
-        this.$set(this.context, 'model', amounts)
+        this.context.model = amounts
+      },
+    },
+  },
+  methods: {
+    entryAmountsToCircleInputModel(entry) {
+      return {
+        anxiety: 1,
+        growth: entry.amountGrowth,
+        comfort: entry.amountComfort,
       }
-    }
-  }
+    },
+
+    circleInputModelToEntryAmounts(model) {
+      return {
+        amountAnxiety: 1, // Outer ring is fixed.
+        amountGrowth: model.growth,
+        amountComfort: model.comfort,
+      }
+    },
+  },
 }
 </script>

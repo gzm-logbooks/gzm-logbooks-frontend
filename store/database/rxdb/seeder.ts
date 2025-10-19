@@ -1,9 +1,9 @@
 import type { RxDatabase, RxDocument } from 'rxdb'
 import { nanoid } from 'nanoid'
-import { growthInputDefaults, validateMoodInput } from '~/data/config'
-import type { UserDatabase } from '~/data/database'
-import type { LogbookDocument } from '~/data/schemas'
+import type { UserDatabase } from '~/store/database/rxdb/database'
+import type { LogbookDocument } from '~/store/database/rxdb/schemas'
 
+import { growthInputDefaults } from '~/data/mood'
 const hour = 1000 * 60 * 60
 const day = hour * 24
 const week = day * 7
@@ -80,10 +80,30 @@ export const seedFakeLogbook = async function (
 
 /**
  *
+ */
+function validateMoodInput(value) {
+  const { padding, minRadius } = growthInputDefaults
+
+  const amountComfort = clamp(value.amountComfort, minRadius, 1 - padding * 2)
+  const amountGrowth = clamp(
+    value.amountGrowth,
+    amountComfort + padding,
+    1 - padding,
+  )
+
+  return {
+    amountGreen,
+    amountAmber,
+    amountRed: 1,
+  }
+}
+
+/**
+ *
  * @returns
  */
 export function fakeMoodInputValues() {
-  const { padding, minRadius } = growthInputDefaults
+  const { padding, minRadius } = rating.growthInputDefaults
 
   // const max = { red: 0.05, amber: 0.33 }
 

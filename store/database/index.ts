@@ -1,8 +1,8 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import type { RxDatabase, RxStorage } from 'rxdb'
 import { addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb'
-import type { UserDatabase } from '~/data/database'
-import { seedFakeLogbook } from '~/data/seeder'
+import type { UserDatabase } from './database'
+import { seedFakeLogbook } from '~/store/database/rxdb/seeder'
 
 type DatabaseStatus = 'pending' | 'ready' | 'error'
 

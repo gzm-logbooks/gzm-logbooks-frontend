@@ -104,9 +104,9 @@
             <CircleSemi
               class="col-span-2 col-start-2 entry__slice"
               :state="{
-                red: lastEntry.amountRed,
-                amber: lastEntry.amountAmber,
-                green: lastEntry.amountGreen,
+                anxiety: lastEntry.amountAnxiety,
+                growth: lastEntry.amountGrowth,
+                comfort:  lastEntry.amountComfort,
               }"
             />
           </nuxt-link>
@@ -126,9 +126,9 @@
               style="height: 60px"
               class="col-span-2 col-start-2 entry__slice"
               :state="{
-                red: entry.amountRed,
-                amber: entry.amountAmber,
-                green: entry.amountGreen,
+                anxiety: entry.amountAnxiety,
+                growth: entry.amountGrowth,
+                comfort:  entry.amountComfort,
               }"
             />
           </nuxt-link>
@@ -150,9 +150,9 @@
               style="height: 30px"
               class="col-span-2 col-start-2 entry__slice"
               :state="{
-                red: entry.amountRed,
-                amber: entry.amountAmber,
-                green: entry.amountGreen,
+                anxiety: entry.amountAnxiety,
+                growth: entry.amountGrowth,
+                comfort:  entry.amountComfort,
               }"
             />
           </nuxt-link>
@@ -173,18 +173,20 @@
 <script lang="ts" setup>
 import { format } from 'date-fns'
 import { useDatabase } from '~/store/database'
-import { scaledMoodInput } from '~/data/config'
 import { useObservable } from '@vueuse/rxjs'
+import { useRatingStore } from '~/store/rating';
 
 const { params } = useRoute()
 const { logbookId } = params as { logbookId: string }
 
 const { getUserDatabase } = useDatabase()
+const {scaledMoodInput } = useRatingStore()
 
 const { getLogbookRoute, getLogbookEntryRoute, getLogbookCreateEntryRoute } =
   useAppRoutes()
 
 const db = await getUserDatabase()
+
 
 const { data, error, status } = await useAsyncData(async () => {
   return {
@@ -292,21 +294,21 @@ export default {
 
     downloadLogbook() {
       const data = this.entries.map((entry) => {
-        const { timestamp, comment, amountRed, amountAmber, amountGreen } =
+        const { timestamp, comment, amountAnxiety, amountGrowth, amountComfort } =
           entry
 
         const mood = scaledMoodInput({
-          amountRed,
-          amountAmber,
-          amountGreen,
+          amountAnxiety,
+          amountGrowth,
+          amountComfort,
         })
 
         return [
           format(new Date(timestamp), 'yyyy-MM-dd'),
           comment,
-          mood.amountRed.toFixed(4),
-          mood.amountAmber.toFixed(4),
-          mood.amountGreen.toFixed(4),
+          mood.amountAnxiety.toFixed(4),
+          mood.amountGrowth.toFixed(4),
+          mood.amountComfort.toFixed(4),
         ]
       })
 

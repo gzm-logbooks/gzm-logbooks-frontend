@@ -29,41 +29,18 @@
 </template>
 
 <script lang="ts">
-import {
-  scaledMoodInput,
-  getTriangleSection,
-  analysisSectionPrompts
-} from '~/data/config'
+import { useRatingStore } from '~/store/rating'
 
 export default {
-  data () {
+  setup() {
+    const rating = useRatingStore()
+
     return {
-      questions: analysisSectionPrompts,
+      questionPrompt: rating.questionPrompt,
 
       // question: 'Zone not found',
-      section: null
+      section: rating.section,
     }
   },
-
-  computed: {
-    questionPrompt () {
-      const { section, questions } = this
-
-      if (section) {
-        return questions[section] ?? null
-      }
-
-      //
-      return null
-    }
-  },
-
-  methods: {
-    updateSection (moodInputData) {
-      const scaled = scaledMoodInput(moodInputData)
-
-      this.section = getTriangleSection(scaled)
-    }
-  }
 }
 </script>

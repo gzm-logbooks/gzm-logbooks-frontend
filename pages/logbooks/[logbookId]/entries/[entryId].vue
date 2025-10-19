@@ -135,9 +135,9 @@ export default {
         timestamp,
         comment,
 
-        amountRed,
-        amountAmber,
-        amountGreen,
+        amountAnxiety,
+        amountGrowth,
+        amountComfort,
       } = this.entry
 
       //
@@ -145,9 +145,9 @@ export default {
         timestamp: format(new Date(timestamp), 'yyyy-MM-dd'),
         comment,
         mood: {
-          amountRed,
-          amountAmber,
-          amountGreen,
+          amountAnxiety,
+          amountGrowth,
+          amountComfort,
         },
       }
     },

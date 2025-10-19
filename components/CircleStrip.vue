@@ -5,7 +5,7 @@
       height="100%"
       transform-origin="center"
       :transform="scaleRed"
-      :fill="anxiety"
+      :fill="ratingColors.anxiety"
     />
 
     <rect
@@ -13,7 +13,7 @@
       height="100%"
       transform-origin="center"
       :transform="scaleAmber"
-      :fill="growth"
+      :fill="ratingColors.growth"
     />
 
     <rect
@@ -21,45 +21,37 @@
       height="100%"
       transform-origin="center"
       :transform="scaleGreen"
-      :fill="comfort"
+      :fill="ratingColors.comfort"
     />
   </svg>
 </template>
 
 <script lang="ts">
 import tailwindConfig from '#tailwind-config'
+import { useTheme } from '~/composables/useTheme'
+import { useRatingStore } from '~/store/rating'
 
 export default {
   props: {
-    state: {
-      type: Object,
-      default () {
-        return {
-          red: 3 / 3,
-          amber: 2 / 3,
-          green: 1 / 3
-        }
-      }
-    }
+    state: {},
   },
-  data () {
-    const { comfort, growth, anxiety } = tailwindConfig.theme.colors
+  setup() {
+    const { ratingColors } = useTheme()
+
     return {
-      anxiety,
-      growth,
-      comfort
+      ratingColors,
     }
   },
   computed: {
-    scaleRed () {
-      return `scale(${this.state.red},1)`
+    scaleRed() {
+      return `scale(${this.state.anxiety},1)`
     },
-    scaleAmber () {
-      return `scale(${this.state.amber},1)`
+    scaleAmber() {
+      return `scale(${this.state.growth},1)`
     },
-    scaleGreen () {
-      return `scale(${this.state.green},1)`
-    }
-  }
+    scaleGreen() {
+      return `scale(${this.state.comfort},1)`
+    },
+  },
 }
 </script>

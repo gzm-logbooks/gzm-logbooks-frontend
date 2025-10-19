@@ -11,9 +11,9 @@
         <DemoWarning />
       </LayoutContainer>
 
-      <!-- <NuxtErrorBoundary @error="logError"> -->
-      <slot class="px-4" />
-      <!-- </NuxtErrorBoundary> -->
+      <NuxtErrorBoundary @error="logError">
+        <slot class="px-4" />
+      </NuxtErrorBoundary>
     </div>
   </ClientOnly>
 </template>
@@ -37,7 +37,7 @@ function logError(error) {
 
   console.error({ message, stack })
 
-  throw error
+  // throw error
 }
 
 const { getUserDatabase } = useDatabase()

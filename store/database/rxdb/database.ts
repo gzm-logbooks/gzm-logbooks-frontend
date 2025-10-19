@@ -9,7 +9,7 @@ import {
   logbookEntryDocumentMethods,
   type LogbookCollection,
   type LogbookEntryCollection,
-} from '~/data/schemas'
+} from '~/store/database/rxdb/schemas'
 
 export type DatabaseCollections = {
   logbooks: LogbookCollection
