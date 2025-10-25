@@ -32,10 +32,10 @@ useHead({
   },
 })
 
-function logError(error) {
-  const { message, stack } = error
+function logError(error: Error) {
+  const { message, stack, cause } = error
 
-  console.error({ message, stack })
+  console.error(error, { message, stack, cause })
 
   // throw error
 }

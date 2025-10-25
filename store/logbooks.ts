@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, watchEffect, watch, computed, readonly, toRaw } from 'vue'
 import { nanoid } from 'nanoid'
-import { EMPTY } from 'rxjs'
+import { EMPTY, Observable } from 'rxjs'
 import { useDatabase } from './database'
 import { useAppRoutes } from '~/composables/useAppRoutes'
 import type {
@@ -17,7 +17,7 @@ import type {
 } from '~/store/database/rxdb/schemas'
 
 import { keyBy } from 'lodash-es'
-import { useSubscription, useObservable } from '@vueuse/rxjs'
+import { useSubscription, useObservable, toObserver, from } from '@vueuse/rxjs'
 import { compareAsc } from 'date-fns'
 
 export interface LogbookItem {
@@ -61,31 +61,43 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
   const { database, status: databaseStatus } = storeToRefs(useDatabase())
 
-  const logbooksSource$ = computed(() => {
+  const logbooksSource$: Ref<Observable<LogbookDocument[]>> = computed(() => {
     // Only return the actual RxDB query stream if the database is ready
     if (databaseStatus.value === 'ready' && !!database.value) {
-      return database.value.logbooks.find().sort({ name: 'asc' }).$
+      return toRaw(database.value.logbooks.find().sort({ name: 'asc' }).$)
     }
+
     // Otherwise, return an empty stream
     return EMPTY
   })
 
   // --- 2. Create the Vue Ref ONCE at the top level ---
   // This is the CRITICAL line that ensures cleanup
-  const logbooksObservableRef = useObservable(logbooksSource$, {
-    onError: (err) => {
-      console.error('Logbook RxDB Subscription Error:', err)
-      logbooksError.value = err
-      status.value = 'error'
+  const logbooksObservableRef = useObservable(
+    () => {
+      if (databaseStatus.value === 'ready' && !!database.value) {
+        return toRaw(database.value.logbooks.find().sort({ name: 'asc' }).$)
+      }
+
+      // Otherwise, return an empty stream
+      return EMPTY
     },
-  }) as Ref<LogbookDocument[] | undefined>
+    {
+      onError: (err) => {
+        console.error('Logbook RxDB Subscription Error (Reactive Engine):', err)
+        logbooksError.value = err
+      },
+      initialValue: [],
+    },
+  )
 
   // --- 3. Access the data ---
   // This unwraps the ref and provides an array (even if undefined/empty)
   // Our RXDB observer populated ref, not available immediately.
   // Use loaded logbooks or provide initial value
-  const logbooksDocuments = computed(() => logbooksObservableRef.value || [])
-
+  const logbooksDocuments = computed(
+    () => (logbooksObservableRef.value ?? []) as LogbookDocument[],
+  )
 
   // State and internal vars...
   const logbooksError = ref<any>(null)
@@ -167,13 +179,13 @@ export const useLogbookStore = defineStore('logbooks', () => {
     // FIXME
     // this returns items
 
-    return logbooksDocuments.value
+    // return logbooksDocuments.value
 
     // but this returns empty array
     // return Array.from(logbooksDocuments.value)
 
     // Apply the transformation only when logbooksDocuments changes
-    return Array.from(logbooksDocuments?.value ?? []).map(
+    return Array.from(logbooksDocuments.value).map(
       (doc: LogbookDocument): LogbookItem => {
         // 1. Get plain data (strips RxDB persistence methods)
         const data = doc.toJSON() as LogbookDocumentType
@@ -257,9 +269,12 @@ export const useLogbookStore = defineStore('logbooks', () => {
   return {
     status,
     logbooksDocuments,
+    logbooksObservableRef,
 
     logbooks,
     logbooksById,
+    logbooksSource$,
+
     // entriesByLogbookId,
 
     isLoading,
