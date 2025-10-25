@@ -7,6 +7,8 @@ import type {
   RxQuery,
 } from 'rxdb'
 import { toTypedRxJsonSchema } from 'rxdb'
+import { useDatabase } from '../..'
+import { seedFakeLogbook } from '../seeder'
 
 export const logbookSchemaLiteral = {
   title: 'logbook',
@@ -36,11 +38,12 @@ export type LogbookDocumentType = ExtractDocumentTypeFromTypedRxJsonSchema<
 >
 
 export type LogbookDocumentMethods = {
-  getEntriesQuery: (database: RxDatabase) => RxQuery
+  getEntriesQuery: () => RxQuery
   getRouteParams: () => object
 }
 
 export type LogbookCollectionMethods = {
+  seed: () => Promise<any>
   // countAllDocuments: () => Promise<number>
 }
 
@@ -62,10 +65,12 @@ export const logbookSchema: RxJsonSchema<LogbookDocumentType> =
   logbookSchemaLiteral
 
 export const logbookDocumentMethods: LogbookDocumentMethods = {
-  getEntriesQuery(db) {
+  getEntriesQuery() {
+    const { database } = this.collection
+
     const { primary, id } = this as LogbookDocument
 
-    return db.entries
+    return database.entries
       .find({
         selector: {
           logbook: { $eq: primary },
@@ -75,8 +80,6 @@ export const logbookDocumentMethods: LogbookDocumentMethods = {
   },
 
   getRouteParams() {
-    console.log(toRaw(this))
-
     const { primary, id } = this as LogbookDocument
 
     return {
@@ -85,4 +88,10 @@ export const logbookDocumentMethods: LogbookDocumentMethods = {
   },
 }
 
-export const logbookCollectionMethods: LogbookCollectionMethods = {}
+export const logbookCollectionMethods: LogbookCollectionMethods = {
+  seed() {
+    const { database } = this
+
+    return seedFakeLogbook(database)
+  },
+}

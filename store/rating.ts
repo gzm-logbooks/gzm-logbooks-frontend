@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, watchEffect, watch, computed, readonly, toRaw } from 'vue'
+import { clamp, defaults } from 'lodash-es'
 
-import { analysisSectionPrompts, growthInputDefaults } from '~/data/mood'
+import {
+  analysisSectionPrompts,
+  growthInputDefaults,
+  type MoodRating,
+  defaultState,
+} from '~/data/mood'
 
 class UniqueID {
   static idCounter = 0
@@ -11,16 +17,19 @@ class UniqueID {
   }
 }
 
-export type MoodRating = {
-  anxiety: number
-  growth: number
-  comfort: number
+export function useRatingStore() {
+  return useRatingStoreInstance('main')
 }
 
-export function useRatingStore(initialState?: MoodRating, key?: number) {
-  const storeKey = key || UniqueID.generateID()
+export function useRatingStoreInstance(
+  instanceKey: string,
+  initialState?: MoodRating,
+) {
+  return defineStore(`rating[${instanceKey}]`, () => {
+    if (!initialState) {
+      initialState = defaultState
+    }
 
-  return defineStore(`rating[${storeKey}]`, () => {
     const state = ref<MoodRating>(initialState)
 
     // const updateAnxietyScale = function () {}
@@ -29,14 +38,14 @@ export function useRatingStore(initialState?: MoodRating, key?: number) {
       const { padding, minRadius } = growthInputDefaults
 
       //
-      state.value.growth = clamp(
+      state.value.amountGrowth = clamp(
         scale - this.dragDiff,
         minRadius + padding,
         1 - padding,
       )
 
-      if (this.model.growth - this.model.comfort < padding) {
-        state.value.comfort = this.model.growth - padding
+      if (this.model.amountGrowth - this.model.amountComfort < padding) {
+        state.value.amountComfort = this.model.amountGrowth - padding
       }
     }
 
@@ -44,14 +53,14 @@ export function useRatingStore(initialState?: MoodRating, key?: number) {
       const { padding, minRadius } = growthInputDefaults
 
       //
-      state.value.comfort = clamp(
+      state.value.amountComfort = clamp(
         scale - this.dragDiff,
         minRadius,
         1 - padding * 2,
       )
 
-      if (this.model.growth - this.model.comfort < padding) {
-        state.value.growth = this.model.comfort + padding
+      if (this.model.amountGrowth - this.model.amountComfort < padding) {
+        state.value.amountGrowth = this.model.amountComfort + padding
       }
     }
 
@@ -91,10 +100,8 @@ export function useRatingStore(initialState?: MoodRating, key?: number) {
     })
 
     const questionPrompt = computed(() => {
-      const section = section.value
-
-      if (section) {
-        return analysisSectionPrompts[section] ?? null
+      if (section.value) {
+        return analysisSectionPrompts[section.value] ?? null
       }
 
       //

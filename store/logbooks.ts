@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, watchEffect, watch, computed, readonly, toRaw } from 'vue'
 import { nanoid } from 'nanoid'
+import { EMPTY } from 'rxjs'
 import { useDatabase } from './database'
 import { useAppRoutes } from '~/composables/useAppRoutes'
 import type {
@@ -15,16 +16,24 @@ import type {
   LogbookEntryDocumentType,
 } from '~/store/database/rxdb/schemas'
 
+import { keyBy } from 'lodash-es'
 import { useSubscription, useObservable } from '@vueuse/rxjs'
+import { compareAsc } from 'date-fns'
 
 export interface LogbookItem {
+  doc?: LogbookDocument
   data: LogbookDocumentType
-  entryCount?: number
-  entryLast?: Date
+  entries: Ref<LogbookEntryItem[]>
+  entriesCount: Ref<number>
+  activity: Ref<{
+    oldestEntry: Date
+    latestEntry: Date
+  }>
 }
 
 export interface LogbookEntryItem {
-  data: LogbookDocumentType
+  doc?: LogbookEntryDocument
+  data: LogbookEntryDocumentType
 }
 
 // export interface LogbookItem extends LogbookDocumentType {
@@ -50,13 +59,36 @@ type LogbooksReadyStatus = 'pending' | 'ready' | 'error'
 export const useLogbookStore = defineStore('logbooks', () => {
   const router = useAppRoutes()
 
-  let logbooksDocuments: Ref
-  let entriesDocuments: Ref
+  const { database, status: databaseStatus } = storeToRefs(useDatabase())
+
+  const logbooksSource$ = computed(() => {
+    // Only return the actual RxDB query stream if the database is ready
+    if (databaseStatus.value === 'ready' && !!database.value) {
+      return database.value.logbooks.find().sort({ name: 'asc' }).$
+    }
+    // Otherwise, return an empty stream
+    return EMPTY
+  })
+
+  // --- 2. Create the Vue Ref ONCE at the top level ---
+  // This is the CRITICAL line that ensures cleanup
+  const logbooksObservableRef = useObservable(logbooksSource$, {
+    onError: (err) => {
+      console.error('Logbook RxDB Subscription Error:', err)
+      logbooksError.value = err
+      status.value = 'error'
+    },
+  }) as Ref<LogbookDocument[] | undefined>
+
+  // --- 3. Access the data ---
+  // This unwraps the ref and provides an array (even if undefined/empty)
+  // Our RXDB observer populated ref, not available immediately.
+  // Use loaded logbooks or provide initial value
+  const logbooksDocuments = computed(() => logbooksObservableRef.value || [])
+
 
   // State and internal vars...
   const logbooksError = ref<any>(null)
-
-  const entriesError = ref<any>(null)
 
   // Start in the state where we are waiting for the dependency
   const status = ref<LogbooksReadyStatus>('pending')
@@ -70,7 +102,7 @@ export const useLogbookStore = defineStore('logbooks', () => {
    * Finds the collection reference and starts the subscription.
    */
   function setupSubscriptions() {
-    const { database, status: databaseStatus } = useDatabase()
+    const { status: databaseStatus } = useDatabase()
 
     // Only run if the database is actually ready
     if (databaseStatus !== 'ready' || !database) {
@@ -79,27 +111,22 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
     status.value = 'pending' // Transition to local loading state
 
-    // All logbooks
-    logbooksDocuments = useObservable(
-      database.logbooks.find().sort({ name: 'asc' }).$,
-      {
-        onError: (err) => {
-          console.error('Logbook RxDB Subscription Error:', err)
-          logbooksError.value = err
-        },
-      },
-    )
-
-    // All entries...
-    // TODO: Do we really need to fetch all entries?
-    entriesDocuments = useObservable(database.entries.find().$, {
-      onError: (err) => {
-        console.error('Logbook RxDB Subscription Error:', err)
-        entriesError.value = err
-      },
-    })
+    // // All entries...
+    // // TODO: Do we really need to fetch all entries?
+    // entriesDocuments = useObservable(database.entries.find().$, {
+    //   onError: (err) => {
+    //     console.error('Logbook RxDB Subscription Error:', err)
+    //     entriesError.value = err
+    //   },
+    // })
 
     status.value = 'ready'
+  }
+
+  function getLogbookEntriesReactive(
+    doc: LogbookDocument,
+  ): Readonly<Ref<any[]>> {
+    return useObservable(doc.getEntriesQuery().$)
   }
 
   async function createLogbook(name: string) {
@@ -135,6 +162,16 @@ export const useLogbookStore = defineStore('logbooks', () => {
   // const logbookEntries
 
   const logbooks = computed<LogbookItem[]>(() => {
+    console.log(logbooksDocuments.value)
+
+    // FIXME
+    // this returns items
+
+    return logbooksDocuments.value
+
+    // but this returns empty array
+    // return Array.from(logbooksDocuments.value)
+
     // Apply the transformation only when logbooksDocuments changes
     return Array.from(logbooksDocuments?.value ?? []).map(
       (doc: LogbookDocument): LogbookItem => {
@@ -143,9 +180,42 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
         const logbookId = data.id
 
+        const rxEntries = getLogbookEntriesReactive(doc)
+
+        const entries = computed(() => {
+          console.log(rxEntries.value)
+
+          return rxEntries.value.map(
+            (doc: LogbookEntryDocument): LogbookEntryItem => {
+              return {
+                doc: doc,
+                data: doc.toJSON() as LogbookEntryDocumentType,
+              }
+            },
+          )
+        })
+
+        const entriesCount = computed(() => unref(entries.value).length)
+
+        console.log(entries.value)
+
+        // const activity = computed(() => {
+        //   unref(entries.value).reduce(
+        //     (acc, currentValue) => {
+        //       // if (currentValue.data)
+        //     },
+        //     {
+        //       oldestEntry: null,
+        //       latestEntry: null,
+        //     },
+        //   )
+        // })
+
         // 2. Inject Presentation/Action methods
         return {
           data,
+
+          doc,
 
           // Model actions...
           update: (fields: Partial<LogbookDocumentType>) => {
@@ -160,6 +230,11 @@ export const useLogbookStore = defineStore('logbooks', () => {
             // TODO: Use logbookEntry store when implemented...
           },
 
+          rxEntries,
+          // entries,
+          entriesCount,
+          // activity,
+
           // Routes...
           getRoute: () => router.getLogbookRoute({ logbookId }),
           getEntryRoute: (entryId: string) =>
@@ -171,12 +246,22 @@ export const useLogbookStore = defineStore('logbooks', () => {
     )
   })
 
+  const logbooksById = computed(() => {
+    return keyBy(logbooks.value, (item: LogbookItem) => item.data.id)
+  })
+
+  // const entriesByLogbookId = computed(() => {
+  //     return logbooks.value.map((logbook) => getLogbookEntriesReactive(logbook.doc))
+  // })
+
   return {
     status,
     logbooksDocuments,
-    entriesDocuments,
 
     logbooks,
+    logbooksById,
+    // entriesByLogbookId,
+
     isLoading,
     isLoaded,
     hasError,

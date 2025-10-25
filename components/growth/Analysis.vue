@@ -131,7 +131,7 @@ export default {
         'zone 5',
         'zone 6',
       ],
-      section
+      section,
     }
   },
 

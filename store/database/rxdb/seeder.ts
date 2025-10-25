@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid'
 import type { UserDatabase } from '~/store/database/rxdb/database'
 import type { LogbookDocument } from '~/store/database/rxdb/schemas'
 
+import { clamp, defaults } from 'lodash-es'
 import { growthInputDefaults } from '~/data/mood'
 const hour = 1000 * 60 * 60
 const day = hour * 24
@@ -92,9 +93,9 @@ function validateMoodInput(value) {
   )
 
   return {
-    amountGreen,
-    amountAmber,
-    amountRed: 1,
+    amountComfort,
+    amountGrowth,
+    amountAnxiety: 1,
   }
 }
 
@@ -103,7 +104,7 @@ function validateMoodInput(value) {
  * @returns
  */
 export function fakeMoodInputValues() {
-  const { padding, minRadius } = rating.growthInputDefaults
+  const { padding, minRadius } = growthInputDefaults
 
   // const max = { red: 0.05, amber: 0.33 }
 

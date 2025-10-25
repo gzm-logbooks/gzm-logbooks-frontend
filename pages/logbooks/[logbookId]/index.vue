@@ -106,7 +106,7 @@
               :state="{
                 anxiety: lastEntry.amountAnxiety,
                 growth: lastEntry.amountGrowth,
-                comfort:  lastEntry.amountComfort,
+                comfort: lastEntry.amountComfort,
               }"
             />
           </nuxt-link>
@@ -128,7 +128,7 @@
               :state="{
                 anxiety: entry.amountAnxiety,
                 growth: entry.amountGrowth,
-                comfort:  entry.amountComfort,
+                comfort: entry.amountComfort,
               }"
             />
           </nuxt-link>
@@ -152,7 +152,7 @@
               :state="{
                 anxiety: entry.amountAnxiety,
                 growth: entry.amountGrowth,
-                comfort:  entry.amountComfort,
+                comfort: entry.amountComfort,
               }"
             />
           </nuxt-link>
@@ -174,42 +174,40 @@
 import { format } from 'date-fns'
 import { useDatabase } from '~/store/database'
 import { useObservable } from '@vueuse/rxjs'
-import { useRatingStore } from '~/store/rating';
+import { useRatingStore } from '~/store/rating'
+import { useLogbookStore } from '~/store/logbooks'
 
 const { params } = useRoute()
 const { logbookId } = params as { logbookId: string }
 
 const { getUserDatabase } = useDatabase()
-const {scaledMoodInput } = useRatingStore()
+const { scaledMoodInput } = useRatingStore()
 
 const { getLogbookRoute, getLogbookEntryRoute, getLogbookCreateEntryRoute } =
   useAppRoutes()
 
 const db = await getUserDatabase()
 
+// const { data, error, status } = await useAsyncData(async () => {
+//   return {
+//     logbook: db.logbooks.findOne(logbookId).exec(),
+//     entries: db.entries
+//       .find()
+//       .where({ logbook: logbookId })
+//       .sort({ timestamp: 'desc' })
+//       .exec(),
+//   }
+// })
 
-const { data, error, status } = await useAsyncData(async () => {
-  return {
-    logbook: db.logbooks.findOne(logbookId).exec(),
-    entries: db.entries
-      .find()
-      .where({ logbook: logbookId })
-      .sort({ timestamp: 'desc' })
-      .exec(),
-  }
-})
+const { logbooksById } = storeToRefs(useLogbookStore())
+const logbook = computed(() => logbookId && logbooksById.value[logbookId])
 
-// const { logbook: logbook2 } = data.value
+// import { format } from 'date-fns'
+// import { useDatabase } from '~/store/database'
+// import { scaledMoodInput } from '~/data/config'
 
-console.log({ data: data.value, error, status })
-
-// Get logbook record from database.
-const logbook = await db.logbooks.findOne(logbookId).exec()
-
-// Redirect if logbook is missing.
-if (!logbook) {
-  await navigateTo({ name: 'logbooks' })
-}
+const edit = ref<boolean>(false)
+const fields = ref({})
 
 // Get all entries.
 // const entries = await db.entries
@@ -217,7 +215,6 @@ if (!logbook) {
 //   .where({ logbook: logbookId })
 //   .sort({ timestamp: 'desc' })
 //   .exec()
-const entries = useObservable(logbook.getEntriesQuery(db).$)
 
 const lastEntry = computed(() => entries.value && entries.value[0])
 
@@ -250,95 +247,83 @@ const olderDateFormatter = () =>
     month: '2-digit',
     day: '2-digit',
   })
-</script>
 
-<script lang="ts">
-// import { format } from 'date-fns'
-// import { useDatabase } from '~/store/database'
-// import { scaledMoodInput } from '~/data/config'
+onMounted(async () => {
+  // Redirect if logbook is missing.
+  if (!logbook.value) {
+    await navigateTo({ name: 'logbooks' })
+  }
 
-export default {
-  data() {
-    return {
-      edit: false,
-      fields: {},
-    }
-  },
+  // Set form data.
+  reset()
+})
 
-  async mounted() {
-    // Set form data.
-    this.reset()
-  },
-
-  methods: {
-    chartClicked(timestamp) {
-      navigateTo({
-        name: 'logbooks-logbookId-entries-entryId',
-        params: {
-          logbookId: this.logbook.primary,
-          entryId: timestamp,
-        },
-      })
+function chartClicked(timestamp) {
+  navigateTo({
+    name: 'logbooks-logbookId-entries-entryId',
+    params: {
+      // TODO
+      logbookId: logbook.value.id,
+      entryId: timestamp,
     },
+  })
+}
 
-    async save(fields) {
-      const data = {
-        name: fields.name,
-      }
+// TODO: move to store
+async function save(fields) {
+  const data = {
+    name: fields.name,
+  }
 
-      await this.logbook.atomicPatch(data)
+  await logbook.value.atomicPatch(data)
+}
 
-      //
-      this.$fetch()
-    },
+// TODO
+function downloadLogbook() {
+  const data = this.entries.map((entry) => {
+    const { timestamp, comment, amountAnxiety, amountGrowth, amountComfort } =
+      entry
 
-    downloadLogbook() {
-      const data = this.entries.map((entry) => {
-        const { timestamp, comment, amountAnxiety, amountGrowth, amountComfort } =
-          entry
+    const mood = scaledMoodInput({
+      amountAnxiety,
+      amountGrowth,
+      amountComfort,
+    })
 
-        const mood = scaledMoodInput({
-          amountAnxiety,
-          amountGrowth,
-          amountComfort,
-        })
+    return [
+      format(new Date(timestamp), 'yyyy-MM-dd'),
+      comment,
+      mood.amountAnxiety.toFixed(4),
+      mood.amountGrowth.toFixed(4),
+      mood.amountComfort.toFixed(4),
+    ]
+  })
 
-        return [
-          format(new Date(timestamp), 'yyyy-MM-dd'),
-          comment,
-          mood.amountAnxiety.toFixed(4),
-          mood.amountGrowth.toFixed(4),
-          mood.amountComfort.toFixed(4),
-        ]
-      })
+  let csv = 'Date,Comment,Anxiety,Growth,Comfort,\n'
+  data.forEach(function (row) {
+    csv += row.join(',')
+    csv += '\n'
+  })
 
-      let csv = 'Date,Comment,Anxiety,Growth,Comfort,\n'
-      data.forEach(function (row) {
-        csv += row.join(',')
-        csv += '\n'
-      })
+  const hiddenElement = document.createElement('a')
+  hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
+  hiddenElement.target = '_blank'
+  hiddenElement.download = logbook.value.name + '.csv'
+  hiddenElement.click()
+}
 
-      const hiddenElement = document.createElement('a')
-      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
-      hiddenElement.target = '_blank'
-      hiddenElement.download = this.logbook.name + '.csv'
-      hiddenElement.click()
-    },
-    reset() {
-      console.log(this.logbook)
-      return
+function reset() {
+  console.log(logbook.value)
 
-      const { name } = this.logbook
-      console.log(this.logbook)
+  const { name } = logbook.value
+  console.log(logbook.value)
 
-      this.fields = {
-        name: this.logbook.name,
-      }
-      this.$fetch() // Dirty
-      //
-      this.edit = false
-    },
-  },
+  fields.value = {
+    name: logbook.value.name,
+  }
+
+  //
+  edit.value = false
 }
 </script>
 

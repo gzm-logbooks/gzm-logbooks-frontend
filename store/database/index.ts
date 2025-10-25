@@ -1,10 +1,10 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import type { RxDatabase, RxStorage } from 'rxdb'
 import { addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb'
-import type { UserDatabase } from './database'
-import { seedFakeLogbook } from '~/store/database/rxdb/seeder'
+import type { UserDatabase } from './rxdb/database'
+import { seedFakeLogbook } from './rxdb/seeder'
 
-type DatabaseStatus = 'pending' | 'ready' | 'error'
+export type DatabaseStatus = 'pending' | 'ready' | 'error'
 
 /**
  * Utility to reset and reload the application.
@@ -25,7 +25,7 @@ async function resetDatabase(database: RxDatabase) {
 export const useDatabase = defineStore('userDatabase', () => {
   // STATE
   const status = ref<DatabaseStatus>('pending')
-  const database = ref<UserDatabase | null>(null)
+  const database = shallowRef<UserDatabase | null>(null)
 
   // CONVENIENCE COMPUTED PROPERTIES (for backward compatibility and readability)
   const isReady = computed(() => status.value === 'ready')
@@ -56,7 +56,7 @@ export const useDatabase = defineStore('userDatabase', () => {
   async function seedUserLogbook() {
     console.info('Seeding user logbook(s)')
 
-    return Promise.all([seedFakeLogbook(database.value)])
+    return Promise.all([database.value?.logbooks.seed()])
   }
 
   function getLogbooksQuery() {

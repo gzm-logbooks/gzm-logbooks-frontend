@@ -9,6 +9,11 @@
       "name": "client: chrome",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "${workspaceFolder}/lib/**/*.js",
+        "<node_internals>/**/*.js"
+      ],
     },
     {
       "type": "firefox",

@@ -45,7 +45,9 @@
 </template>
 
 <script setup lang="ts">
+import { useDatabase } from '~/store/database'
 import { useLogbookStore } from '~/store/logbooks'
 
+const { seedUserLogbook } = useDatabase()
 const { logbooks, status } = storeToRefs(useLogbookStore())
 </script>

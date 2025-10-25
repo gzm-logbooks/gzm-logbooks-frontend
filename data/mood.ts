@@ -15,3 +15,15 @@ export const analysisSectionPrompts = [
   'Looks like you need to develop a growth zone, where you feel safe to take risks and can cope with manageable challenges. What could help youfeel safe enough to take a risk?',
   'Looks like you felt out of your depth a lot of the time. What could you have done to calm down?',
 ]
+
+export const defaultState: MoodRating = {
+  amountAnxiety: 3 / 3,
+  amountGrowth: 2 / 3,
+  amountComfort: 1 / 3,
+}
+
+export type MoodRating = {
+  amountAnxiety: number
+  amountGrowth: number
+  amountComfort: number
+}

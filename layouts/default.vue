@@ -24,7 +24,7 @@ import { useConfigStore } from '~/store/config'
 import { useDatabase } from '~/store/database'
 
 const { currentTheme } = storeToRefs(useConfigStore())
-// const { userData } = storeToRefs(useDatabase())
+// const { userData } = storeToRefs(storeToRefs(useDatabase()))
 
 useHead({
   bodyAttrs: {
@@ -39,8 +39,6 @@ function logError(error) {
 
   // throw error
 }
-
-const { getUserDatabase } = useDatabase()
 
 // const db = useObservable((await getUserDatabase()).$)
 </script>
