@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 import type { UserDatabase } from '~//store/database/rxdb/database'
 import type { LogbookDocument } from '~//store/database/rxdb/schemas'
 
-import { clamp, defaults } from 'lodash-es'
+import { clamp } from 'es-toolkit'
 import { growthInputDefaults } from '~/../data/mood'
 const hour = 1000 * 60 * 60
 const day = hour * 24

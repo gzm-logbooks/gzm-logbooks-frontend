@@ -65,18 +65,17 @@
 <script lang="ts">
 import { useRatingStore } from '~//store/rating'
 
-import { clamp, defaults } from 'lodash-es'
 import { growthInputDefaults } from '~/../data/mood'
 import { useTheme } from '~/composables/useTheme'
 
-function getTouchEventCoords (params) {
+function getTouchEventCoords(params) {
   // Get viewpoint coords.
   const { clientX: x, clientY: y } = event.changedTouches[0]
 
   return { x, y }
 }
 
-function getMouseEventCoords (event) {
+function getMouseEventCoords(event) {
   const { clientX: x, clientY: y } = event
 
   return { x, y }
@@ -87,31 +86,29 @@ export default {
   props: {
     value: {
       type: Object,
-      default () {
+      default() {
         return {}
-      }
+      },
     },
     offset: {
       type: Number,
-      default: 14
-    }
+      default: 14,
+    },
   },
-  setup () {
+  setup() {
     const rating = useRatingStore()
     const { ratingColors } = useTheme()
 
-
-
-  return {
-    ratingColors,
-    rating,
+    return {
+      ratingColors,
+      rating,
       dragDiff: 0,
       circleSize: 100,
       currentCircle: null,
     }
   },
   computed: {
-    viewbox () {
+    viewbox() {
       const { circleSize, offset } = this
       const padding = offset * 2
       const center = offset + circleSize / 2
@@ -120,23 +117,23 @@ export default {
         inner: circleSize,
         outer: circleSize + padding,
         offset,
-        center
+        center,
       }
     },
-    active () {
+    active() {
       return !!this.currentCircle
     },
     model: {
-      get () {
+      get() {
         return this.rating.value
       },
-      set (newValue) {
+      set(newValue) {
         this.rating.value = newValue
-      }
-    }
+      },
+    },
   },
   methods: {
-    handleTouchStart (event) {
+    handleTouchStart(event) {
       // Prevent firing of mouse events.
       event.preventDefault()
 
@@ -144,20 +141,20 @@ export default {
       this.startDrag(getTouchEventCoords(event))
     },
 
-    handleTouchMove (event) {
+    handleTouchMove(event) {
       this.update(getTouchEventCoords(event))
     },
 
-    handleMouseDown (event) {
+    handleMouseDown(event) {
       this.startDrag(getMouseEventCoords(event))
     },
 
-    handleMouseMove (event) {
+    handleMouseMove(event) {
       this.update(getMouseEventCoords(event))
     },
 
     //
-    startDrag (viewportCoords) {
+    startDrag(viewportCoords) {
       const { scale } = this.getRelativeCoords(viewportCoords)
 
       this.currentCircle = this.getCirclePicked(scale)
@@ -169,7 +166,7 @@ export default {
       }
     },
 
-    endDrag (event) {
+    endDrag(event) {
       const { currentCircle } = this
 
       // Exit if not grabbing.
@@ -183,7 +180,7 @@ export default {
       this.$emit('input', { ...this.model })
     },
 
-    update (viewportCoords) {
+    update(viewportCoords) {
       const { currentCircle } = this
 
       // Exit if not grabbing.
@@ -198,12 +195,11 @@ export default {
         return this.updateCircleScale(currentCircle, scale)
       }
 
-
       throw Error('Unmatched circle')
     },
 
     //
-    getRelativeCoords (viewportCoords) {
+    getRelativeCoords(viewportCoords) {
       // https://vuejs.org/v2/api/#el
       const container = this.$refs.background
 
@@ -221,7 +217,7 @@ export default {
     },
 
     //
-    getCirclePicked (scale) {
+    getCirclePicked(scale) {
       // Pick which circle is effected.
       const thresh = (this.model.growth + this.model.comfort) / 2
 
@@ -231,8 +227,7 @@ export default {
         return 'green'
       }
     },
-
-  }
+  },
 }
 </script>
 

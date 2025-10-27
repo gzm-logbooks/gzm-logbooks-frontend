@@ -1,5 +1,3 @@
-import { clamp, defaults } from 'lodash-es'
-
 export const growthInputDefaults = {
   padding: 0.05,
   minRadius: 0.1,

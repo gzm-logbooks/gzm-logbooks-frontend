@@ -1,4 +1,3 @@
-import { get } from 'lodash-es'
 import {
   Chart,
   //   ArcElement,
@@ -28,12 +27,6 @@ import {
 // import { Vue } from '#app'
 // import VueRx from 'vue-rx'
 import 'chartjs-adapter-date-fns'
-
-//
-// Vue.use(VueRx)
-
-//
-// Vue.prototype.$get = get
 
 Chart.register(
   //   ArcElement,

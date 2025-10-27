@@ -17,7 +17,7 @@ import type {
   LogbookEntryDocumentType,
 } from '~//store/database/rxdb/schemas'
 
-import { keyBy } from 'lodash-es'
+import { keyBy } from 'es-toolkit'
 import { useSubscription, useObservable, toObserver, from } from '@vueuse/rxjs'
 import { compareAsc } from 'date-fns'
 
@@ -92,7 +92,10 @@ export const useLogbookStore = defineStore('logbooks', () => {
             for (const doc of logbookDocs) {
               if (!rxdbEntriesByLogbook.has(doc.id)) {
                 // If the logbook is new or its entries observable isn't tracked yet, add it
-                rxdbEntriesByLogbook.set(doc.id, toRaw(getLogbookEntriesReactive(doc)))
+                rxdbEntriesByLogbook.set(
+                  doc.id,
+                  toRaw(getLogbookEntriesReactive(doc)),
+                )
                 console.log(
                   `Added reactive entries observable for logbook ID: ${doc.id}`,
                 )
@@ -127,7 +130,7 @@ export const useLogbookStore = defineStore('logbooks', () => {
   function getLogbookEntriesReactive(
     doc: LogbookDocument,
   ): Readonly<Ref<LogbookEntryDocument[]>> {
-    return useObservable(doc.getEntriesQuery().$, {initialValue: []})
+    return useObservable(doc.getEntriesQuery().$, { initialValue: [] })
   }
 
   async function createLogbook(name: string) {
@@ -188,14 +191,25 @@ export const useLogbookStore = defineStore('logbooks', () => {
       })
 
       const entriesCount = computed(() => {
-        console.log(`Logbook Store:   - Computing 'entriesCount' for ${logbookId}`);
-        const logbookEntriesRef = rxdbEntriesByLogbook.get(logbookId);
-        console.log(`Logbook Store:   - 'logbookEntriesRef' for ${logbookId} (count):`, logbookEntriesRef);
+        console.log(
+          `Logbook Store: - Computing 'entriesCount' for ${logbookId}`,
+        )
 
-        const unrefedEntries = unref(logbookEntriesRef);
-        const count = unrefedEntries?.length || 0;
-        console.log(`Logbook Store:   - Final 'entriesCount' for ${logbookId}: ${count}`);
-        return count;
+        const logbookEntriesRef = rxdbEntriesByLogbook.get(logbookId)
+
+        console.log(
+          `Logbook Store: - 'logbookEntriesRef' for ${logbookId} (count):`,
+          logbookEntriesRef,
+        )
+
+        const unrefedEntries = unref(logbookEntriesRef)
+
+        const count = unrefedEntries?.length || 0
+
+        console.log(
+          `Logbook Store: - Final 'entriesCount' for ${logbookId}: ${count}`,
+        )
+        return count
       })
 
       // console.log(entries.value)

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, watchEffect, watch, computed, readonly, toRaw } from 'vue'
-import { clamp, defaults } from 'lodash-es'
+import { clamp } from 'es-toolkit'
 
 import {
   analysisSectionPrompts,
