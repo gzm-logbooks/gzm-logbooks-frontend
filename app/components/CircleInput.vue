@@ -128,10 +128,10 @@ export default {
     },
     model: {
       get () {
-        return this.rating.
+        return this.rating.value
       },
       set (newValue) {
-        this.rating. = newValue
+        this.rating.value = newValue
       }
     }
   },
