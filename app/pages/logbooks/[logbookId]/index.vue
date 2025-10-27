@@ -172,10 +172,10 @@
 
 <script lang="ts" setup>
 import { format } from 'date-fns'
-import { useDatabase } from '~//store/database'
+import { useDatabase } from '~/store/database'
 import { useObservable } from '@vueuse/rxjs'
-import { useRatingStore } from '~//store/rating'
-import { useLogbookStore } from '~//store/logbooks'
+import { useRatingStore } from '~/store/rating'
+import { useLogbookStore } from '~/store/logbooks'
 
 const { params } = useRoute()
 const { logbookId } = params as { logbookId: string }

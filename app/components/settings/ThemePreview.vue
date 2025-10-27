@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { useConfigStore } from '~//store/config'
+import { useConfigStore } from '~/store/config'
 
 const { switchTheme } = useConfigStore()
 

@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import { format, formatDistance } from 'date-fns'
-import { useDatabase } from '~//store/database'
+import { useDatabase } from '~/store/database'
 import { useAppRoutes } from '../../../../composables/useAppRoutes'
 
 export default {

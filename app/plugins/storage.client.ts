@@ -7,7 +7,7 @@ export default defineNuxtPlugin({
   name: 'remoteStorage',
   parallel: true,
 
-  async setup(nuxtApp) {
+  async setup(_nuxtApp) {
     const config = useRuntimeConfig()
     const { appInfo, services } = config.public
 

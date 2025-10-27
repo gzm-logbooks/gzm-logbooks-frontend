@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 import { useObservable } from '@vueuse/rxjs'
-import { useConfigStore } from '~//store/config'
-import { useDatabase } from '~//store/database'
+import { useConfigStore } from '~/store/config'
+import { useDatabase } from '~/store/database'
 
 const { currentTheme } = storeToRefs(useConfigStore())
 // const { userData } = storeToRefs(storeToRefs(useDatabase()))

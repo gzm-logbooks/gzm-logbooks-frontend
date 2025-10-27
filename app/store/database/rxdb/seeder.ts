@@ -1,7 +1,7 @@
 import type { RxDatabase, RxDocument } from 'rxdb'
 import { nanoid } from 'nanoid'
-import type { UserDatabase } from '~//store/database/rxdb/database'
-import type { LogbookDocument } from '~//store/database/rxdb/schemas'
+import type { UserDatabase } from '~/store/database/rxdb/database'
+import type { LogbookDocument } from '~/store/database/rxdb/schemas'
 
 import { clamp } from 'es-toolkit'
 import { growthInputDefaults } from '~/../data/mood'

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, watchEffect, watch, computed, readonly, toRaw } from 'vue'
+import { ref, computed, toRaw } from 'vue'
 import { nanoid } from 'nanoid'
 import type { Observable } from 'rxjs'
 import { EMPTY } from 'rxjs'
@@ -9,13 +9,13 @@ import type {
   LogbookDocumentType,
   LogbookCollection,
   LogbookDocument,
-} from '~//store/database/rxdb/schemas/logbook'
+} from '~/store/database/rxdb/schemas/logbook'
 import type { RouteLocationRaw } from 'vue-router'
 import type {
   LogbookEntryCollection,
   LogbookEntryDocument,
   LogbookEntryDocumentType,
-} from '~//store/database/rxdb/schemas'
+} from '~/store/database/rxdb/schemas'
 
 import { keyBy } from 'es-toolkit'
 import { useSubscription, useObservable, toObserver, from } from '@vueuse/rxjs'

@@ -44,7 +44,7 @@
 <script lang="ts">
 // import { useRoute } from '#app'
 import { format } from 'date-fns'
-import { useDatabase } from '~//store/database'
+import { useDatabase } from '~/store/database'
 
 export default {
   async setup() {

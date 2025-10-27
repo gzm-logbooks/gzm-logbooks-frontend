@@ -57,7 +57,7 @@ Chart.register(
 /**
  * Register the plugin...
  */
-export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
+export default defineNuxtPlugin((_nuxtApp) => {
   // Default export required.
 
   return {}

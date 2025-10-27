@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { LogbookItem } from '~//store/logbooks'
+import type { LogbookItem } from '~/store/logbooks'
 
 const { logbook } = defineProps({
   logbook: { type: Object as PropType<LogbookItem>, required: true },

@@ -63,9 +63,8 @@
 </template>
 
 <script lang="ts">
-import { useRatingStore } from '~//store/rating'
+import { useRatingStore } from '~/store/rating'
 
-import { growthInputDefaults } from '~/../data/mood'
 import { useTheme } from '~/composables/useTheme'
 
 function getTouchEventCoords(params) {

@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { useDatabase } from '~//store/database'
+import { useDatabase } from '~/store/database'
 
 export default {
   methods: {

@@ -51,7 +51,7 @@ async function initDatabase(): Promise<UserDatabase> {
 /**
  * Register the plugin...
  */
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin(async (_nuxtApp) => {
   // Inject the database and utilities into the Nuxt app context
   return {
     provide: {
