@@ -1,14 +1,16 @@
 import type {
   ExtractDocumentTypeFromTypedRxJsonSchema,
   RxCollection,
-  RxDatabase,
   RxDocument,
   RxJsonSchema,
   RxQuery,
 } from 'rxdb'
 import { toTypedRxJsonSchema } from 'rxdb'
-import { useDatabase } from '../..'
 import { seedFakeLogbook } from '../seeder'
+import type {
+  LogbookEntryDocument,
+  LogbookEntryDocumentType,
+} from './logbookEntry'
 
 export const logbookSchemaLiteral = {
   title: 'logbook',
@@ -38,7 +40,7 @@ export type LogbookDocumentType = ExtractDocumentTypeFromTypedRxJsonSchema<
 >
 
 export type LogbookDocumentMethods = {
-  getEntriesQuery: () => RxQuery
+  getEntriesQuery: () => RxQuery<LogbookEntryDocumentType>
   getRouteParams: () => object
 }
 
@@ -49,8 +51,7 @@ export type LogbookCollectionMethods = {
 
 export type LogbookDocument = RxDocument<
   LogbookDocumentType,
-  LogbookDocumentMethods,
-  LogbookCollectionMethods
+  LogbookDocumentMethods
 >
 
 // and then merge all our types

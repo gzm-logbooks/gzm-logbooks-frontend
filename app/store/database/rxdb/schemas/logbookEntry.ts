@@ -5,7 +5,6 @@ import type {
   RxJsonSchema,
 } from 'rxdb'
 import { toTypedRxJsonSchema } from 'rxdb'
-import type { RouteLocationRaw } from 'vue-router'
 
 export const logbookEntrySchemaLiteral = {
   title: 'Entry',
@@ -57,8 +56,7 @@ export type LogbookEntryCollectionMethods = {}
 
 export type LogbookEntryDocument = RxDocument<
   LogbookEntryDocumentType,
-  LogbookEntryDocumentMethods,
-  LogbookEntryCollectionMethods
+  LogbookEntryDocumentMethods
 >
 
 // and then merge all our types
@@ -73,11 +71,11 @@ export const logbookEntrySchema: RxJsonSchema<LogbookEntryDocumentType> =
   logbookEntrySchemaLiteral
 
 export const logbookEntryDocumentMethods: LogbookEntryDocumentMethods = {
-  getRouteParams() {
+  getRouteParams(): object {
     const { primary, logbook } = this
 
     if (!primary || !logbook) {
-      return null
+      throw new Error('Missing core data')
     }
 
     return {

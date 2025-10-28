@@ -160,8 +160,6 @@ export const useLogbookStore = defineStore('logbooks', () => {
   // const logbookEntries
 
   const logbooks = computed<LogbookItem[]>(() => {
-    console.log(rxdbLogbooks.value)
-
     // FIXME
     // this returns items
 
@@ -179,6 +177,13 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
       const entries = computed(() => {
         const logbookEntriesRef = rxdbEntriesByLogbook.get(logbookId)
+
+        console.log({
+          fromMap: logbookEntriesRef,
+          toRaw: toRaw(rxdbLogbooks),
+          unref: unref(logbookEntriesRef),
+          value: logbookEntriesRef?.value,
+        })
 
         return Array.from(unref(logbookEntriesRef) || []).map(
           (doc: LogbookEntryDocument): LogbookEntryItem => {
