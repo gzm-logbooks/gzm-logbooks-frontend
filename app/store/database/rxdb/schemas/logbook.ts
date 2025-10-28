@@ -30,11 +30,11 @@ export const logbookSchemaLiteral = {
   // indexes: []
 } as const
 
-const schemaTyped = toTypedRxJsonSchema(logbookSchemaLiteral)
+const _schemaTyped = toTypedRxJsonSchema(logbookSchemaLiteral)
 
 // aggregate the document type from the schema
 export type LogbookDocumentType = ExtractDocumentTypeFromTypedRxJsonSchema<
-  typeof schemaTyped
+  typeof _schemaTyped
 >
 
 export type LogbookDocumentMethods = {

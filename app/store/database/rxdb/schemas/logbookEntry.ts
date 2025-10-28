@@ -41,11 +41,11 @@ export const logbookEntrySchemaLiteral = {
   required: ['timestamp', 'logbook'],
 } as const
 
-const schemaTyped = toTypedRxJsonSchema(logbookEntrySchemaLiteral)
+const _schemaTyped = toTypedRxJsonSchema(logbookEntrySchemaLiteral)
 
 // aggregate the document type from the schema
 export type LogbookEntryDocumentType = ExtractDocumentTypeFromTypedRxJsonSchema<
-  typeof schemaTyped
+  typeof _schemaTyped
 >
 
 export type LogbookEntryDocumentMethods = {
