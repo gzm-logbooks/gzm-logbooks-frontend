@@ -1,28 +1,21 @@
-import EnvCompatPlugin from 'vite-plugin-env-compatible'
-import { nodeResolve as NodeResolvePlugin } from '@rollup/plugin-node-resolve'
 import { name, version } from './package.json'
 
 //
 const {
   SITE_TITLE: siteTitle = 'Growth Zone Model Logbooks',
   BRANCH: branch = 'branch',
-  COMMIT_REF: shaRef = 'commit'
+  COMMIT_REF: shaRef = 'commit',
 } = {}
 
 //
 const buildName = [branch, shaRef]
-  .filter(part => typeof part === 'string')
-  .map(part => part.slice(0, 6))
+  .filter((part) => typeof part === 'string')
+  .map((part) => part.slice(0, 6))
   .join('.')
 
 export default defineNuxtConfig({
-  // bridge: {
-  //   // Use Vite as the bundler instead of webpack 4
-  //   vite: true,
-
-  //   // Enable Nuxt 3 compatible useHead
-  //   meta: true,
-  // },
+  compatibilityDate: '2025-07-15',
+  devtools: { enabled: true },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -35,27 +28,26 @@ export default defineNuxtConfig({
 
       services: {
         dropboxAppKey: process.env.DROPBOX_APP_KEY,
-        googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID
-      }
+        googleDriveClientId: process.env.GOOGLE_DRIVE_CLIENT_ID,
+      },
     },
   },
 
-  app:{
-
-  // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    titleTemplate: `%s - ${siteTitle} (${buildName})`,
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
-    ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    bodyAttrs: {
-      class: ''
-    }
+  app: {
+    // Global page headers: https://go.nuxtjs.dev/config-head
+    head: {
+      titleTemplate: `%s - ${siteTitle} (${buildName})`,
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { hid: 'description', name: 'description', content: '' },
+      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+      bodyAttrs: {
+        class: '',
+      },
+    },
   },
-},
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -72,29 +64,23 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
-    '@formkit/nuxt'
+    '@formkit/nuxt',
   ],
-
-  //
-  generate: {
-    // fallback: true,
-  },
-
-  devServerHandlers: [],
 
   tailwindcss: {
     // add '#tailwind-config` alias
-    exposeConfig: true
+    exposeConfig: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
+  // TODO: Module was deprecated, functionality is builtin now?
   pwa: {
     meta: {
       name: siteTitle,
       description: `Track your learning with the growth zone model. Build ${buildName}`,
       theme_color: '#f4a261',
-      lang: 'en'
-    }
+      lang: 'en',
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -111,7 +97,7 @@ export default defineNuxtConfig({
       // 'nuxt',
       // '@nuxt/bridge-edge',
       // 'immediate'
-    ]
+    ],
     // aggressiveCodeRemoval: true,
   },
 
@@ -124,19 +110,19 @@ export default defineNuxtConfig({
 
     define: {
       global: 'window',
-      process: { env: { DEBUG: undefined } }
+      process: { env: { DEBUG: undefined } },
     },
 
-    build: {
-
-    },
+    build: {},
 
     /* options for vite */
     optimizeDeps: {
       // allowNodeBuiltins: ["pouchdb-browser", "pouchdb-utils"],
       // esbuildOptions: {},
-    }
+    },
   },
 
-  compatibilityDate: '2025-01-20'
+  eslint: {
+    // options here
+  },
 })
