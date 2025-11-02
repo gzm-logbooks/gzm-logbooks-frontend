@@ -18,7 +18,13 @@ import type {
 } from '~/store/database/rxdb/schemas'
 
 import { keyBy } from 'es-toolkit'
-import { useSubscription, useObservable, toObserver, from } from '@vueuse/rxjs'
+import {
+  useSubscription,
+  useObservable,
+  toObserver,
+  from,
+  useExtractedObservable,
+} from '@vueuse/rxjs'
 import { compareAsc } from 'date-fns'
 
 export interface LogbookItem {
@@ -80,9 +86,7 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
     // All logbooks...
     if (database.rxdbInstance && status.value !== 'ready') {
-      const query = database.rxdbInstance.logbooks
-        .find()
-        .sort({ name: 'asc' })
+      const query = database.rxdbInstance.logbooks.find().sort({ name: 'asc' })
 
       useSubscription(
         query.$.subscribe({
@@ -93,15 +97,14 @@ export const useLogbookStore = defineStore('logbooks', () => {
             // Set up logbook entries observables...
             for (const doc of logbookDocs) {
               if (!rxdbEntriesByLogbook.value.has(doc.id)) {
+                const observableRef = getLogbookEntriesReactive(doc)
+
                 // Logbook entries observable isn't tracked yet.
-                rxdbEntriesByLogbook.value.set(
-                  doc.id,
-                  (getLogbookEntriesReactive(doc)),
-                )
+                rxdbEntriesByLogbook.value.set(doc.id, observableRef)
 
                 console.log(
                   `Added reactive entries observable for logbook ID: ${doc.id}`,
-                  rxdbEntriesByLogbook.value.get(doc.id)
+                  observableRef,
                 )
               }
             }
@@ -252,6 +255,10 @@ export const useLogbookStore = defineStore('logbooks', () => {
         entries,
         entriesCount,
         // activity,
+
+        getEntries: async () => {
+          return await database.rxdbInstance?.entries.find().exec()
+        },
 
         // Routes...
         getRoute: () => router.getLogbookRoute({ logbookId }),

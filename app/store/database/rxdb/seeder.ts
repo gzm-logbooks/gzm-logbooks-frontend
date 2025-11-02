@@ -59,8 +59,6 @@ export const seedFakeLogbook = async function (
   db: UserDatabase,
   delay = 200,
 ): Promise<LogbookDocument> {
-  console.log(db)
-
   const logbook = await db.logbooks.insert({
     id: nanoid(),
     name: 'Example Logbook',
@@ -68,10 +66,7 @@ export const seedFakeLogbook = async function (
 
   let counter = 0
   const timer = setInterval(async function () {
-    console.log(
-      entryFactory(logbook.primary, new Date(), 1),
-      await db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1)),
-    )
+    db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1))
 
     counter++
     if (counter >= 420) {
@@ -122,6 +117,6 @@ export function fakeMoodInputValues() {
   return validateMoodInput({
     amountComfort,
     amountGrowth,
-    amountRed: 1,
+    amountAnxiety: 1,
   })
 }
