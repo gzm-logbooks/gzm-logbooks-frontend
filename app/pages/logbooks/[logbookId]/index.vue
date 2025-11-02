@@ -38,10 +38,7 @@
       </template>
 
       <template #main-actions>
-        <nuxt-link
-          class="btn btn-primary"
-          :to="getLogbookCreateEntryRoute(logbook.getRouteParams())"
-        >
+        <nuxt-link class="btn btn-primary" :to="logbook.getCreateEntryRoute()">
           Add entry
         </nuxt-link>
 
@@ -55,6 +52,8 @@
         </button>
       </template>
     </LayoutPageHeader>
+
+    {{ status }}
 
     <template v-if="entries?.length === 0">
       <p>There are no entries in this logbook.</p>
@@ -81,7 +80,7 @@
           <h2 class="self-end mr-auto text-lg font-medium">Recent entries</h2>
           <nuxt-link
             class="btn btn-primary"
-            :to="getLogbookCreateEntryRoute(logbook.getRouteParams())"
+            :to="logbook.getCreateEntryRoute()"
           >
             Add entry
           </nuxt-link>
@@ -199,7 +198,7 @@ const db = await getUserDatabase()
 //   }
 // })
 
-const { logbooksById } = storeToRefs(useLogbookStore())
+const { logbooksById, status } = storeToRefs(useLogbookStore())
 const logbook = computed(() => logbookId && logbooksById.value[logbookId])
 
 // import { format } from 'date-fns'
@@ -210,11 +209,9 @@ const edit = ref<boolean>(false)
 const fields = ref({})
 
 // Get all entries.
-// const entries = await db.entries
-//   .find()
-//   .where({ logbook: logbookId })
-//   .sort({ timestamp: 'desc' })
-//   .exec()
+const entries = await logbook.value.getEntries()
+
+console.log({ logbookId, entries })
 
 const lastEntry = computed(() => entries.value && entries.value[0])
 
