@@ -9,7 +9,7 @@ import { toTypedRxJsonSchema } from 'rxdb'
 export const logbookEntrySchemaLiteral = {
   title: 'Entry',
   type: 'object',
-  version: 3,
+  version: 4,
   properties: {
     timestamp: {
       type: 'string',
@@ -22,13 +22,13 @@ export const logbookEntrySchemaLiteral = {
       minLength: 1,
       maxLength: 100,
     },
-    amountRed: {
+    amountAnxiety: {
       type: 'number',
     },
-    amountAmber: {
+    amountGrowth: {
       type: 'number',
     },
-    amountGreen: {
+    amountComfort: {
       type: 'number',
     },
     comment: {

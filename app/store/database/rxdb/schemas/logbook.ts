@@ -16,7 +16,7 @@ export const logbookSchemaLiteral = {
   title: 'logbook',
   type: 'object',
   primaryKey: 'id',
-  version: 3,
+  version: 4,
   properties: {
     id: {
       type: 'string',

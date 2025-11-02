@@ -30,9 +30,10 @@ export const collections = {
 
     migrationStrategies: {
       // TODO: Add migrations for previous versions.
-      1: (_oldDocumentData, _collection) => {},
-      2: (_oldDocumentData, _collection) => {},
-      3: (_oldDocumentData, _collection) => {},
+      1: (_oldDocumentData, _collection) => _oldDocumentData,
+      2: (_oldDocumentData, _collection) => _oldDocumentData,
+      3: (_oldDocumentData, _collection) => _oldDocumentData,
+      4: (_oldDocumentData, _collection) => _oldDocumentData,
     },
 
     statics: logbookCollectionMethods,
@@ -46,9 +47,19 @@ export const collections = {
 
     migrationStrategies: {
       // TODO: Add migrations for previous versions.
-      1: (_oldDocumentData, _collection) => {},
-      2: (_oldDocumentData, _collection) => {},
-      3: (_oldDocumentData, _collection) => {},
+      1: (_oldDocumentData, _collection) => _oldDocumentData,
+      2: (_oldDocumentData, _collection) => _oldDocumentData,
+      3: (_oldDocumentData, _collection) => _oldDocumentData,
+      4: (_oldDocumentData, _collection) => {
+        const { amountRed, amountAmber, amountGreen } = _oldDocumentData
+
+        return {
+          ..._oldDocumentData,
+          amountComfort: amountGreen,
+          amountGrowth: amountAmber,
+          amountAnxiety: amountRed,
+        }
+      },
     },
 
     statics: logbookEntryCollectionMethods,

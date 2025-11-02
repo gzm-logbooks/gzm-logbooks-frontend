@@ -62,7 +62,7 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
   const router = useAppRoutes()
   const rxdbLogbooks = ref<LogbookDocument[]>([])
-  const rxdbEntriesByLogbook = reactive(
+  const rxdbEntriesByLogbook = ref(
     new Map<string, Readonly<Ref<LogbookEntryDocument[]>>>(),
   )
 
@@ -80,7 +80,9 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
     // All logbooks...
     if (database.rxdbInstance && status.value !== 'ready') {
-      const query = database.rxdbInstance.logbooks.find().sort({ name: 'asc' })
+      const query = database.rxdbInstance.logbooks
+        .find()
+        .sort({ name: 'asc' })
 
       useSubscription(
         query.$.subscribe({
@@ -90,25 +92,23 @@ export const useLogbookStore = defineStore('logbooks', () => {
 
             // Set up logbook entries observables...
             for (const doc of logbookDocs) {
-              if (!rxdbEntriesByLogbook.has(doc.id)) {
-                // If the logbook is new or its entries observable isn't tracked yet, add it
-                rxdbEntriesByLogbook.set(
+              if (!rxdbEntriesByLogbook.value.has(doc.id)) {
+                // Logbook entries observable isn't tracked yet.
+                rxdbEntriesByLogbook.value.set(
                   doc.id,
-                  toRaw(getLogbookEntriesReactive(doc)),
+                  (getLogbookEntriesReactive(doc)),
                 )
+
                 console.log(
                   `Added reactive entries observable for logbook ID: ${doc.id}`,
-                )
-              } else {
-                // For existing logbooks, reuse the existing observable.
-                // No explicit action needed if it already exists, unless you want to log.
-                console.log(
-                  `Reusing reactive entries observable for logbook ID: ${doc.id}`,
+                  rxdbEntriesByLogbook.value.get(doc.id)
                 )
               }
             }
 
-            rxdbLogbooksError.value = null // Clear any previous error on success
+            // Clear any previous error on success
+            rxdbLogbooksError.value = null
+
             status.value = 'ready'
           },
           error: (err) => {
@@ -176,7 +176,7 @@ export const useLogbookStore = defineStore('logbooks', () => {
       const logbookId = data.id
 
       const entries = computed(() => {
-        const logbookEntriesRef = rxdbEntriesByLogbook.get(logbookId)
+        const logbookEntriesRef = rxdbEntriesByLogbook.value.get(logbookId)
 
         console.log({
           fromMap: logbookEntriesRef,
@@ -200,7 +200,7 @@ export const useLogbookStore = defineStore('logbooks', () => {
           `Logbook Store: - Computing 'entriesCount' for ${logbookId}`,
         )
 
-        const logbookEntriesRef = rxdbEntriesByLogbook.get(logbookId)
+        const logbookEntriesRef = rxdbEntriesByLogbook.value.get(logbookId)
 
         console.log(
           `Logbook Store: - 'logbookEntriesRef' for ${logbookId} (count):`,

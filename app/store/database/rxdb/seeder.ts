@@ -68,7 +68,10 @@ export const seedFakeLogbook = async function (
 
   let counter = 0
   const timer = setInterval(async function () {
-    await db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1))
+    console.log(
+      entryFactory(logbook.primary, new Date(), 1),
+      await db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1)),
+    )
 
     counter++
     if (counter >= 420) {
@@ -108,16 +111,17 @@ export function fakeMoodInputValues() {
 
   // const max = { red: 0.05, amber: 0.33 }
 
-  const amountGreen = Math.random() * (1 - minRadius - padding * 2) + minRadius
+  const amountComfort =
+    Math.random() * (1 - minRadius - padding * 2) + minRadius
 
-  const amountAmber = Math.max(
+  const amountGrowth = Math.max(
     Math.random() * (1 - minRadius - padding * 2) + minRadius + padding,
-    amountGreen + padding,
+    amountComfort + padding,
   )
 
   return validateMoodInput({
-    amountGreen,
-    amountAmber,
+    amountComfort,
+    amountGrowth,
     amountRed: 1,
   })
 }

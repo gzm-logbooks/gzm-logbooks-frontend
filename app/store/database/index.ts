@@ -3,6 +3,7 @@ import type { RxDatabase, RxStorage } from 'rxdb'
 import { addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb'
 import type { UserDatabase } from './rxdb/database'
 import { seedFakeLogbook } from './rxdb/seeder'
+import { useObservable } from '@vueuse/rxjs'
 
 export type DatabaseStatus = 'pending' | 'ready' | 'error'
 
@@ -42,6 +43,8 @@ export const useDatabase = defineStore('userDatabase', () => {
       console.error('Failed to initialize RxDB:', error)
       status.value = 'error'
     })
+
+  // const allEntries = useObservable(doc.getEntriesQuery().$, { initialValue: [] })
 
   async function getUserDatabase() {
     return await rxdbPromise
@@ -94,6 +97,7 @@ export const useDatabase = defineStore('userDatabase', () => {
   return {
     status,
     rxdbInstance,
+    rxdbPromise,
 
     isReady,
     isLoading,
@@ -104,6 +108,9 @@ export const useDatabase = defineStore('userDatabase', () => {
     getUserDatabase,
     resetUserDatabase,
     seedUserLogbook,
+
+    // debug
+    // allEntries,
   }
 })
 
