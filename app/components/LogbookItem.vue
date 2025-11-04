@@ -2,11 +2,11 @@
   <nuxt-link :to="logbook.getRoute()">
     <Card content-class="p-2 bg-base-300">
       <span class="card-title">{{ logbook.data.name }}</span>
-      <p class="mb-1 text-sm text-gray-600">{{ countEntries }} entries</p>
+      <p class="mb-1 text-sm text-gray-600">{{ entriesCount }} entries</p>
 
       <template #top>
         <div class="shadow-inner min-h-[8rem]">
-          <ProgressChart v-if="entries?.length > 1" :entries="entries" />
+          <ProgressChart v-if="entries.length > 1" :entries="entries" />
         </div>
       </template>
     </Card>
@@ -20,11 +20,9 @@ const { logbook } = defineProps({
   logbook: { type: Object as PropType<LogbookItem>, required: true },
 })
 
-const { getLogbookRoute } = useAppRoutes()
+const { entries, entriesCount } = logbook
 
-const entries = ref([])
-
-const countEntries = computed(() => entries.value?.length)
+// const countEntries = computed(() => entries.value?.length)
 </script>
 
 <!-- <script lang="ts">

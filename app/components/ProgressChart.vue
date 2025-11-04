@@ -126,7 +126,7 @@ function updateChart(entries) {
     {
       fill: {
         target: 'origin',
-        above: comfort,
+        above: green,
       },
       data: [],
       stepped: props.full ? false : 'before',
