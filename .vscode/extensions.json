@@ -1,11 +1,10 @@
 {
-    "recommendations": [
-        "bradlc.vscode-tailwindcss",
-        "dbaeumer.vscode-eslint",
-        "editorconfig.editorconfig",
-        "mikestead.dotenv",
-        "mkhl.direnv",
-        "octref.vetur",
-        "johnsoncodehk.volar"
-    ]
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "editorconfig.editorconfig",
+    "mikestead.dotenv",
+    "mkhl.direnv",
+    "biomejs.biome",
+    "vue.volar"
+  ]
 }
