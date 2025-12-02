@@ -46,8 +46,8 @@
 
 <script setup lang="ts">
 import { useDatabase } from '~/store/database'
-import { useLogbookStore } from '~/store/logbooks'
+import { useLogbookCollectionStore } from '~/store/logbooks'
 
 const { seedUserLogbook } = useDatabase()
-const { logbooks, status } = storeToRefs(useLogbookStore())
+const { logbooks, status } = storeToRefs(useLogbookCollectionStore())
 </script>

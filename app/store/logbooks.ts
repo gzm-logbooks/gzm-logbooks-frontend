@@ -63,7 +63,7 @@ export interface LogbookEntryItem {
 // Note the added 'waiting_db' state which reflects the dependency hierarchy.
 type LogbooksReadyStatus = 'pending' | 'ready' | 'error'
 
-export const useLogbookStore = defineStore('logbooks', () => {
+export const useLogbookCollectionStore = defineStore('logbooks', () => {
   const database = useDatabase()
 
   const router = useAppRoutes()
@@ -295,6 +295,12 @@ export const useLogbookStore = defineStore('logbooks', () => {
   }
 })
 
+/**
+ * @todo
+ */
+export const useLogbookStore = defineStore('logbook', () => {
+})
+
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useLogbookStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useLogbookCollectionStore, import.meta.hot))
 }
