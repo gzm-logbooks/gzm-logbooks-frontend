@@ -27,9 +27,7 @@
 </template>
 
 <script lang="ts">
-import tailwindConfig from '#tailwind-config'
 import { useTheme } from '~/composables/useTheme'
-import { useRatingStore } from '~/store/rating'
 
 export default {
   props: {

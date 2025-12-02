@@ -1,17 +1,17 @@
-import { name, version } from './package.json'
+import { name, version } from './package.json';
 
 //
 const {
   SITE_TITLE: siteTitle = 'Growth Zone Model Logbooks',
   BRANCH: branch = 'branch',
   COMMIT_REF: shaRef = 'commit',
-} = {}
+} = {};
 
 //
 const buildName = [branch, shaRef]
   .filter((part) => typeof part === 'string')
   .map((part) => part.slice(0, 6))
-  .join('.')
+  .join('.');
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -125,4 +125,4 @@ export default defineNuxtConfig({
   eslint: {
     // options here
   },
-})
+});

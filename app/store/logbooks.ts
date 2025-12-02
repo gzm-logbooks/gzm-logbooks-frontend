@@ -1,46 +1,34 @@
-import { defineStore } from 'pinia'
-import { ref, computed, toRaw } from 'vue'
-import { nanoid } from 'nanoid'
-import type { Observable } from 'rxjs'
-import { EMPTY } from 'rxjs'
-import { useDatabase } from './database'
-import { useAppRoutes } from '~/composables/useAppRoutes'
+import { defineStore } from 'pinia';
+import { ref, computed, toRaw } from 'vue';
+import { nanoid } from 'nanoid';
+import { useDatabase } from './database';
+import { useAppRoutes } from '~/composables/useAppRoutes';
 import type {
   LogbookDocumentType,
-  LogbookCollection,
   LogbookDocument,
-} from '~/store/database/rxdb/schemas/logbook'
-import type { RouteLocationRaw } from 'vue-router'
+} from '~/store/database/rxdb/schemas/logbook';
 import type {
-  LogbookEntryCollection,
   LogbookEntryDocument,
   LogbookEntryDocumentType,
-} from '~/store/database/rxdb/schemas'
+} from '~/store/database/rxdb/schemas';
 
-import { keyBy } from 'es-toolkit'
-import {
-  useSubscription,
-  useObservable,
-  toObserver,
-  from,
-  useExtractedObservable,
-} from '@vueuse/rxjs'
-import { compareAsc } from 'date-fns'
+import { keyBy } from 'es-toolkit';
+import { useSubscription, useObservable } from '@vueuse/rxjs';
 
 export interface LogbookItem {
-  doc?: LogbookDocument
-  data: LogbookDocumentType
-  entries: Ref<LogbookEntryItem[]>
-  entriesCount: Ref<number>
+  doc?: LogbookDocument;
+  data: LogbookDocumentType;
+  entries: Ref<LogbookEntryItem[]>;
+  entriesCount: Ref<number>;
   activity: Ref<{
-    oldestEntry: Date
-    latestEntry: Date
-  }>
+    oldestEntry: Date;
+    latestEntry: Date;
+  }>;
 }
 
 export interface LogbookEntryItem {
-  doc?: LogbookEntryDocument
-  data: LogbookEntryDocumentType
+  doc?: LogbookEntryDocument;
+  data: LogbookEntryDocumentType;
 }
 
 // export interface LogbookItem extends LogbookDocumentType {
@@ -61,103 +49,103 @@ export interface LogbookEntryItem {
 
 // Define the possible states for local data loading
 // Note the added 'waiting_db' state which reflects the dependency hierarchy.
-type LogbooksReadyStatus = 'pending' | 'ready' | 'error'
+type LogbooksReadyStatus = 'pending' | 'ready' | 'error';
 
 export const useLogbookCollectionStore = defineStore('logbooks', () => {
-  const database = useDatabase()
+  const database = useDatabase();
 
-  const router = useAppRoutes()
-  const rxdbLogbooks = ref<LogbookDocument[]>([])
+  const router = useAppRoutes();
+  const rxdbLogbooks = ref<LogbookDocument[]>([]);
   const rxdbEntriesByLogbook = ref(
     new Map<string, Readonly<Ref<LogbookEntryDocument[]>>>(),
-  )
+  );
 
   // Start in the state where we are waiting for the dependency
-  const status = ref<LogbooksReadyStatus>('pending')
+  const status = ref<LogbooksReadyStatus>('pending');
 
   // State and internal vars...
-  const rxdbLogbooksError = ref<any>(null)
+  const rxdbLogbooksError = ref<any>(null);
 
   /**
    * Finds the collection reference and starts the subscription.
    */
   function setupSubscriptions() {
-    console.log('Setting up subscriptions')
+    console.log('Setting up subscriptions');
 
     // All logbooks...
     if (database.rxdbInstance && status.value !== 'ready') {
-      const query = database.rxdbInstance.logbooks.find().sort({ name: 'asc' })
+      const query = database.rxdbInstance.logbooks.find().sort({ name: 'asc' });
 
       useSubscription(
         query.$.subscribe({
           next: (logbookDocs) => {
             // Save logbooks data...
-            rxdbLogbooks.value = logbookDocs
+            rxdbLogbooks.value = logbookDocs;
 
             // Set up logbook entries observables...
             for (const doc of logbookDocs) {
               if (!rxdbEntriesByLogbook.value.has(doc.id)) {
-                const observableRef = getLogbookEntriesReactive(doc)
+                const observableRef = getLogbookEntriesReactive(doc);
 
                 // Logbook entries observable isn't tracked yet.
-                rxdbEntriesByLogbook.value.set(doc.id, observableRef)
+                rxdbEntriesByLogbook.value.set(doc.id, observableRef);
 
                 console.log(
                   `Added reactive entries observable for logbook ID: ${doc.id}`,
                   observableRef,
-                )
+                );
               }
             }
 
             // Clear any previous error on success
-            rxdbLogbooksError.value = null
+            rxdbLogbooksError.value = null;
 
-            status.value = 'ready'
+            status.value = 'ready';
           },
           error: (err) => {
-            console.error('Logbook RxDB Subscription Error:', err)
-            rxdbLogbooks.value = []
-            rxdbLogbooksError.value = err
-            status.value = 'error'
+            console.error('Logbook RxDB Subscription Error:', err);
+            rxdbLogbooks.value = [];
+            rxdbLogbooksError.value = err;
+            status.value = 'error';
           },
         }),
-      )
+      );
     }
   }
 
   // Convenience computed properties for external use
-  const isLoading = computed(() => status.value === 'pending')
-  const isLoaded = computed(() => status.value === 'ready')
-  const hasError = computed(() => status.value === 'error')
+  const isLoading = computed(() => status.value === 'pending');
+  const isLoaded = computed(() => status.value === 'ready');
+  const hasError = computed(() => status.value === 'error');
 
   function getLogbookEntriesReactive(
     doc: LogbookDocument,
   ): Readonly<Ref<LogbookEntryDocument[]>> {
-    return useObservable(doc.getEntriesQuery().$, { initialValue: [] })
+    return useObservable(doc.getEntriesQuery().$, { initialValue: [] });
   }
 
   async function createLogbook(name: string) {
     if (!database.rxdbInstance) {
-      throw new Error('Internal database not ready')
+      throw new Error('Internal database not ready');
     }
 
     await database.rxdbInstance.logbooks.insert({
       id: nanoid(10),
       name: name.trim(),
-    })
+    });
   }
 
   database.$subscribe(
     () => {
-      console.log(`Logbook Store: DB status changed to ${database.status}.`)
+      console.log(`Logbook Store: DB status changed to ${database.status}.`);
 
       if (database.status === 'ready') {
-        setupSubscriptions()
+        setupSubscriptions();
         // Database is ready, and we haven't started listening yet -> Go to PENDING (local loading)
       }
     },
     { immediate: true },
-  )
+  );
 
   // TODO
   // const logbookEntries
@@ -174,65 +162,65 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
     // Apply the transformation only when rxdbLogbooks changes
     return Array.from(rxdbLogbooks.value).map((doc): LogbookItem => {
       // 1. Get plain data (strips RxDB persistence methods)
-      const data = doc.toJSON() as LogbookDocumentType
+      const data = doc.toJSON() as LogbookDocumentType;
 
-      const logbookId = data.id
+      const logbookId = data.id;
 
       const entries = computed(() => {
-        const logbookEntriesRef = rxdbEntriesByLogbook.value.get(logbookId)
+        const logbookEntriesRef = rxdbEntriesByLogbook.value.get(logbookId);
 
         console.log({
           fromMap: logbookEntriesRef,
           toRaw: toRaw(rxdbLogbooks),
           unref: unref(logbookEntriesRef),
           value: logbookEntriesRef?.value,
-        })
+        });
 
         return Array.from(unref(logbookEntriesRef) || []).map(
           (doc: LogbookEntryDocument): LogbookEntryItem => {
             return {
               doc: doc,
               data: doc.toJSON() as LogbookEntryDocumentType,
-            }
+            };
           },
-        )
-      })
+        );
+      });
 
       const entriesCount = computed(() => {
         console.log(
           `Logbook Store: - Computing 'entriesCount' for ${logbookId}`,
-        )
+        );
 
-        const logbookEntriesRef = rxdbEntriesByLogbook.value.get(logbookId)
+        const logbookEntriesRef = rxdbEntriesByLogbook.value.get(logbookId);
 
         console.log(
           `Logbook Store: - 'logbookEntriesRef' for ${logbookId} (count):`,
           logbookEntriesRef,
-        )
+        );
 
-        const unrefedEntries = unref(logbookEntriesRef)
+        const unrefedEntries = unref(logbookEntriesRef);
 
-        const count = unrefedEntries?.length || 0
+        const count = unrefedEntries?.length || 0;
 
         console.log(
           `Logbook Store: - Final 'entriesCount' for ${logbookId}: ${count}`,
-        )
-        return count
-      })
+        );
+        return count;
+      });
 
       // console.log(entries.value)
 
-      const activity = computed(() => {
+      const _activity = computed(() => {
         unref(entries.value).reduce(
-          (acc, currentValue) => {
+          (_acc, _currentValue) => {
             // if (currentValue.data)
           },
           {
             oldestEntry: null,
             latestEntry: null,
           },
-        )
-      })
+        );
+      });
 
       // 2. Inject Presentation/Action methods
       return {
@@ -240,14 +228,14 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
 
         // Model actions...
         update: (fields: Partial<LogbookDocumentType>) => {
-          return doc.patch({ ...fields })
+          return doc.patch({ ...fields });
         },
 
         delete: () => {
-          return doc.remove()
+          return doc.remove();
         },
 
-        addEntry: (fields: LogbookEntryDocumentType) => {
+        addEntry: (_fields: LogbookEntryDocumentType) => {
           // TODO: Use logbookEntry store when implemented...
         },
 
@@ -257,7 +245,7 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
         // activity,
 
         getEntries: async () => {
-          return await database.rxdbInstance?.entries.find().exec()
+          return await database.rxdbInstance?.entries.find().exec();
         },
 
         // Routes...
@@ -266,13 +254,13 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
           router.getLogbookEntryRoute({ logbookId, entryId }),
         getCreateEntryRoute: () =>
           router.getLogbookCreateEntryRoute({ logbookId }),
-      }
-    })
-  })
+      };
+    });
+  });
 
   const logbooksById = computed(() => {
-    return keyBy(logbooks.value, (item: LogbookItem) => item.data.id)
-  })
+    return keyBy(logbooks.value, (item: LogbookItem) => item.data.id);
+  });
 
   // const entriesByLogbookId = computed(() => {
   //     return logbooks.value.map((logbook) => getLogbookEntriesReactive(logbook.doc))
@@ -292,15 +280,16 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
     isLoaded,
     hasError,
     createLogbook,
-  }
-})
+  };
+});
 
 /**
  * @todo
  */
-export const useLogbookStore = defineStore('logbook', () => {
-})
+export const useLogbookStore = defineStore('logbook', () => {});
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useLogbookCollectionStore, import.meta.hot))
+  import.meta.hot.accept(
+    acceptHMRUpdate(useLogbookCollectionStore, import.meta.hot),
+  );
 }

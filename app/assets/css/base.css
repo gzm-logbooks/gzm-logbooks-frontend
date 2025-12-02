@@ -1,6 +1,6 @@
 @layer base {
   /* Default button styles */
-  .button:not([class*='button-']) {
+  .button:not([class*="button-"]) {
     @apply button--default;
   }
 

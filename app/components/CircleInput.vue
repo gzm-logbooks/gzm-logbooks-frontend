@@ -67,7 +67,7 @@ import { useRatingStore } from '~/store/rating'
 
 import { useTheme } from '~/composables/useTheme'
 
-function getTouchEventCoords(params) {
+function getTouchEventCoords(_params) {
   // Get viewpoint coords.
   const { clientX: x, clientY: y } = event.changedTouches[0]
 
@@ -165,7 +165,7 @@ export default {
       }
     },
 
-    endDrag(event) {
+    endDrag(_event) {
       const { currentCircle } = this
 
       // Exit if not grabbing.
@@ -190,7 +190,7 @@ export default {
       //
       const { scale } = this.getRelativeCoords(viewportCoords)
 
-      if (this.currentCircle == 'amber') {
+      if (this.currentCircle === 'amber') {
         return this.updateCircleScale(currentCircle, scale)
       }
 
@@ -210,7 +210,7 @@ export default {
       const y = (viewportCoords.y - rect.top - rect.height / 2) / rect.height
 
       // Get magnitude of the X,Y vector found above
-      const scale = 2 * Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+      const scale = 2 * Math.sqrt(x ** 2 + y ** 2)
 
       return { x, y, scale }
     },

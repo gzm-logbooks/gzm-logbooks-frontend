@@ -54,7 +54,7 @@ import { useConfigStore } from '~/store/config'
 
 const { switchTheme } = useConfigStore()
 
-const themeBgColors = [
+const _themeBgColors = [
   'bg-primary',
   'bg-primary-content',
 

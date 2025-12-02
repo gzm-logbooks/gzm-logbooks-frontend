@@ -67,7 +67,7 @@ export default {
 
       // Get a theme name string from each config item.
       return Object.entries(themes)
-        .map(function ([key, value]) {
+        .map(([key, value]) => {
           if (typeof key === 'string') {
             const theme = key.match(/\[data-theme=(.*)\]/)
             console.log({ key, value, theme })
@@ -93,9 +93,7 @@ export default {
 
           return null
         })
-        .filter(function (themeName) {
-          return typeof themeName === 'string'
-        })
+        .filter((themeName) => typeof themeName === 'string')
     },
   },
   mounted() {

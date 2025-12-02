@@ -12,7 +12,7 @@
       </LayoutContainer>
 
       <NuxtErrorBoundary @error="logError">
-        <slot class="px-4" v-if="isReady" />
+        <slot v-if="isReady" class="px-4" />
       </NuxtErrorBoundary>
     </div>
   </ClientOnly>
@@ -30,7 +30,7 @@ useHead({
   },
 })
 
-function logError(error: Error) {
+function _logError(error: Error) {
   const { message, stack, cause } = error
 
   console.error(error, { message, stack, cause })

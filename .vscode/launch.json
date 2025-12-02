@@ -13,14 +13,14 @@
         "${workspaceFolder}/node_modules/**/*.js",
         "${workspaceFolder}/lib/**/*.js",
         "<node_internals>/**/*.js"
-      ],
+      ]
     },
     {
       "type": "firefox",
       "request": "launch",
       "name": "client: firefox",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}",
+      "webRoot": "${workspaceFolder}"
     },
     {
       "type": "node",
@@ -28,18 +28,13 @@
       "name": "server: nuxt",
       "outputCapture": "std",
       "program": "${workspaceFolder}/node_modules/nuxi/bin/nuxi.mjs",
-      "args": [
-        "dev"
-      ],
+      "args": ["dev"]
     }
   ],
   "compounds": [
     {
       "name": "fullstack: nuxt",
-      "configurations": [
-        "server: nuxt",
-        "client: chrome"
-      ]
+      "configurations": ["server: nuxt", "client: chrome"]
     }
   ]
 }

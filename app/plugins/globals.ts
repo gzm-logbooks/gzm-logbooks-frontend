@@ -23,10 +23,10 @@ import {
   Legend,
   Title,
   Tooltip,
-} from 'chart.js'
+} from 'chart.js';
 // import { Vue } from '#app'
 // import VueRx from 'vue-rx'
-import 'chartjs-adapter-date-fns'
+import 'chartjs-adapter-date-fns';
 
 Chart.register(
   //   ArcElement,
@@ -52,7 +52,7 @@ Chart.register(
   Legend,
   Title,
   Tooltip,
-)
+);
 
 /**
  * Register the plugin...
@@ -60,5 +60,5 @@ Chart.register(
 export default defineNuxtPlugin((_nuxtApp) => {
   // Default export required.
 
-  return {}
-})
+  return {};
+});

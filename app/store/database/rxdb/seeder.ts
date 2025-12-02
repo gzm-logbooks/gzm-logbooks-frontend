@@ -1,13 +1,12 @@
-import type { RxDatabase, RxDocument } from 'rxdb'
-import { nanoid } from 'nanoid'
-import type { UserDatabase } from '~/store/database/rxdb/database'
-import type { LogbookDocument } from '~/store/database/rxdb/schemas'
+import { nanoid } from 'nanoid';
+import type { UserDatabase } from '~/store/database/rxdb/database';
+import type { LogbookDocument } from '~/store/database/rxdb/schemas';
 
-import { clamp } from 'es-toolkit'
-import { growthInputDefaults } from '~/../data/mood'
-const hour = 1000 * 60 * 60
-const day = hour * 24
-const week = day * 7
+import { clamp } from 'es-toolkit';
+import { growthInputDefaults } from '~/../data/mood';
+const hour = 1000 * 60 * 60;
+const day = hour * 24;
+const week = day * 7;
 
 const entryFactory = (
   logbookId,
@@ -18,7 +17,7 @@ const entryFactory = (
 ) => {
   //
   function getSpread() {
-    return parseInt(Math.random() * spread)
+    return parseInt(Math.random() * spread, 10);
   }
 
   // function boxMuller() {
@@ -29,72 +28,72 @@ const entryFactory = (
   // }
 
   function getAmounts() {
-    return fakeMoodInputValues()
+    return fakeMoodInputValues();
   }
 
   //
-  const entries = []
+  const entries = [];
 
   while (entries.length < amount) {
-    const last = entries[entries.length - 1]
-    const lastTime = new Date(last ? last.timestamp : from)
+    const last = entries[entries.length - 1];
+    const lastTime = new Date(last ? last.timestamp : from);
 
     //
-    const next = new Date(lastTime.getTime() - (step + getSpread()))
+    const next = new Date(lastTime.getTime() - (step + getSpread()));
 
     entries.push({
       timestamp: next.toISOString(),
       logbook: logbookId,
       ...getAmounts(),
-    })
+    });
   }
 
-  return entries
-}
+  return entries;
+};
 
 /**
  * Create a demo logbook and fill it with fake data.
  */
-export const seedFakeLogbook = async function (
+export const seedFakeLogbook = async (
   db: UserDatabase,
   delay = 200,
-): Promise<LogbookDocument> {
+): Promise<LogbookDocument> => {
   const logbook = await db.logbooks.insert({
     id: nanoid(),
     name: 'Example Logbook',
-  })
+  });
 
-  let counter = 0
-  const timer = setInterval(async function () {
-    db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1))
+  let counter = 0;
+  const timer = setInterval(async () => {
+    db.entries.bulkInsert(entryFactory(logbook.primary, new Date(), 1));
 
-    counter++
+    counter++;
     if (counter >= 420) {
-      clearInterval(timer)
+      clearInterval(timer);
     }
-  }, delay)
+  }, delay);
 
-  return logbook
-}
+  return logbook;
+};
 
 /**
  *
  */
 function validateMoodInput(value) {
-  const { padding, minRadius } = growthInputDefaults
+  const { padding, minRadius } = growthInputDefaults;
 
-  const amountComfort = clamp(value.amountComfort, minRadius, 1 - padding * 2)
+  const amountComfort = clamp(value.amountComfort, minRadius, 1 - padding * 2);
   const amountGrowth = clamp(
     value.amountGrowth,
     amountComfort + padding,
     1 - padding,
-  )
+  );
 
   return {
     amountComfort,
     amountGrowth,
     amountAnxiety: 1,
-  }
+  };
 }
 
 /**
@@ -102,21 +101,21 @@ function validateMoodInput(value) {
  * @returns
  */
 export function fakeMoodInputValues() {
-  const { padding, minRadius } = growthInputDefaults
+  const { padding, minRadius } = growthInputDefaults;
 
   // const max = { red: 0.05, amber: 0.33 }
 
   const amountComfort =
-    Math.random() * (1 - minRadius - padding * 2) + minRadius
+    Math.random() * (1 - minRadius - padding * 2) + minRadius;
 
   const amountGrowth = Math.max(
     Math.random() * (1 - minRadius - padding * 2) + minRadius + padding,
     amountComfort + padding,
-  )
+  );
 
   return validateMoodInput({
     amountComfort,
     amountGrowth,
     amountAnxiety: 1,
-  })
+  });
 }

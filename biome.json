@@ -1,5 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "root": true,
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -13,51 +14,8 @@
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineEnding": "lf",
     "lineWidth": 80,
-    "attributePosition": "auto",
-    "bracketSameLine": false,
-    "bracketSpacing": true,
-    "expand": "auto",
-    "useEditorconfig": true,
-    "includes": [
-      "**",
-      "!./logs",
-      "!**/*.log",
-      "!**/npm-debug.log*",
-      "!**/yarn-debug.log*",
-      "!**/yarn-error.log*",
-      "!**/pids",
-      "!**/*.pid",
-      "!**/*.seed",
-      "!**/*.pid.lock",
-      "!**/lib-cov",
-      "!**/coverage",
-      "!**/.nyc_output",
-      "!**/.grunt",
-      "!**/bower_components",
-      "!**/.lock-wscript",
-      "!build/Release",
-      "!**/node_modules/",
-      "!**/jspm_packages/",
-      "!**/typings/",
-      "!**/.npm",
-      "!**/.eslintcache",
-      "!**/.node_repl_history",
-      "!**/*.tgz",
-      "!**/.yarn-integrity",
-      "!**/.env",
-      "!**/.cache",
-      "!**/.next",
-      "!**/.nuxt",
-      "!**/dist",
-      "!.vuepress/dist",
-      "!**/.serverless",
-      "!**/.idea",
-      "!**/sw.*",
-      "!**/.DS_Store",
-      "!**/*.swp"
-    ]
+    "attributePosition": "auto"
   },
   "linter": {
     "enabled": true,
@@ -67,21 +25,19 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useFilenamingConvention": "error"
+        "useFilenamingConvention": "info"
       }
     }
   },
   "javascript": {
     "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
-      "semicolons": "asNeeded",
-      "arrowParentheses": "always",
-      "bracketSameLine": false,
-      "quoteStyle": "single",
-      "attributePosition": "auto",
-      "bracketSpacing": true
+      "quoteStyle": "single"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true
     }
   },
   "html": {

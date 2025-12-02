@@ -50,5 +50,7 @@
     "eslint-plugin-vue": "^10.6.2",
     "prettier": "^3.7.3"
   },
-  "trustedDependencies": ["rxdb"]
+  "trustedDependencies": [
+    "rxdb"
+  ]
 }

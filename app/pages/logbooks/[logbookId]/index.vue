@@ -172,7 +172,6 @@
 <script lang="ts" setup>
 import { format } from 'date-fns'
 import { useDatabase } from '~/store/database'
-import { useObservable } from '@vueuse/rxjs'
 import { useRatingStore } from '~/store/rating'
 import { useLogbookCollectionStore } from '~/store/logbooks'
 
@@ -185,7 +184,7 @@ const { scaledMoodInput } = useRatingStore()
 const { getLogbookRoute, getLogbookEntryRoute, getLogbookCreateEntryRoute } =
   useAppRoutes()
 
-const db = await getUserDatabase()
+const _db = await getUserDatabase()
 
 // const { data, error, status } = await useAsyncData(async () => {
 //   return {
@@ -213,9 +212,9 @@ const entries = await logbook.value.getEntries()
 
 console.log({ logbookId, entries })
 
-const lastEntry = computed(() => entries.value && entries.value[0])
+const _lastEntry = computed(() => entries.value?.[0])
 
-const lastWeekEntries = computed(() =>
+const _lastWeekEntries = computed(() =>
   (entries.value ?? [])
     .slice(1)
     .filter(
@@ -223,7 +222,7 @@ const lastWeekEntries = computed(() =>
         Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp),
     ),
 )
-const olderEntries = computed(() =>
+const _olderEntries = computed(() =>
   (entries.value ?? [])
     .slice(1)
     .filter(
@@ -232,14 +231,14 @@ const olderEntries = computed(() =>
     ),
 )
 
-const recentDateFormatter = () =>
+const _recentDateFormatter = () =>
   new Intl.DateTimeFormat('default', {
     weekday: 'long',
     month: '2-digit',
     day: '2-digit',
   })
 
-const olderDateFormatter = () =>
+const _olderDateFormatter = () =>
   new Intl.DateTimeFormat('default', {
     month: '2-digit',
     day: '2-digit',
@@ -255,7 +254,7 @@ onMounted(async () => {
   reset()
 })
 
-function chartClicked(timestamp) {
+function _chartClicked(timestamp) {
   navigateTo({
     name: 'logbooks-logbookId-entries-entryId',
     params: {
@@ -267,7 +266,7 @@ function chartClicked(timestamp) {
 }
 
 // TODO: move to store
-async function save(fields) {
+async function _save(fields) {
   const data = {
     name: fields.name,
   }
@@ -276,7 +275,7 @@ async function save(fields) {
 }
 
 // TODO
-function downloadLogbook() {
+function _downloadLogbook() {
   const data = this.entries.map((entry) => {
     const { timestamp, comment, amountAnxiety, amountGrowth, amountComfort } =
       entry
@@ -297,15 +296,15 @@ function downloadLogbook() {
   })
 
   let csv = 'Date,Comment,Anxiety,Growth,Comfort,\n'
-  data.forEach(function (row) {
+  data.forEach((row) => {
     csv += row.join(',')
     csv += '\n'
   })
 
   const hiddenElement = document.createElement('a')
-  hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
+  hiddenElement.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`
   hiddenElement.target = '_blank'
-  hiddenElement.download = logbook.value.name + '.csv'
+  hiddenElement.download = `${logbook.value.name}.csv`
   hiddenElement.click()
 }
 

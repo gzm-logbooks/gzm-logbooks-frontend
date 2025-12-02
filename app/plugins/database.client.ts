@@ -1,35 +1,38 @@
-import type { RxDatabase, RxStorage } from 'rxdb'
-import { addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb'
-import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie'
-import { wrappedValidateAjvStorage } from 'rxdb/plugins/validate-ajv'
-import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
-import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder'
-import { RxDBMigrationSchemaPlugin } from 'rxdb/plugins/migration-schema'
-import { collections, type UserDatabase } from '../store/database/rxdb/database'
+import type { RxStorage } from 'rxdb';
+import { addRxPlugin, createRxDatabase } from 'rxdb';
+import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
+import { wrappedValidateAjvStorage } from 'rxdb/plugins/validate-ajv';
+import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
+import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
+import { RxDBMigrationSchemaPlugin } from 'rxdb/plugins/migration-schema';
+import {
+  collections,
+  type UserDatabase,
+} from '../store/database/rxdb/database';
 
 // 1. Add ALL RxDB plugins here
-addRxPlugin(RxDBQueryBuilderPlugin)
-addRxPlugin(RxDBMigrationSchemaPlugin)
+addRxPlugin(RxDBQueryBuilderPlugin);
+addRxPlugin(RxDBMigrationSchemaPlugin);
 if (import.meta.env.DEV) {
-  addRxPlugin(RxDBDevModePlugin)
+  addRxPlugin(RxDBDevModePlugin);
 }
 
 // 2. Setup the storage (reusable)
 const storage: RxStorage<unknown, unknown> = wrappedValidateAjvStorage({
   storage: getRxStorageDexie(),
-})
+});
 
-let dbPromise: Promise<UserDatabase> | null = null
+let dbPromise: Promise<UserDatabase> | null = null;
 
 /**
  * Initializes and returns the singleton RxDB database instance.
  */
 async function initDatabase(): Promise<UserDatabase> {
   if (dbPromise) {
-    return dbPromise
+    return dbPromise;
   } else {
     dbPromise = (async () => {
-      console.info('RxDB: Initializing database...')
+      console.info('RxDB: Initializing database...');
 
       // Core database creation logic
       const db = (await createRxDatabase({
@@ -37,15 +40,15 @@ async function initDatabase(): Promise<UserDatabase> {
         storage: storage,
         // Pass the storage instance to the database for later use if needed
         // storageRef: storage,
-      })) as UserDatabase
+      })) as UserDatabase;
 
-      await db.addCollections(collections)
-      console.info('RxDB: Collections added successfully.')
-      return db
-    })()
+      await db.addCollections(collections);
+      console.info('RxDB: Collections added successfully.');
+      return db;
+    })();
   }
 
-  return dbPromise
+  return dbPromise;
 }
 
 /**
@@ -61,5 +64,5 @@ export default defineNuxtPlugin(async (_nuxtApp) => {
       // You can still provide the raw storage if a custom feature needs it
       rxdbStorage: storage,
     },
-  }
-})
+  };
+});

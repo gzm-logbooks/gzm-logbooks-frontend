@@ -76,10 +76,10 @@ const chartOptions = reactive({
       max: props.full ? 1.03 : 1,
     },
   },
-  onClick(event, elements = [], legend) {
+  onClick(_event, elements = [], legend) {
     const first = elements[0]
 
-    if (first && first.element) {
+    if (first?.element) {
       const dataset = legend.data?.datasets[first.datasetIndex]
       const pointData = dataset?.data[first.index]
       const primary = pointData?.id
@@ -92,7 +92,7 @@ const chartOptions = reactive({
 const canvasRef = ref()
 const chartRef = ref()
 
-function updateChart(entries) {
+function updateChart(_entries) {
   if (!chartRef.value) {
     return
   }

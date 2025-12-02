@@ -20,7 +20,7 @@ export default {
     await storage.on('ready', async () => {
       console.log({ Widget })
       // const Widget = await import('remotestorage-widget')
-      const widget = Widget
+      const _widget = Widget
       // .then(
       //   (widget) => widget.attach(element.id)
       // )

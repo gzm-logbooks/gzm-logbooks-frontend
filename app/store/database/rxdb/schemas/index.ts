@@ -1,2 +1,2 @@
-export * from './logbook'
-export * from './logbookEntry'
+export * from './logbook';
+export * from './logbookEntry';

@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts">
-import tailwindConfig from '#tailwind-config'
 import { useTheme } from '~/composables/useTheme'
 
 export default {

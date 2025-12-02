@@ -3,8 +3,8 @@ import type {
   RxCollection,
   RxDocument,
   RxJsonSchema,
-} from 'rxdb'
-import { toTypedRxJsonSchema } from 'rxdb'
+} from 'rxdb';
+import { toTypedRxJsonSchema } from 'rxdb';
 
 export const logbookEntrySchemaLiteral = {
   title: 'Entry',
@@ -38,51 +38,51 @@ export const logbookEntrySchemaLiteral = {
   primaryKey: 'timestamp',
   indexes: ['logbook'],
   required: ['timestamp', 'logbook'],
-} as const
+} as const;
 
-const _schemaTyped = toTypedRxJsonSchema(logbookEntrySchemaLiteral)
+const _schemaTyped = toTypedRxJsonSchema(logbookEntrySchemaLiteral);
 
 // aggregate the document type from the schema
 export type LogbookEntryDocumentType = ExtractDocumentTypeFromTypedRxJsonSchema<
   typeof _schemaTyped
->
+>;
 
 export type LogbookEntryDocumentMethods = {
-  getRouteParams: () => object
-}
+  getRouteParams: () => object;
+};
 
 // we declare one static ORM-method for the collection
-export type LogbookEntryCollectionMethods = {}
+export type LogbookEntryCollectionMethods = {};
 
 export type LogbookEntryDocument = RxDocument<
   LogbookEntryDocumentType,
   LogbookEntryDocumentMethods
->
+>;
 
 // and then merge all our types
 export type LogbookEntryCollection = RxCollection<
   LogbookEntryDocumentType,
   LogbookEntryDocumentMethods,
   LogbookEntryCollectionMethods
->
+>;
 
 // create the typed RxJsonSchema from the literal typed object.
 export const logbookEntrySchema: RxJsonSchema<LogbookEntryDocumentType> =
-  logbookEntrySchemaLiteral
+  logbookEntrySchemaLiteral;
 
 export const logbookEntryDocumentMethods: LogbookEntryDocumentMethods = {
   getRouteParams(): object {
-    const { primary, logbook } = this
+    const { primary, logbook } = this;
 
     if (!primary || !logbook) {
-      throw new Error('Missing core data')
+      throw new Error('Missing core data');
     }
 
     return {
       logbookId: logbook,
       entryId: primary,
-    }
+    };
   },
-}
+};
 
-export const logbookEntryCollectionMethods: LogbookEntryCollectionMethods = {}
+export const logbookEntryCollectionMethods: LogbookEntryCollectionMethods = {};

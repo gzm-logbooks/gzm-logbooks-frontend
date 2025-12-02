@@ -1,7 +1,7 @@
 // import pluginForms from '@tailwindcss/forms'
-import pluginTypography from '@tailwindcss/typography'
-import pluginDaisy from 'daisyui'
-import daisyThemes from 'daisyui/src/theming/themes'
+import pluginTypography from '@tailwindcss/typography';
+import pluginDaisy from 'daisyui';
+import daisyThemes from 'daisyui/src/theming/themes';
 
 // console.log(daisyThemes)
 
@@ -14,11 +14,11 @@ import daisyThemes from 'daisyui/src/theming/themes'
 function withOpacityValue(variable) {
   return ({ opacityValue }) => {
     if (opacityValue === undefined) {
-      return `hsla(var(${variable}))`
+      return `hsla(var(${variable}))`;
     }
 
-    return `hsla(var(${variable}) / ${opacityValue})`
-  }
+    return `hsla(var(${variable}) / ${opacityValue})`;
+  };
 }
 
 export default {
@@ -29,7 +29,7 @@ export default {
         growth: withOpacityValue('--color-growth-hsl'),
         anxiety: withOpacityValue('--color-anxiety-hsl'),
       },
-      backgroundImage: (theme) => ({
+      backgroundImage: (_theme) => ({
         texture:
           'url("https://source.unsplash.com/collection/5019395/1600x900")',
         paper: 'url("https://pagecdn.io/lib/subtlepatterns/lined-paper-2.png")',
@@ -80,4 +80,4 @@ export default {
   ],
 
   // content: ['formulate.config.*', 'nuxt.config.*', 'layouts/', 'components/**/*' ],
-}
+};

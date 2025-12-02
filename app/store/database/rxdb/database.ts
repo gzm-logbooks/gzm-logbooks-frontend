@@ -1,5 +1,5 @@
 // Load schemas.
-import type { RxCollectionCreator, RxDatabase } from 'rxdb'
+import type { RxCollectionCreator, RxDatabase } from 'rxdb';
 import {
   logbookSchema,
   logbookCollectionMethods,
@@ -9,19 +9,19 @@ import {
   logbookEntryDocumentMethods,
   type LogbookCollection,
   type LogbookEntryCollection,
-} from '~/store/database/rxdb/schemas'
+} from '~/store/database/rxdb/schemas';
 
 export type DatabaseCollections = {
-  logbooks: LogbookCollection
-  entries: LogbookEntryCollection
-}
+  logbooks: LogbookCollection;
+  entries: LogbookEntryCollection;
+};
 
-export type UserDatabase = RxDatabase<DatabaseCollections>
+export type UserDatabase = RxDatabase<DatabaseCollections>;
 
 export const schemas = {
   logbookEntrySchema,
   logbookSchema,
-}
+};
 
 export const collections = {
   //
@@ -51,14 +51,14 @@ export const collections = {
       2: (_oldDocumentData, _collection) => _oldDocumentData,
       3: (_oldDocumentData, _collection) => _oldDocumentData,
       4: (_oldDocumentData, _collection) => {
-        const { amountRed, amountAmber, amountGreen } = _oldDocumentData
+        const { amountRed, amountAmber, amountGreen } = _oldDocumentData;
 
         return {
           ..._oldDocumentData,
           amountComfort: amountGreen,
           amountGrowth: amountAmber,
           amountAnxiety: amountRed,
-        }
+        };
       },
     },
 
@@ -66,4 +66,4 @@ export const collections = {
 
     methods: logbookEntryDocumentMethods,
   },
-} as { [toVersion: string]: RxCollectionCreator }
+} as { [toVersion: string]: RxCollectionCreator };
