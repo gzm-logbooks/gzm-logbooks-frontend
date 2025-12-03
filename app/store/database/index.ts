@@ -1,16 +1,26 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import type { RxDatabase } from 'rxdb';
 import { removeRxDatabase } from 'rxdb';
 import type { UserDatabase } from './rxdb/database';
 
-export type DatabaseStatus = 'pending' | 'ready' | 'error';
+/**
+ *
+ * @returns
+ */
+async function awaitUserDatabase(): Promise<UserDatabase> {
+  const { $rxdb: rxdbPromise } = useNuxtApp();
+
+  return await rxdbPromise;
+}
 
 /**
  * Utility to reset and reload the application.
+ *
+ * @returns List of deleted collections
  */
-async function resetDatabase(database: RxDatabase) {
+async function resetDatabase(database: UserDatabase): Promise<string[]> {
   if (confirm('This will delete all of your data!') !== true) {
-    return;
+    throw new Error('Cancelled');
   }
 
   //
@@ -19,91 +29,94 @@ async function resetDatabase(database: RxDatabase) {
   const deleted = await removeRxDatabase(database.name, database.storage);
 
   console.log(`Deleted ${deleted.length} collections`);
+
+  //
+  return deleted;
 }
 
-export const useDatabase = defineStore('userDatabase', () => {
-  // STATE
-  const status = ref<DatabaseStatus>('pending');
-  const rxdbInstance = shallowRef<UserDatabase | null>(null);
+/**
+ *
+ */
+export type DatabaseStatus = 'pending' | 'ready' | 'error';
 
-  // CONVENIENCE COMPUTED PROPERTIES (for backward compatibility and readability)
+export type OnReadyCallable = (
+  db: UserDatabase,
+  status: DatabaseStatus,
+) => unknown;
+
+/**
+ *
+ */
+export const useDatabase = defineStore('userDatabase', () => {
+  const rxdbInstance = shallowRef<UserDatabase>();
+  const rxdbError = ref();
+
+  // State...
+  const status = ref<DatabaseStatus>('pending');
   const isReady = computed(() => status.value === 'ready');
   const isLoading = computed(() => status.value === 'pending');
 
-  const { $rxdb: rxdbPromise } = useNuxtApp();
-
-  rxdbPromise
+  // Set up the main database instance...
+  const whenReady = awaitUserDatabase()
     .then((db: UserDatabase) => {
       rxdbInstance.value = db;
       status.value = 'ready';
     })
-    .catch((error: any) => {
+    .catch((error: unknown) => {
       console.error('Failed to initialize RxDB:', error);
       status.value = 'error';
+      rxdbError.value = error;
     });
 
-  // const allEntries = useObservable(doc.getEntriesQuery().$, { initialValue: [] })
-
-  async function getUserDatabase() {
-    return await rxdbPromise;
+  // Helper functions...
+  function onReady(callable: OnReadyCallable) {
+    return whenReady.then(() => callable(getUserDatabase(), unref(status)));
   }
 
-  async function resetUserDatabase() {
+  function getUserDatabase(): UserDatabase {
     const instance = rxdbInstance.value;
 
     if (!instance) {
       throw new Error('RXDB instance unavailable');
     }
 
-    await resetDatabase(rxdbInstance.value);
-
-    window.location.reload();
+    return instance;
   }
 
-  async function seedUserLogbook() {
-    const instance = rxdbInstance.value;
+  async function resetUserDatabase(): Promise<void> {
+    return resetDatabase(getUserDatabase())
+      .then(() => undefined)
+      .finally(() => {
+        window.location.reload();
+      });
+  }
 
-    if (!instance) {
-      throw new Error('RXDB instance unavailable');
-    }
+  async function seedUserLogbook(): Promise<any> {
+    const instance = getUserDatabase();
 
     console.info('Seeding user logbook(s)');
 
     return Promise.all([instance.logbooks.seed()]);
   }
 
-  function getLogbooksQuery() {
-    const instance = rxdbInstance.value;
-
-    if (!instance) {
-      throw new Error('RXDB instance unavailable');
-    }
-
-    return instance.logbooks.find();
-  }
-
-  function getLogbookEntriesQuery(id: string) {
-    const instance = rxdbInstance.value;
-
-    if (!instance) {
-      throw new Error('RXDB instance unavailable');
-    }
-
-    return instance.entries.find().where({ id }).sort('timestamp');
-  }
+  // Query functions...
+  const getLogbooksQuery = () => getUserDatabase().logbooks.find();
+  const getLogbookEntriesQuery = (id: string) =>
+    getUserDatabase().entries.find().where({ id }).sort('timestamp');
 
   return {
-    status,
     rxdbInstance,
-    rxdbPromise,
+    rxdbError,
 
+    status,
     isReady,
     isLoading,
 
     getLogbooksQuery,
     getLogbookEntriesQuery,
 
-    getUserDatabase,
+    onReady,
+    awaitUserDatabase,
     resetUserDatabase,
     seedUserLogbook,
 

@@ -4,7 +4,7 @@ import { keyBy } from 'es-toolkit';
 import { nanoid } from 'nanoid';
 import { defineStore } from 'pinia';
 import { EMPTY, firstValueFrom, Observable, Subject } from 'rxjs';
-import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
+import { connect, filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { computed, ref, toRaw } from 'vue';
 import { useAppRoutes } from '~/composables/useAppRoutes';
 import type {
@@ -16,6 +16,7 @@ import type {
   LogbookDocumentType,
 } from '~/store/database/rxdb/schemas/logbook';
 import { useDatabase } from './database';
+import type { UserDatabase } from './database/rxdb/database';
 
 export interface LogbookItem {
   doc?: LogbookDocument;
@@ -60,7 +61,7 @@ type LogbooksReadyStatus = 'pending' | 'ready' | 'error';
  * view and manage multiple logbooks at a time live.
  */
 export const useLogbookCollectionStore = defineStore('logbooks', () => {
-  const database = useDatabase();
+  const databaseStore = useDatabase();
 
   const router = useAppRoutes();
   const rxdbLogbooks = ref<LogbookDocument[]>([]);
@@ -80,15 +81,10 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
   /**
    * Finds the collection reference and starts the subscription.
    */
-  function setupSubscriptions(): Promise {
+  function setupSubscriptions(database: UserDatabase) {
     console.log('Setting up subscriptions');
 
-    if (!database.rxdbInstance) {
-      // This case should ideally not happen if database.status === 'ready' is checked.
-      return Promise.reject(new Error('Internal database not ready.'));
-    }
-
-    const query = database.rxdbInstance.logbooks.find().sort({ name: 'asc' });
+    const query = database.logbooks.find().sort({ name: 'asc' });
 
     const logbooksObservable = query.$.pipe(
       // Ensure this observable completes if the store is destroyed/re-initialized
@@ -96,30 +92,58 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
 
       // Use tap to perform side effects: updating `rxdbLogbooks.value` and `rxdbEntriesByLogbook`
       // for all emissions (including initial empty ones if any).
-      tap((logbookDocs) => {
-        rxdbLogbooks.value = logbookDocs; // Continuous update of the main logbooks ref
+      tap({
+        next: (logbookDocs) => {
+          rxdbLogbooks.value = logbookDocs;
+          rxdbLogbooksError.value = null;
 
-        // Set up logbook entries observables for each doc
-        for (const doc of logbookDocs) {
-          if (!rxdbEntriesByLogbook.value.has(doc.id)) {
-            const observableRef = getLogbookEntriesReactive(doc);
-            rxdbEntriesByLogbook.value.set(doc.id, observableRef);
-            console.log(
-              `Added reactive entries observable for logbook ID: ${doc.id}`,
-              observableRef,
-            );
+          // Set up or update logbook entries observables for each doc
+          for (const doc of logbookDocs) {
+            if (!rxdbEntriesByLogbook.value.has(doc.id)) {
+              const observableRef = getLogbookEntriesReactive(doc);
+              rxdbEntriesByLogbook.value.set(doc.id, observableRef);
+              console.log(
+                `[Logbooks Store] Added reactive entries observable for logbook ID: ${doc.id}`,
+              );
+            }
           }
-        }
-        rxdbLogbooksError.value = null; // Clear any previous error on success
+
+          // Remove entries for logbooks that no longer exist
+          const currentLogbookIds = new Set(logbookDocs.map((doc) => doc.id));
+          for (const logbookId of rxdbEntriesByLogbook.value.keys()) {
+            if (!currentLogbookIds.has(logbookId)) {
+              rxdbEntriesByLogbook.value.delete(logbookId);
+              console.log(
+                `[Logbooks Store] Removed reactive entries observable for logbook ID: ${logbookId}`,
+              );
+            }
+          }
+        },
+        error: (err) => {
+          console.error(
+            '[Logbooks Store] RxDB Logbooks Observable Error:',
+            err,
+          );
+          rxdbLogbooks.value = [];
+          rxdbLogbooksError.value = err;
+          // Note: status.value is handled by loadLogbooks() promise for initial error.
+          // This error is for continuous updates after initial load.
+        },
       }),
 
       // Share the subscription and replay the last value to new subscribers
       shareReplay(1),
     );
 
-    const subscription = logbooksObservable.subscribe();
+    // Subscribe to the shared observable for continuous updates
+    useSubscription(logbooksObservable.subscribe());
 
-    useSubscription(subscription);
+    console.log({ ...rxdbEntriesByLogbook.value });
+
+    return {
+      logbooks: firstValueFrom(logbooksObservable),
+      entries: Promise.resolve(),
+    };
   }
 
   // Convenience computed properties for external use
@@ -134,27 +158,36 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
   }
 
   async function createLogbook(name: string) {
-    if (!database.rxdbInstance) {
+    if (!databaseStore.rxdbInstance) {
       throw new Error('Internal database not ready');
     }
 
-    await database.rxdbInstance.logbooks.insert({
+    await databaseStore.rxdbInstance.logbooks.insert({
       id: nanoid(10),
       name: name.trim(),
     });
   }
 
-  database.$subscribe(
-    () => {
-      console.log(`Logbook Store: DB status changed to ${database.status}.`);
-
-      if (database.status === 'ready') {
-        setupSubscriptions();
-        // Database is ready, and we haven't started listening yet -> Go to PENDING (local loading)
-      }
-    },
+  databaseStore.$subscribe(
+    () =>
+      console.log(
+        `Logbook Store: DB status changed to ${databaseStore.status}.`,
+      ),
     { immediate: true },
   );
+
+  //
+  databaseStore.onReady(async (rxdb, _status) => {
+    console.log(`DB is ${_status}`);
+
+    const { logbooks, entries } = setupSubscriptions(rxdb);
+
+    console.log({ logbooks, entries });
+
+    status.value = await Promise.all([logbooks, entries])
+      .then((): LogbooksReadyStatus => 'ready')
+      .catch((): LogbooksReadyStatus => 'error');
+  });
 
   // TODO
   // const logbookEntries
@@ -254,7 +287,7 @@ export const useLogbookCollectionStore = defineStore('logbooks', () => {
         // activity,
 
         getEntries: async () => {
-          return await database.rxdbInstance?.entries.find().exec();
+          return await databaseStore.rxdbInstance?.entries.find().exec();
         },
 
         // Routes...

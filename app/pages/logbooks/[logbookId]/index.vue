@@ -170,21 +170,15 @@
 </template>
 
 <script lang="ts" setup>
-import { format } from 'date-fns'
-import { useDatabase } from '~/store/database'
-import { useRatingStore } from '~/store/rating'
-import { useLogbookCollectionStore } from '~/store/logbooks'
-
-const { params } = useRoute()
-const { logbookId } = params as { logbookId: string }
-
-const { getUserDatabase } = useDatabase()
-const { scaledMoodInput } = useRatingStore()
+import { useLogbookStore } from '~/store/logbooks'
 
 const { getLogbookRoute, getLogbookEntryRoute, getLogbookCreateEntryRoute } =
   useAppRoutes()
 
-const _db = await getUserDatabase()
+const { params } = useRoute()
+const { logbookId } = params as { logbookId: string }
+
+
 
 // const { data, error, status } = await useAsyncData(async () => {
 //   return {
@@ -197,39 +191,11 @@ const _db = await getUserDatabase()
 //   }
 // })
 
-const { logbooksById, status } = storeToRefs(useLogbookCollectionStore())
-const logbook = computed(() => logbookId && logbooksById.value[logbookId])
+const logbookStore = useLogbookStore(logbookId)
 
-// import { format } from 'date-fns'
-// import { useDatabase } from '~/store/database'
-// import { scaledMoodInput } from '~/../data/config'
+console.log(logbookStore)
 
-const edit = ref<boolean>(false)
-const fields = ref({})
-
-// Get all entries.
-const entries = await logbook.value.getEntries()
-
-console.log({ logbookId, entries })
-
-const _lastEntry = computed(() => entries.value?.[0])
-
-const _lastWeekEntries = computed(() =>
-  (entries.value ?? [])
-    .slice(1)
-    .filter(
-      (entry) =>
-        Date.now() - 7 * 24 * 60 * 60 * 1000 < new Date(entry.timestamp),
-    ),
-)
-const _olderEntries = computed(() =>
-  (entries.value ?? [])
-    .slice(1)
-    .filter(
-      (entry) =>
-        Date.now() - 7 * 24 * 60 * 60 * 1000 > new Date(entry.timestamp),
-    ),
-)
+const { logbook, entries, lastEntry, lastWeekEntries, olderEntries } = storeToRefs(logbookStore)
 
 const _recentDateFormatter = () =>
   new Intl.DateTimeFormat('default', {
@@ -265,62 +231,6 @@ function _chartClicked(timestamp) {
   })
 }
 
-// TODO: move to store
-async function _save(fields) {
-  const data = {
-    name: fields.name,
-  }
-
-  await logbook.value.atomicPatch(data)
-}
-
-// TODO
-function _downloadLogbook() {
-  const data = this.entries.map((entry) => {
-    const { timestamp, comment, amountAnxiety, amountGrowth, amountComfort } =
-      entry
-
-    const mood = scaledMoodInput({
-      amountAnxiety,
-      amountGrowth,
-      amountComfort,
-    })
-
-    return [
-      format(new Date(timestamp), 'yyyy-MM-dd'),
-      comment,
-      mood.amountAnxiety.toFixed(4),
-      mood.amountGrowth.toFixed(4),
-      mood.amountComfort.toFixed(4),
-    ]
-  })
-
-  let csv = 'Date,Comment,Anxiety,Growth,Comfort,\n'
-  data.forEach((row) => {
-    csv += row.join(',')
-    csv += '\n'
-  })
-
-  const hiddenElement = document.createElement('a')
-  hiddenElement.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`
-  hiddenElement.target = '_blank'
-  hiddenElement.download = `${logbook.value.name}.csv`
-  hiddenElement.click()
-}
-
-function reset() {
-  console.log(logbook.value)
-
-  const { name } = logbook.value
-  console.log(logbook.value)
-
-  fields.value = {
-    name: logbook.value.name,
-  }
-
-  //
-  edit.value = false
-}
 </script>
 
 <style scoped>
